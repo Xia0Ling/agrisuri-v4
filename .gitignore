@@ -1,6 +1,11 @@
 # Local tooling
 node_modules/
 .workbuddy-ai/
+supabase/.temp/
+
+# Editor / tool caches
+.cache/
+.slidep/
 
 # Secrets — the local inference proxy reads this, it must never be committed
 tools/roboflow.key

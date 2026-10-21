@@ -87,10 +87,19 @@ echo.
 echo   A sign-in window may appear. Approve it if it does.
 echo.
 git push -u origin main
-if errorlevel 1 (
+
+rem Git Credential Manager can return a non-zero code even when the push
+rem landed - it reports the helper's status, not git's. So do not trust
+rem errorlevel here; compare what the remote actually has.
+set "LOCAL="
+set "REMOTE="
+for /f "delims=" %%i in ('git rev-parse HEAD 2^>nul') do set "LOCAL=%%i"
+for /f "delims=" %%i in ('git rev-parse origin/main 2^>nul') do set "REMOTE=%%i"
+
+if not "%LOCAL%"=="%REMOTE%" (
   echo.
-  echo   Push failed. Usual causes:
-  echo     - the repo already has commits (it must be empty)
+  echo   Push did not complete. Usual causes:
+  echo     - the repo already has commits ^(it must be empty^)
   echo     - the URL is wrong
   echo     - you cancelled the sign-in
   echo.
@@ -98,6 +107,8 @@ if errorlevel 1 (
   exit /b 1
 )
 
+echo.
+echo   Verified: origin/main is at %LOCAL:~0,7%
 echo.
 echo  ==========================================================
 echo   Pushed. Two things left, both on github.com:
