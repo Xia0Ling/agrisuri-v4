@@ -1237,13 +1237,30 @@ const Farmer = (() => {
 
   function renderModelStatus() {
     const host = document.getElementById('ai-status');
-    const rows = [
-      [t('model.gateway'), ScanPipeline.gatewayReady()],
-      [t('model.offlineShape'), ScanPipeline.tmReady('shape')],
-      [t('model.offlineTexture'), ScanPipeline.tmReady('texture')],
-      [t('model.tomato'), ScanPipeline.canRunDisease('tomato')],
-      [t('model.palay'), ScanPipeline.canRunDisease('palay')],
-    ];
+    const online = ScanPipeline.gatewayReady();
+
+    const rows = [[t('model.gateway'), online]];
+
+    /*
+     * The offline (Teachable Machine) runtime is a fallback for when no gateway
+     * is configured. Listing it as "Not set" beside a working gateway reads
+     * like a fault when nothing is actually missing.
+     */
+    if (!online) {
+      rows.push([t('model.offlineShape'), ScanPipeline.tmReady('shape')]);
+      rows.push([t('model.offlineTexture'), ScanPipeline.tmReady('texture')]);
+    }
+
+    rows.push([t('model.tomato'), ScanPipeline.canRunDisease('tomato')]);
+    rows.push([t('model.palay'), ScanPipeline.canRunDisease('palay')]);
+
+    /*
+     * Sample results are only produced when a crop has no model to call
+     * (`demoMode` in runScan uses the same condition). Claiming "no model is
+     * connected" while the gateway is answering would simply be false.
+     */
+    const sampleScans =
+      Demo.on() && (!ScanPipeline.canRunDisease('tomato') || !ScanPipeline.canRunDisease('palay'));
 
     host.innerHTML = `
       <div class="insight">
@@ -1252,8 +1269,8 @@ const Farmer = (() => {
             <span>${esc(label)}</span>
             <b><span class="badge ${ok ? 'badge--ok' : 'badge--muted'}">${esc(ok ? t('model.configured') : t('model.notSet'))}</span></b>
           </div>`).join('')}
-        <p class="insight__note">${esc(t('model.note'))}</p>
-        ${Demo.on() ? `<p class="insight__note">${esc(t('result.sampleBody'))}</p>` : ''}
+        <p class="insight__note">${esc(online ? t('model.noteOnline') : t('model.note'))}</p>
+        ${sampleScans ? `<p class="insight__note">${esc(t('result.sampleBody'))}</p>` : ''}
       </div>`;
   }
 

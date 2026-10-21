@@ -161,6 +161,12 @@ function loadPage(page, client, opts) {
       code = code.replace('enabled: true,\n  badge:', 'enabled: false,\n  badge:');
     }
 
+    // Let a test simulate "no gateway deployed" so the unconfigured state can
+    // be asserted. Mutating the object is enough; the binding is const, not frozen.
+    if (o.gateway === '' && src === 'script/config.js') {
+      code += "\nAI_CONFIG.gatewayUrl = '';\n";
+    }
+
     return `<script>\n${code}\n</script>`;
   });
 
@@ -384,7 +390,13 @@ test('switching tabs activates the right section and rebuilds the scan view', as
 
   assert.ok(doc.querySelector('#view-scan').classList.contains('is-active'));
   assert.equal(doc.getElementById('view-title').textContent, 'Scan');
-  assert.match(doc.getElementById('ai-status').textContent, /Not set/, 'unconfigured models must be reported honestly');
+
+  // A gateway is configured, so the panel must say so — and must not repeat the
+  // old "no model is connected / sample data" line, which would be false.
+  const status = doc.getElementById('ai-status').textContent;
+  assert.match(status, /Configured/, `gateway must read Configured: ${status}`);
+  assert.doesNotMatch(status, /No model is connected/i, `stale sample notice: ${status}`);
+  assert.doesNotMatch(status, /Offline shape gate/i, `offline row must be hidden when online: ${status}`);
 
   // Without a crop chosen, both capture buttons must stay disabled.
   assert.equal(doc.getElementById('btn-upload').disabled, true);
@@ -394,6 +406,22 @@ test('switching tabs activates the right section and rebuilds the scan view', as
   await wait(40);
   assert.equal(doc.getElementById('btn-upload').disabled, false);
   assert.equal(doc.getElementById('btn-camera').disabled, false);
+
+  dom.window.close();
+});
+
+test('model status lists the offline fallback and reports "Not set" when no gateway exists', async () => {
+  const dom = loadPage('index.html', farmerClient(), { gateway: '' });
+  const { window } = dom;
+  await wait(500);
+
+  const doc = window.document;
+  doc.querySelector('.tabbar__item[data-view="scan"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(80);
+
+  const status = doc.getElementById('ai-status').textContent;
+  assert.match(status, /Offline shape gate/, 'offline fallback must be listed when there is no gateway');
+  assert.match(status, /Not set/, 'unconfigured models must be reported honestly');
 
   dom.window.close();
 });

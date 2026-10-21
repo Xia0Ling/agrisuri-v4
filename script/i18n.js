@@ -238,6 +238,7 @@ const I18N = (() => {
       'model.configured': 'Configured',
       'model.notSet': 'Not set',
       'model.note': 'Crop validation runs either way. Disease detection needs a model — it never guesses.',
+      'model.noteOnline': 'Scans go through the online gateway. The offline fallback is only used if it cannot be reached.',
 
       /* ---------- result ---------- */
       'result.leading': 'Leading prediction',
@@ -604,6 +605,7 @@ const I18N = (() => {
       'model.configured': 'Nakaayos',
       'model.notSet': 'Wala pa',
       'model.note': 'Tumatakbo ang crop validation kahit wala. Ang disease detection ay nangangailangan ng modelo — hindi ito nanghuhula.',
+      'model.noteOnline': 'Dumadaan ang mga scan sa online gateway. Gamit lang ang offline fallback kapag hindi ito maabot.',
 
       'result.leading': 'Nangungunang hula',
       'result.confidence': 'kumpiyansa ng modelo',
