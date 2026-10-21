@@ -1,0 +1,602 @@
+* {
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: 500ms;
+
+    overflow: visible;
+
+    -webkit-user-select: none; /* Safari / iOS */
+    -moz-user-select: none;    /* Firefox */
+    user-select: none;         /* Modern browsers */
+    /*border: 1px solid red;*/
+}
+
+/* ==========================================
+   1. Page Load Animation Setup
+   ========================================== */
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px); /* Starts 40px below final position */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);    /* Moves back to original position */
+    }
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    width: 100%;
+    margin: 0 auto;
+
+  
+    /* 1. Full height & centering setup */
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem; /* Prevents form from touching edges on small screens */
+
+
+    /* 2. Default Background Image (Desktop / Landscape) */
+    background-image: url('../assets/Background_Landscape.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 3. Mobile Background Switch (Phones & Small Screens) */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../assets/Background_Portrait.png');
+    }
+}
+
+    .container {
+        width: 100%;
+        max-width: 480px;
+        /* `margin: auto` centres the card when there is room, and collapses to 0
+           when the card is taller than the viewport — so the top of a long form
+           stays reachable on a short phone instead of being clipped. */
+        margin: auto;
+        /* Top padding clears the fixed language control in the corner. */
+        padding: 3rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers .branding and .form-box */
+    }
+
+        /* ==========================================
+        2. Brand row — compact, inside the card
+        ========================================== */
+
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding-bottom: 0.85rem;
+            margin-bottom: 0.85rem;
+            border-bottom: 1px solid #eef3ef;
+            text-decoration: none;
+            flex: none;
+        }
+
+        .auth-brand__logo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            flex: none;
+        }
+
+        .auth-brand__text {
+            display: grid;
+            gap: 0.05rem;
+            min-width: 0;
+            text-align: center;
+        }
+
+        .auth-brand__text b {
+            font-size: 1.06rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #056526;
+            line-height: 1.15;
+        }
+
+        .auth-brand__text small {
+            font-size: 0.7rem;
+            color: #94a78a;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .form-card,
+        .form-card * {
+            transition: 500ms;
+            animation: fadeSlideUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .form-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(5, 101, 38, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e3ede5;
+            display: flex;
+            flex-direction: column;
+        }
+
+            /* Pill Tab Navigation Bar */
+            .tab-switcher {
+                background-color: #f0f4f1;
+                padding: 3px;
+                border-radius: 11px;
+                display: flex;
+                gap: 3px;
+                margin-bottom: 0.9rem;
+                flex: none;
+            }
+
+            .tab-btn {
+                flex: 1;
+                padding: 0.45rem 0.7rem;
+                border: none;
+                background: transparent;
+                border-radius: 9px;
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #056526;
+                cursor: pointer;
+                transition: background-color 0.2s ease, box-shadow 0.2s ease;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .tab-btn.active {
+                background-color: #ffffff;
+                color: #056526;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            }
+
+            .tab-btn:hover:not(.active) {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+
+            /* Every field is visible at once. No inner scroll box: a five-field
+               form that traps you in a 220px window is worse than a short page. */
+            .form-fields {
+                display: grid;
+                gap: 0.9rem;
+            }
+
+            .field-group {
+                display: flex;
+                flex-direction: column;
+                opacity: 1;
+            }
+
+            .field-group.hidden {
+                display: none;
+                opacity: 0;
+            }
+
+            label {
+                font-size: 0.64rem;
+                font-weight: 800;
+                letter-spacing: 0.06em;
+                color: #056526;
+                text-transform: uppercase;
+                margin-bottom: 0.35rem;
+            }
+
+            input {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.98rem;
+                border: 1.5px solid #c2d6c6;
+                border-radius: 12px;
+                outline: none;
+                background-color: #ffffff;
+                color: #2b3a2e;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            input::placeholder {
+                color: #a0b3a3;
+                font-weight: 500;
+            }
+
+            input:focus {
+                border-color: #056526;
+                box-shadow: 0 0 0 3px rgba(5, 101, 38, 0.12);
+            }
+
+            /* Password Eye Button Container */
+            .password-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+
+            .password-wrapper input {
+                padding-right: 2.75rem;
+            }
+
+            .toggle-password-btn {
+                position: absolute;
+                right: 0.75rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                color: #056526;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.25rem;
+            }
+
+            .toggle-password-btn svg {
+                width: 18px;
+                height: 18px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 2;
+            }
+
+            /* Bottom Action Buttons Alignment */
+            .action-row {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 0.65rem;
+                margin-top: 1.1rem;
+            }
+
+            /* Clear Button */
+            .btn-clear {
+                background: #ffffff;
+                border: 1.5px solid #c2d6c6;
+                color: #6e8773;
+                padding: 0.55rem 1.1rem;
+                border-radius: 10px;
+                font-size: 0.95rem;
+                font-weight: 700;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .btn-clear:hover {
+                background-color: #f7fbf8;
+                border-color: #a0be9f;
+                color: #056526;
+            }
+
+            .btn-clear svg {
+                width: 17px;
+                height: 17px;
+                stroke: currentColor;
+                stroke-width: 2;
+                fill: none;
+            }
+
+            /* Submit Button */
+            .btn-submit {
+                background: #015e26;
+                border: 1.5px solid #015e26;
+                color: #ffffff;
+                padding: 0.55rem 1.2rem;
+                border-radius: 10px;
+                font-size: 0.95rem;
+                font-weight: 700;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 4px 12px rgba(1, 94, 38, 0.2);
+            }
+
+            .btn-submit:hover {
+                background: #02471d;
+                border-color: #02471d;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(1, 94, 38, 0.3);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+            .btn-submit svg {
+                width: 18px;
+                height: 18px;
+                stroke: #ffffff;
+                stroke-width: 2.5;
+                fill: none;
+                transition: transform 0.2s ease;
+            }
+
+            .btn-submit:hover svg {
+                transform: translateX(3px);
+            }
+
+            /* Feedback Toast Notification */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                left: 50%;
+                transform: translateX(-50%) translateY(100px);
+                background: #015e26;
+                color: #ffffff;
+                padding: 0.75rem 1.5rem;
+                border-radius: 50px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                pointer-events: none;
+                z-index: 1000;
+            }
+
+            .toast.show {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+
+.tab-switcher.hidden { display: none; }
+
+select { width: 100%; padding: 0.75rem 1rem; font-size: 0.98rem; border: 1.5px solid #c2d6c6; border-radius: 10px;
+         outline: none; background-color: #ffffff; color: #2b3a2e; cursor: pointer; }
+select:focus { border-color: #056526; box-shadow: 0 0 0 3px rgba(5, 101, 38, 0.12); }
+
+/* ==========================================
+   Additions for the hardened sign-up flow
+   ========================================== */
+
+.btn-submit.is-busy {
+    opacity: 0.75;
+    cursor: progress;
+}
+
+.btn-submit.is-busy svg { animation: auth-spin 0.9s linear infinite; }
+
+@keyframes auth-spin { to { transform: rotate(360deg); } }
+
+.toast.toast--error {
+    background: #8f2f26;
+    color: #fdeceb;
+}
+
+.toast.toast--success {
+    background: #056526;
+    color: #eef7ef;
+}
+
+/* Narrow phones: reclaim padding so the action row never overflows */
+/* Short viewports: laptops at 768px and small phones. Trim the chrome rather
+   than reintroduce a scroll box. */
+@media (max-height: 780px) {
+    .container { padding-top: 2.2rem; padding-bottom: 0.5rem; }
+    .form-card { padding: 1.25rem; }
+    .auth-brand { padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
+    .auth-brand__logo { width: 44px; height: 44px; }
+    .auth-brand__text b { font-size: 1.1rem; }
+    .auth-brand__text small { display: none; }
+    .tab-switcher { margin-bottom: 0.65rem; }
+    .form-fields { gap: 0.6rem; }
+    .action-row { margin-top: 0.75rem; }
+    .brand-tag { display: none; }
+}
+
+@media (max-width: 400px) {
+    body { padding: 0.5rem; }
+    .container { padding: 2.9rem 0.5rem 0.5rem; }
+    .form-card { padding: 1.25rem; border-radius: 16px; }
+    .action-row { gap: 0.5rem; }
+    .btn-clear, .btn-submit { padding: 0.6rem 0.9rem; font-size: 0.88rem; }
+    .action-row { flex-wrap: wrap; }
+    .action-row .btn-submit { flex: 1; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ==========================================
+   Branding line
+   ========================================== */
+
+.brand-tag {
+    margin-top: 0.9rem;
+    color: #94a78a;
+    font-size: 0.78rem;
+    text-align: center;
+    line-height: 1.45;
+}
+
+/* ==========================================
+   Fixed page controls
+   Language sits top-right on every page; the developer button stays
+   bottom-right and is deliberately a separate element so the two can never
+   overlap regardless of viewport width.
+   ========================================== */
+
+.top-actions {
+    position: fixed;
+    top: 1rem;
+    right: 1.25rem;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 46px;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    color: #056526;
+    border: 1.5px solid #c2d6c6;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.lang-toggle:hover {
+    border-color: #056526;
+    background: #f7fbf8;
+}
+
+.dev-toggle {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #ffffff;
+    color: #6e8773;
+    border: 1.5px solid #c2d6c6;
+    border-radius: 50px;
+    padding: 0.55rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.dev-toggle svg { width: 15px; height: 15px; flex: none; }
+
+.dev-toggle:hover {
+    border-color: #a0be9f;
+    color: #056526;
+}
+
+.dev-toggle.is-on {
+    background: #015e26;
+    border-color: #015e26;
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(1, 94, 38, 0.28);
+}
+
+@media (max-width: 400px) {
+    .top-actions { top: 0.65rem; right: 0.65rem; }
+    .dev-toggle {
+        right: 0.65rem;
+        bottom: 0.65rem;
+        padding: 0.5rem 0.7rem;
+        font-size: 0.72rem;
+    }
+    .dev-toggle span {
+        max-width: 86px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+
+/* ==========================================
+   Desktop split layout
+   Left: large branding  |  Right: form card
+   ========================================== */
+
+.brand-panel {
+    display: none;
+}
+
+.split-sep {
+    display: none;
+}
+
+@media (min-width: 900px) {
+    .container {
+        max-width: 960px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 2rem;
+    }
+
+    .split-sep {
+        display: block;
+        width: 2px;
+        height: 70%;
+        align-self: center;
+        background: linear-gradient(180deg, transparent 0%, #056526 20%, #94a78a 50%, #056526 80%, transparent 100%);
+        border-radius: 1px;
+        flex: none;
+    }
+
+    .brand-panel {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex: 1;
+        max-width: 420px;
+        text-decoration: none;
+        position: relative;
+    }
+
+    .brand-panel__logo {
+        width: 110px;
+        height: 110px;
+        object-fit: contain;
+        flex: none;
+    }
+
+    .brand-panel__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        min-width: 0;
+        padding-left: 1.25rem;
+        border-left: 3px solid #056526;
+    }
+
+    .brand-panel__text b {
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: #056526;
+        line-height: 1.1;
+    }
+
+    .brand-panel__text small {
+        font-size: 0.92rem;
+        line-height: 1.4;
+        color: #94a78a;
+    }
+
+    .auth-brand--mobile {
+        display: none;
+    }
+
+    .brand-tag {
+        display: none;
+    }
+}

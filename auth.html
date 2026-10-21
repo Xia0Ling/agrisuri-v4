@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriSuri PH</title>
+    <link rel="stylesheet" href="style/auth.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="assets/AgriSuri_Favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#056526">
+    <link rel="icon" type="image/png" href="assets/AgriSuri_Favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+</head>
+<body>
+
+    <div class="top-actions">
+        <button type="button" class="lang-toggle" id="lang-btn" aria-label="Switch language">
+            <span id="lang-label">FIL</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <a class="brand-panel" href="landing.html">
+            <img src="assets/AgriSuri_Logo.png" class="brand-panel__logo" alt="AgriSuri PH">
+            <span class="brand-panel__text">
+                <b>AgriSuri PH</b>
+                <small data-i18n="auth.tagline">Smart Crop Disease Detection · Peñaranda</small>
+            </span>
+        </a>
+
+        <div class="split-sep" aria-hidden="true"></div>
+
+        <div class="form-card">
+
+            <!-- Compact brand row, inside the card. Mobile only. -->
+            <a class="auth-brand auth-brand--mobile" href="landing.html">
+                <img src="assets/AgriSuri_Logo.png" class="auth-brand__logo" alt="AgriSuri PH">
+                <span class="auth-brand__text">
+                    <b>AgriSuri PH</b>
+                    <small data-i18n="auth.tagline">Smart Crop Disease Detection · Peñaranda</small>
+                </span>
+            </a>
+
+            <div class="tab-switcher" id="switcher-user" role="tablist" aria-label="Login or register">
+                <button type="button" class="tab-btn active" id="tab-login" data-mode="login" data-i18n="auth.login">Log in</button>
+                <button type="button" class="tab-btn" id="tab-register" data-mode="register" data-i18n="auth.register">Register</button>
+            </div>
+
+            <div class="tab-switcher hidden" id="switcher-role" role="tablist" aria-label="Staff role">
+                <button type="button" class="tab-btn active" id="tab-admin" data-role="admin" data-i18n="auth.adminOfficer">Admin Officer</button>
+                <button type="button" class="tab-btn" id="tab-da" data-role="da" data-i18n="auth.daOfficer">DA Officer</button>
+            </div>
+
+            <form id="auth-form" novalidate>
+
+                <div class="form-fields">
+
+                    <div class="field-group hidden" id="group-name">
+                        <label for="input-name" data-i18n="auth.name">Full name</label>
+                        <input type="text" id="input-name" placeholder="Juan Dela Cruz" autocomplete="name">
+                    </div>
+
+                    <div class="field-group hidden" id="group-brgy">
+                        <label for="input-brgy" data-i18n="auth.barangay">Barangay (Peñaranda)</label>
+                        <select id="input-brgy">
+                            <option value="">Loading…</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group hidden" id="group-code">
+                        <label for="input-code" data-i18n="auth.accessCode">Access code</label>
+                        <input type="text" id="input-code" placeholder="AGRI-XXXX-XXXX" autocomplete="off" spellcheck="false">
+                    </div>
+
+                    <div class="field-group">
+                        <label for="input-email" data-i18n="auth.email">Email</label>
+                        <input type="email" id="input-email" placeholder="iyong@email" autocomplete="email" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="input-password" data-i18n="auth.password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="input-password" placeholder="······" autocomplete="current-password" required>
+                            <button type="button" class="toggle-password-btn" data-toggle="input-password" aria-label="Show password">
+                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field-group hidden" id="group-confirm">
+                        <label for="input-confirm" data-i18n="auth.confirm">Repeat password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="input-confirm" placeholder="······" autocomplete="new-password">
+                            <button type="button" class="toggle-password-btn" data-toggle="input-confirm" aria-label="Show password">
+                                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="action-row">
+                    <button type="button" class="btn-clear" id="btn-clear">
+                        <span data-i18n="auth.clear">Clear</span>
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                    </button>
+
+                    <button type="submit" class="btn-submit" id="btn-submit">
+                        <span id="submit-label" data-i18n="auth.login">Log in</span>
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <p class="brand-tag" data-i18n="auth.footer">AgriSuri PH · For the farmers of Peñaranda, Nueva Ecija</p>
+    </div>
+
+    <div class="toast" id="toast-msg" role="status" aria-live="polite"></div>
+
+    <button type="button" class="dev-toggle" id="dev-toggle" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="dev-label" data-i18n="auth.devMode">Developer mode</span>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+    <script src="script/i18n.js"></script>
+    <script src="script/config.js"></script>
+    <script src="script/auth.js"></script>
+</body>
+</html>

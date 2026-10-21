@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-10-21T04:48:09.146Z",
+  "images": 120,
+  "model": {
+    "top1": 109,
+    "top3": 112,
+    "n": 112,
+    "per_class": {
+      "tomato_bacterial_spot": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_early_blight": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_healthy": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_late_blight": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_leaf_mold": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_mosaic": {
+        "n": 8,
+        "hit1": 7,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_septoria": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "tomato_yellow_leaf_curl": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_bacterial_blight": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_blast": {
+        "n": 8,
+        "hit1": 6,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_brown_spot": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_healthy": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_sheath_blight": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      },
+      "palay_tungro": {
+        "n": 8,
+        "hit1": 8,
+        "hit3": 8,
+        "low": 0
+      }
+    }
+  },
+  "gates": {
+    "positives": 112,
+    "shape_pass": 111,
+    "texture_pass": 111,
+    "both_pass": 111,
+    "negatives": 8,
+    "negatives_rejected_both": 8
+  },
+  "end_to_end": {
+    "correct": 108,
+    "n": 112
+  },
+  "confusions": {
+    "tomato_mosaic -> tomato_yellow_leaf_curl": 1,
+    "palay_blast -> palay_brown_spot": 1,
+    "palay_blast -> palay_sheath_blight": 1
+  }
+}

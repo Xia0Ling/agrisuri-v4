@@ -1,0 +1,67 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>CONTENTS</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>What this covers</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 56 }}>
+
+    <Box style={{ width: 320, justifyContent: 'space-between' }}>
+      <Text style={{ fontFamily: 'Georgia', fontSize: 27, color: '#0B1F14', lineHeight: 1.45 }}>
+        This deck is about the product: what it does, how a scan runs, who uses it, and where its edges are.
+      </Text>
+      <Box>
+        <Box style={{ width: 44, height: 2, background: '#056526', marginBottom: 16 }} />
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', lineHeight: 1.6 }}>
+          The study behind it appears on one page — as evidence for a design decision, not as the subject. No dataset walkthrough, no training curves.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'center' }}>
+
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 22, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#056526', width: 74 }}>01</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 24, fontWeight: 600, color: '#0B1F14' }}>The Product</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', marginTop: 6 }}>What it is, and the gap it fills.</Text>
+        </Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.45)' }}>03–05</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-end', paddingTop: 22, paddingBottom: 22, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#056526', width: 74 }}>02</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 24, fontWeight: 600, color: '#0B1F14' }}>How a Scan Works</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', marginTop: 6 }}>Five gates, two execution paths, one result card.</Text>
+        </Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.45)' }}>06–09</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-end', paddingTop: 22, paddingBottom: 22, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#056526', width: 74 }}>03</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 24, fontWeight: 600, color: '#0B1F14' }}>Who It Serves</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', marginTop: 6 }}>Farmer, DA officer, admin — and who may see what.</Text>
+        </Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.45)' }}>10–13</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-end', paddingTop: 22 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#056526', width: 74 }}>04</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 24, fontWeight: 600, color: '#0B1F14' }}>Scope &amp; Limits</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', marginTop: 6 }}>What was built, what was refused, what is next.</Text>
+        </Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.45)' }}>14–19</Text>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>02 / 19</Text>
+  </Box>
+</Slide>

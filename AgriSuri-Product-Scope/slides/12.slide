@@ -1,0 +1,84 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>ROLE 02 · DA OFFICER</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>The staff console</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 56 }}>
+
+    <Box style={{ width: 356, justifyContent: 'space-between' }}>
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 30, color: '#0B1F14', lineHeight: 1.42 }}>
+          The same scans, read from above. One municipality, every barangay inside it.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, color: 'rgba(11,31,20,0.62)', lineHeight: 1.7, marginTop: 18 }}>
+          A DA Officer does not scan. They watch the signal the farmers produce: volume, share of suspected disease, and which barangay is carrying it this month.
+        </Text>
+      </Box>
+
+      <Box style={{ borderTop: '1px solid rgba(11,31,20,0.12)', paddingTop: 14 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>READ-ONLY BY DESIGN</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 6 }}>
+          A DA Officer cannot scan, cannot change a record, and cannot see another municipality. The console is a window, not an editor.
+        </Text>
+      </Box>
+
+      <Box style={{ background: '#0B1F14', borderRadius: 8, padding: '18px 20px' }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, fontWeight: 600, color: '#A4DA22', letterSpacing: 1.6 }}>SCOPE CHIP</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.75)', lineHeight: 1.6, marginTop: 8 }}>
+          Every view is filtered to the officer's jurisdiction before the query runs. Data outside it is not fetched, not hidden.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingBottom: 16, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 21, fontWeight: 'bold', color: '#056526', width: 136 }}>Overview</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Is pressure rising, and where?</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>
+            Four KPIs, a scan-volume trend, the disease mix, and disease pressure ranked by barangay.
+          </Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 16, paddingBottom: 16, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 21, fontWeight: 'bold', color: '#056526', width: 136 }}>Barangays</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Which one is carrying it?</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>
+            A stacked mix per barangay, then a table of scans, suspected count, rate, farmers and a signal column.
+          </Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 16, paddingBottom: 16, borderBottom: '1px solid rgba(11,31,20,0.12)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 21, fontWeight: 'bold', color: '#056526', width: 136 }}>Records</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Which scans sit behind that number?</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>
+            Filter by farmer, crop, status or barangay. The same records open as a table or as an image gallery.
+          </Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 16 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 21, fontWeight: 'bold', color: '#056526', width: 136 }}>Farmers</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Who is actually scanning?</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>
+            A roster with scan counts, last activity, and whether the farmer allowed reviewed photos to be reused.
+          </Text>
+        </Box>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>12 / 19</Text>
+  </Box>
+</Slide>

@@ -1,0 +1,75 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>WHY IT EXISTS</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>Narrow on purpose</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 64 }}>
+
+    <Box style={{ width: 380, justifyContent: 'space-between' }}>
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 150, fontWeight: 'bold', color: '#056526', lineHeight: 0.9, letterSpacing: -6 }}>14</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 22, fontWeight: 600, color: '#0B1F14', marginTop: 18 }}>disease classes</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, color: 'rgba(11,31,20,0.6)', marginTop: 8, lineHeight: 1.6 }}>
+          8 for tomato, 6 for palay — each crop's set includes a healthy baseline, so the model is allowed to say "nothing wrong".
+        </Text>
+      </Box>
+      <Box>
+        <Box style={{ height: 1, background: 'rgba(11,31,20,0.12)', marginBottom: 18 }} />
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.55)', lineHeight: 1.7 }}>
+          A wider class list would have raised coverage on paper and lowered accuracy in the field. The scope was cut to two crops that are actually planted here.
+        </Text>
+        <Box style={{ borderTop: '1px solid rgba(11,31,20,0.12)', marginTop: 12, paddingTop: 10 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>THE BOUNDARY</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 6 }}>
+            Anything outside these 14 classes is rejected with a reason, never labelled with a nearest match.
+          </Text>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+
+      <Box style={{ flexDirection: 'row', gap: 22 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 24, fontWeight: 'bold', color: '#056526', width: 42 }}>01</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 20, fontWeight: 600, color: '#0B1F14' }}>Diagnosis arrives late</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 8 }}>
+            Lesions start on the lower, older leaves — the ones nobody photographs. By the time a trained eye walks the plot, the infection has usually moved up the canopy.
+          </Text>
+        </Box>
+      </Box>
+
+      <Box style={{ height: 1, background: 'rgba(11,31,20,0.12)' }} />
+
+      <Box style={{ flexDirection: 'row', gap: 22 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 24, fontWeight: 'bold', color: '#056526', width: 42 }}>02</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 20, fontWeight: '600', color: '#0B1F14' }}>Advisory capacity is thin</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 8 }}>
+            One municipal agriculture office serves all ten barangays of Peñaranda. A farmer cannot wait three weeks for a site visit to identify a leaf.
+          </Text>
+        </Box>
+      </Box>
+
+      <Box style={{ height: 1, background: 'rgba(11,31,20,0.12)' }} />
+
+      <Box style={{ flexDirection: 'row', gap: 22 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 24, fontWeight: 'bold', color: '#056526', width: 42 }}>03</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 20, fontWeight: '600', color: '#0B1F14' }}>Findings never aggregate</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 8 }}>
+            What a farmer sees stays in a notebook. The municipality learns about an outbreak from the harvest, not from the field.
+          </Text>
+        </Box>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>04 / 19</Text>
+  </Box>
+</Slide>

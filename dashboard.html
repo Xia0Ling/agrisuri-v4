@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AgriSuri — Operations</title>
+<link rel="stylesheet" href="style/staff.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#056526">
+<link rel="icon" type="image/png" href="assets/AgriSuri_Favicon.png">
+<script>document.documentElement.style.visibility='hidden';</script>
+</head>
+<body>
+
+<div class="shell" id="shell">
+
+  <!-- ============================ sidebar ============================ -->
+  <aside class="rail">
+    <a class="rail__brand" href="dashboard.html">
+      <img src="assets/AgriSuri_Logo.png" alt="">
+      <span>AgriSuri</span>
+    </a>
+
+    <p class="rail__section">Operations</p>
+    <nav class="rail__nav" aria-label="Main">
+      <button class="rail__link is-active" data-view="overview" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Overview</span>
+      </button>
+      <button class="rail__link" data-view="barangays" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>Barangays</span>
+      </button>
+      <button class="rail__link" data-view="scans" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m4 17 4.5-4 3.5 3 3-2.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <span>Scan records</span>
+      </button>
+      <button class="rail__link" data-view="farmers" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 5.5a3 3 0 0 1 0 5.6M17.5 20c0-2.4-.8-4.2-2-5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Farmers</span>
+      </button>
+    </nav>
+
+    <p class="rail__section" id="rail-admin-section" hidden>Administration</p>
+    <nav class="rail__nav" id="rail-admin-nav" hidden aria-label="Administration">
+      <button class="rail__link" data-view="accounts" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6.5v5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5v-5L12 3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Accounts</span>
+      </button>
+      <button class="rail__link" data-view="audit" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>Audit log</span>
+      </button>
+    </nav>
+
+    <div class="rail__foot">
+      <div class="rail__user">
+        <span class="avatar" id="rail-avatar">—</span>
+        <span class="rail__user-text">
+          <b id="rail-name">—</b>
+          <small id="rail-role">—</small>
+        </span>
+      </div>
+      <button class="btn btn--ghost btn--block btn--sm" id="logout-btn" type="button">Log out</button>
+    </div>
+  </aside>
+
+  <!-- ============================ main ============================ -->
+  <div class="frame">
+
+    <header class="bar">
+      <div class="bar__left">
+        <h1 id="page-title">Overview</h1>
+        <p id="page-sub">Platform activity</p>
+      </div>
+
+      <div class="bar__right">
+        <span class="sample-badge" id="staff-sample-badge" hidden>Sample data</span>
+        <span class="scope" id="scope-chip" title="Data scope">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span id="scope-text">—</span>
+        </span>
+        <div class="segmented" id="global-range" role="tablist" aria-label="Date range">
+          <button data-range="week" type="button" role="tab">7d</button>
+          <button class="is-active" data-range="month" type="button" role="tab">30d</button>
+          <button data-range="quarter" type="button" role="tab">90d</button>
+          <button data-range="year" type="button" role="tab">12m</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ======================= OVERVIEW ======================= -->
+      <section class="view is-active" data-view="overview">
+
+        <div class="kpis">
+          <article class="kpi">
+            <p class="kpi__label">Scans</p>
+            <b class="kpi__value" id="kpi-scans">—</b>
+            <p class="kpi__delta" id="kpi-scans-delta">—</p>
+          </article>
+          <article class="kpi">
+            <p class="kpi__label">Active farmers</p>
+            <b class="kpi__value" id="kpi-farmers">—</b>
+            <p class="kpi__delta" id="kpi-farmers-delta">—</p>
+          </article>
+          <article class="kpi">
+            <p class="kpi__label">Suspected disease rate</p>
+            <b class="kpi__value" id="kpi-rate">—</b>
+            <p class="kpi__delta" id="kpi-rate-delta">—</p>
+          </article>
+          <article class="kpi">
+            <p class="kpi__label">Most detected</p>
+            <b class="kpi__value kpi__value--sm" id="kpi-top">—</b>
+            <p class="kpi__delta kpi__delta--muted" id="kpi-top-sub">—</p>
+          </article>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="panel">
+            <header class="panel__head">
+              <div>
+                <h2>Scan volume</h2>
+                <p class="panel__sub">Scans per bucket. One scan counts once, regardless of how many classes the model returned.</p>
+              </div>
+            </header>
+            <div class="chart-box"><canvas id="ch-trend"></canvas></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__head">
+              <div>
+                <h2>Disease mix</h2>
+                <p class="panel__sub">Share of analysed scans by leading prediction.</p>
+              </div>
+            </header>
+            <div class="chart-box"><canvas id="ch-disease"></canvas></div>
+          </article>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="panel">
+            <header class="panel__head">
+              <div>
+                <h2>Disease pressure by barangay</h2>
+                <p class="panel__sub">Suspected detections only. Confirmed cases are reported separately.</p>
+              </div>
+            </header>
+            <div class="chart-box"><canvas id="ch-barangay"></canvas></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__head">
+              <div><h2>Recent activity</h2></div>
+              <button class="btn btn--text btn--sm" data-goto="scans" type="button">All records</button>
+            </header>
+            <div class="feed" id="recent-feed"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ======================= BARANGAYS ======================= -->
+      <section class="view" data-view="barangays">
+        <article class="panel">
+          <header class="panel__head">
+            <div>
+              <h2>Disease mix per barangay</h2>
+              <p class="panel__sub">Stacked by leading prediction, within your authorised scope.</p>
+            </div>
+          </header>
+          <div class="chart-box chart-box--tall"><canvas id="ch-stack"></canvas></div>
+        </article>
+
+        <article class="panel">
+          <header class="panel__head"><div><h2>Barangay breakdown</h2></div></header>
+          <div class="table-wrap">
+            <table class="table" id="tbl-barangay">
+              <thead>
+                <tr><th>Barangay</th><th class="num">Scans</th><th class="num">Suspected</th><th class="num">Rate</th><th class="num">Farmers</th><th>Signal</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- ======================= SCANS ======================= -->
+      <section class="view" data-view="scans">
+        <div class="toolbar">
+          <input type="search" id="scan-search" placeholder="Filter by farmer name…" aria-label="Filter by farmer name">
+          <select id="scan-crop" aria-label="Crop">
+            <option value="">All crops</option>
+            <option value="tomato">Tomato</option>
+            <option value="palay">Palay</option>
+          </select>
+          <select id="scan-status" aria-label="Status">
+            <option value="">All statuses</option>
+            <option value="validated">Analysed</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <select id="scan-barangay" aria-label="Barangay">
+            <option value="">All barangays</option>
+          </select>
+          <div class="toolbar__spacer"></div>
+          <div class="segmented" id="scan-layout" role="tablist" aria-label="Layout">
+            <button class="is-active" data-layout="table" type="button" role="tab">Table</button>
+            <button data-layout="gallery" type="button" role="tab">Gallery</button>
+          </div>
+        </div>
+
+        <article class="panel" id="scan-panel">
+          <div id="scan-table-wrap" class="table-wrap">
+            <table class="table" id="tbl-scans">
+              <thead>
+                <tr><th>When</th><th>Farmer</th><th>Barangay</th><th>Crop</th><th>Leading prediction</th><th class="num">Confidence</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="scan-gallery" class="gallery" hidden></div>
+          <div class="pager">
+            <span id="scan-count">—</span>
+            <div class="pager__nav">
+              <button class="btn btn--ghost btn--sm" id="scan-prev" type="button">Previous</button>
+              <span id="scan-page">1</span>
+              <button class="btn btn--ghost btn--sm" id="scan-next" type="button">Next</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ======================= FARMERS ======================= -->
+      <section class="view" data-view="farmers">
+        <div class="toolbar">
+          <input type="search" id="farmer-search" placeholder="Search farmers…" aria-label="Search farmers">
+          <div class="toolbar__spacer"></div>
+          <span class="toolbar__note" id="farmer-count">—</span>
+        </div>
+
+        <article class="panel">
+          <div class="table-wrap">
+            <table class="table" id="tbl-farmers">
+              <thead>
+                <tr><th>Name</th><th>Barangay</th><th class="num">Scans</th><th>Last scan</th><th>Photo consent</th><th>Joined</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <!-- ======================= ACCOUNTS (admin) ======================= -->
+      <section class="view" data-view="accounts">
+        <div class="notice notice--info" id="cap-notice">
+          <b>Account limits</b>
+          <span id="cap-text">—</span>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="panel">
+            <header class="panel__head">
+              <div>
+                <h2>Issue a staff invite</h2>
+                <p class="panel__sub">One-time code. Only its hash is stored; it is shown once, here.</p>
+              </div>
+            </header>
+            <form class="form" id="invite-form">
+              <label>Role
+                <select id="invite-role">
+                  <option value="da">DA Officer</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </label>
+              <label>Jurisdiction
+                <select id="invite-jurisdiction"></select>
+              </label>
+              <label>Valid for
+                <select id="invite-days">
+                  <option value="3">3 days</option>
+                  <option value="7" selected>7 days</option>
+                  <option value="14">14 days</option>
+                </select>
+              </label>
+              <button class="btn btn--primary" type="submit">Generate code</button>
+            </form>
+            <div class="invite-result" id="invite-result" hidden></div>
+          </article>
+
+          <article class="panel">
+            <header class="panel__head">
+              <div><h2>Staff accounts</h2></div>
+            </header>
+            <div class="table-wrap">
+              <table class="table" id="tbl-staff">
+                <thead><tr><th>Name</th><th>Role</th><th>Jurisdiction</th><th>Status</th><th></th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ======================= AUDIT (admin) ======================= -->
+      <section class="view" data-view="audit">
+        <article class="panel">
+          <header class="panel__head">
+            <div>
+              <h2>Audit log</h2>
+              <p class="panel__sub">Account, role and scan events. Written server-side; clients cannot insert here.</p>
+            </div>
+          </header>
+          <div class="table-wrap">
+            <table class="table" id="tbl-audit">
+              <thead><tr><th>When</th><th>Actor</th><th>Role</th><th>Action</th><th>Target</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="net-banner" id="net-banner" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<script src="script/lib/core.js"></script>
+<script src="script/i18n.js"></script>
+<script src="script/config.js"></script>
+<script src="script/util.js"></script>
+<script src="script/demo.js"></script>
+<script src="script/db.js"></script>
+<script src="script/offline.js"></script>
+<script src="script/guard.js"></script>
+<script src="script/staff.js"></script>
+</body>
+</html>

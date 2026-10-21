@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AgriSuri — Dashboard</title>
+<link rel="stylesheet" href="style/app.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#056526">
+<link rel="icon" type="image/png" href="assets/AgriSuri_Favicon.png">
+<link rel="apple-touch-icon" href="assets/AgriSuri_Favicon.png">
+<script>document.documentElement.style.visibility='hidden';</script>
+</head>
+<body class="farmer">
+
+<div class="app" id="app">
+
+  <!-- ================= Sidebar (desktop) ================= -->
+  <aside class="side">
+    <div class="side__top">
+      <a class="brand" href="index.html">
+        <img src="assets/AgriSuri_Logo.png" alt="" class="brand__logo">
+        <span class="brand__text">
+          <b class="brand__name">AgriSuri PH</b>
+          <small class="brand__user" id="brand-user">—</small>
+        </span>
+      </a>
+
+      <nav class="side__nav" aria-label="Main">
+        <button class="navlink is-active" data-view="home" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          <span data-i18n="nav.home">Dashboard</span>
+        </button>
+        <button class="navlink" data-view="scan" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span data-i18n="nav.scan">Scan Crops</span>
+        </button>
+        <button class="navlink" data-view="history" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="3.4" height="10" rx="1.4" fill="currentColor"/><rect x="10.3" y="5" width="3.4" height="15" rx="1.4" fill="currentColor"/><rect x="16.6" y="13" width="3.4" height="7" rx="1.4" fill="currentColor"/></svg>
+          <span data-i18n="nav.history">Analytics</span>
+        </button>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ================= Workspace ================= -->
+  <div class="work">
+
+    <header class="topbar">
+      <div class="topbar__left">
+        <div class="loc loc--hero" id="loc-chip">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span>
+            <b id="loc-main">Peñaranda, Nueva Ecija</b>
+            <small id="loc-sub">Barangay Sto. Tomas</small>
+          </span>
+          <span id="loc-text" hidden></span>
+        </div>
+        <h1 class="topbar__title" id="view-title" hidden>Dashboard</h1>
+        <p class="topbar__sub" id="view-sub" hidden>Your farm at a glance</p>
+      </div>
+
+      <div class="topbar__right">
+        <span class="sample-badge" id="sample-badge" hidden>Sample data</span>
+
+        <button class="lang lang--globe" id="lang-btn" type="button" aria-label="Switch language">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2 12h20" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span id="lang-label" hidden></span>
+        </button>
+
+        <button class="avatar avatar--btn" id="top-avatar" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">—</button>
+      </div>
+    </header>
+
+    <main class="main" id="main">
+
+      <!-- ============================================================
+           VIEW: DASHBOARD
+           ============================================================ -->
+      <section class="view is-active" id="view-home" data-view="home">
+
+        <div class="hero-card" id="greeting-card">
+          <div>
+            <p class="hero-card__eyebrow" id="greet-eyebrow">Welcome back</p>
+            <h2 class="hero-card__title" id="greet-name">—</h2>
+            <p class="hero-card__sub" id="greet-sub">—</p>
+          </div>
+          <button class="btn btn--primary" data-goto="scan" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <span data-i18n="dash.scan">Scan a crop</span>
+          </button>
+        </div>
+
+        <article class="card card--notice" id="barangay-card" hidden>
+          <div class="notice-row">
+            <div class="notice-row__body">
+              <h3 data-i18n="brgy.title">Set your barangay</h3>
+              <p data-i18n="brgy.body">Your account has no barangay yet, so a scan cannot be saved. Choose one — it can only be set once.</p>
+            </div>
+            <div class="notice-row__actions">
+              <select id="brgy-select" aria-label="Barangay"></select>
+              <button class="btn btn--primary btn--sm" id="brgy-save" type="button" data-i18n="brgy.save">Save</button>
+            </div>
+          </div>
+        </article>
+
+        <div class="cols cols--weather">
+          <article class="card card--weather" id="weather-card">
+            <header class="card__head">
+              <div>
+                <h3 data-i18n="weather.title">Weather now</h3>
+                <p class="card__sub" id="weather-loc">Peñaranda, Nueva Ecija</p>
+              </div>
+              <span class="card__meta" id="weather-source">Open-Meteo</span>
+            </header>
+            <div class="weather" id="weather-body">
+              <div class="weather__skeleton">
+                <div class="skeleton skeleton--lg"></div>
+                <div class="skeleton"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card__head">
+              <h3 data-i18n="week.title">This week</h3>
+              <span class="card__meta" data-i18n="week.scope">Your farm</span>
+            </header>
+            <div class="insight" id="insight-body">
+              <div class="skeleton skeleton--lg"></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stats" id="stat-row">
+          <article class="stat">
+            <p class="stat__label" data-i18n="stats.today">Today</p>
+            <b class="stat__value" id="stat-today">0</b>
+            <span class="stat__hint" data-i18n="stats.scans">scans</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="stats.week">This week</p>
+            <b class="stat__value" id="stat-week">0</b>
+            <span class="stat__hint" data-i18n="stats.scans">scans</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="stats.month">This month</p>
+            <b class="stat__value" id="stat-month">0</b>
+            <span class="stat__hint" data-i18n="stats.scans">scans</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="stats.flagged">Flagged</p>
+            <b class="stat__value" id="stat-flagged">0</b>
+            <span class="stat__hint" data-i18n="stats.withDisease">with a disease</span>
+          </article>
+        </div>
+
+        <article class="card">
+          <header class="card__head">
+            <div>
+              <h3 data-i18n="chart.activity">Scan activity</h3>
+              <p class="card__sub" data-i18n="chart.activitySub">Counts are scans, not confirmed cases.</p>
+            </div>
+            <div class="segmented" id="range-pills" role="tablist" aria-label="Date range">
+              <button class="is-active" data-range="week" type="button" role="tab">7d</button>
+              <button data-range="month" type="button" role="tab">30d</button>
+              <button data-range="year" type="button" role="tab">12m</button>
+            </div>
+          </header>
+          <div class="chart-wrap" id="chart-wrap">
+            <canvas id="chart-activity" height="240" aria-label="Scans over time" role="img"></canvas>
+            <div class="chart-empty" id="chart-empty" hidden>
+              <p data-i18n="chart.empty">No scans in this period.</p>
+              <button class="btn btn--ghost btn--sm" data-goto="scan" type="button" data-i18n="chart.start">Start your first scan</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <header class="card__head">
+            <h3 data-i18n="recent.title">Recent scans</h3>
+            <button class="btn btn--text btn--sm" data-goto="history" type="button" data-i18n="recent.seeAll">See all</button>
+          </header>
+          <div id="recent-list" class="list"></div>
+        </article>
+
+      </section>
+
+      <!-- ============================================================
+           VIEW: SCAN
+           ============================================================ -->
+      <section class="view" id="view-scan" data-view="scan">
+
+        <article class="card card--scan">
+          <header class="card__head">
+            <div>
+              <h3 data-i18n="scan.title">Scan a crop</h3>
+              <p class="card__sub" data-i18n="scan.sub">One clear photo of a single leaf. Nothing runs until you take the photo.</p>
+            </div>
+          </header>
+
+          <div class="scan-step" id="step-crop">
+            <p class="scan-step__label"><span>1</span> <em data-i18n="scan.step1">Which crop are you scanning?</em></p>
+            <div class="crop-picker" id="crop-picker" role="radiogroup" aria-label="Crop">
+              <button class="crop-option" data-crop="tomato" type="button" role="radio" aria-checked="false">
+                <span class="crop-option__art" aria-hidden="true">
+                  <svg viewBox="0 0 32 32"><circle cx="16" cy="18" r="9" fill="#c2453a"/><path d="M16 9c-2-3-5-3.5-7-3 1.5 2 3 3.5 5 4.2M16 9c2-3 5-3.5 7-3-1.5 2-3 3.5-5 4.2" fill="none" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/><path d="M16 9V5" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </span>
+                <b data-i18n="scan.tomato">Tomato</b>
+                <small data-i18n="scan.tomatoSub">Kamatis</small>
+              </button>
+              <button class="crop-option" data-crop="palay" type="button" role="radio" aria-checked="false">
+                <span class="crop-option__art" aria-hidden="true">
+                  <svg viewBox="0 0 32 32"><path d="M16 28V9" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/><path d="M16 12c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 17c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 22c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 12c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6ZM16 17c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6ZM16 22c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6Z" fill="#8fbe2f"/></svg>
+                </span>
+                <b data-i18n="scan.palay">Palay</b>
+                <small data-i18n="scan.palaySub">Rice</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="scan-step" id="step-capture">
+            <p class="scan-step__label"><span>2</span> <em data-i18n="scan.step2">Take the photo</em></p>
+
+            <div class="viewport" id="viewport">
+              <img id="preview" alt="" hidden>
+              <div class="viewport__guide" id="viewport-guide">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <p data-i18n="scan.centre">Centre one leaf in the frame</p>
+                <small data-i18n="scan.centreHint">Good light, no shadow, hold steady</small>
+              </div>
+              <div class="viewport__scanline" id="scanline" hidden></div>
+            </div>
+
+            <div class="stage-log" id="stage-log" aria-live="polite"></div>
+
+            <input type="file" id="file-upload" accept="image/*" hidden>
+            <input type="file" id="file-camera" accept="image/*" capture="environment" hidden>
+
+            <div class="scan-actions">
+              <button class="btn btn--secondary btn--half" id="btn-upload" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="17 8 12 3 7 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="3" x2="12" y2="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span data-i18n="scan.upload">Upload photo</span>
+              </button>
+              <button class="btn btn--primary btn--half" id="btn-camera" type="button" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                <span data-i18n="scan.takePhoto">Take photo</span>
+              </button>
+              <p class="scan-hint" id="capture-hint" data-i18n="scan.selectCrop">Select a crop first.</p>
+            </div>
+          </div>
+
+          <div id="result-host" hidden></div>
+
+        </article>
+
+        <article class="card card--muted" id="ai-status-card">
+          <header class="card__head">
+            <h3 data-i18n="model.title">Model status</h3>
+          </header>
+          <div id="ai-status"></div>
+        </article>
+
+      </section>
+
+      <!-- ============================================================
+           VIEW: HISTORY / ANALYTICS
+           ============================================================ -->
+      <section class="view" id="view-history" data-view="history">
+
+        <div class="filters" id="history-filters">
+          <div class="segmented" id="history-range" role="tablist" aria-label="Range">
+            <button class="is-active" data-range="month" type="button" role="tab" data-i18n="history.range30">30 days</button>
+            <button data-range="quarter" type="button" role="tab" data-i18n="history.range90">90 days</button>
+            <button data-range="year" type="button" role="tab" data-i18n="history.range12m">12 months</button>
+          </div>
+          <select id="history-crop" aria-label="Filter by crop">
+            <option value="" data-i18n="history.allCrops">All crops</option>
+            <option value="tomato" data-i18n="scan.tomato">Tomato</option>
+            <option value="palay" data-i18n="scan.palay">Palay</option>
+          </select>
+        </div>
+
+        <div class="stats" id="history-stats">
+          <article class="stat">
+            <p class="stat__label" data-i18n="history.scans">Scans</p>
+            <b class="stat__value" id="h-total">0</b>
+            <span class="stat__hint" data-i18n="history.inRange">in range</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="history.healthy">Healthy</p>
+            <b class="stat__value" id="h-healthy">—</b>
+            <span class="stat__hint" data-i18n="history.ofAnalysed">of analysed scans</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="history.mostFrequent">Most frequent</p>
+            <b class="stat__value stat__value--text" id="h-top">—</b>
+            <span class="stat__hint" data-i18n="history.suspected">suspected disease</span>
+          </article>
+          <article class="stat">
+            <p class="stat__label" data-i18n="history.crops">Crops</p>
+            <b class="stat__value stat__value--text" id="h-crops">—</b>
+            <span class="stat__hint" data-i18n="history.distinct">distinct</span>
+          </article>
+        </div>
+
+        <div class="cols cols--2">
+          <article class="card">
+            <header class="card__head"><h3 data-i18n="history.byCrop">By crop</h3></header>
+            <div class="chart-wrap chart-wrap--sm">
+              <canvas id="chart-crop" aria-label="Scans by crop" role="img"></canvas>
+              <div class="chart-empty" id="crop-empty" hidden><p data-i18n="chart.empty">No scans in this period.</p></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card__head"><h3 data-i18n="history.byDisease">By disease</h3></header>
+            <div class="chart-wrap chart-wrap--sm">
+              <canvas id="chart-disease" aria-label="Scans by disease" role="img"></canvas>
+              <div class="chart-empty" id="disease-empty" hidden><p data-i18n="chart.empty">No scans in this period.</p></div>
+            </div>
+          </article>
+        </div>
+
+        <article class="card">
+          <header class="card__head">
+            <div>
+              <h3 data-i18n="history.list">Scan history</h3>
+              <p class="card__sub" id="history-count">—</p>
+            </div>
+          </header>
+          <div id="history-list" class="list"></div>
+          <div class="pager" id="history-pager" hidden>
+            <button class="btn btn--ghost btn--sm" id="page-prev" type="button" data-i18n="history.prev">Previous</button>
+            <span id="page-label">—</span>
+            <button class="btn btn--ghost btn--sm" id="page-next" type="button" data-i18n="history.next">Next</button>
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= Mobile bottom nav ================= -->
+  <nav class="tabbar" aria-label="Main">
+    <button class="tabbar__item is-active" data-view="home" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      <span data-i18n="nav.home">Home</span>
+    </button>
+    <button class="tabbar__item" data-view="scan" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+      <span data-i18n="nav.scan">Scan</span>
+    </button>
+    <button class="tabbar__item" data-view="history" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="3.4" height="10" rx="1.4" fill="currentColor"/><rect x="10.3" y="5" width="3.4" height="15" rx="1.4" fill="currentColor"/><rect x="16.6" y="13" width="3.4" height="7" rx="1.4" fill="currentColor"/></svg>
+      <span data-i18n="nav.history">History</span>
+    </button>
+  </nav>
+
+  <!-- ================= Account menu ================= -->
+  <div class="acct-menu" id="acct-menu" role="menu" hidden>
+    <div class="acct-menu__head">
+      <span class="avatar avatar--lg" id="acct-avatar">—</span>
+      <div>
+        <b id="acct-name">—</b>
+        <small id="acct-email">—</small>
+      </div>
+    </div>
+    <dl class="acct-menu__rows">
+      <div><dt data-i18n="acct.role">Role</dt><dd id="acct-role">—</dd></div>
+      <div><dt data-i18n="acct.barangay">Barangay</dt><dd id="acct-barangay">—</dd></div>
+    </dl>
+    <label class="switch">
+      <input type="checkbox" id="acct-consent">
+      <span class="switch__track"><span class="switch__thumb"></span></span>
+      <span class="switch__text">
+        <b data-i18n="acct.consent">Allow reviewed photo use</b>
+        <small data-i18n="acct.consentHint">Off by default. Nothing is used for training unless you turn this on.</small>
+      </span>
+    </label>
+    <button class="btn btn--ghost btn--block" id="acct-logout" type="button" role="menuitem" data-i18n="acct.logout">Log out</button>
+  </div>
+
+</div>
+
+<!-- ================= Live camera ================= -->
+<div class="cam" id="cam" hidden>
+  <div class="cam__box" role="dialog" aria-modal="true" aria-label="Camera">
+    <div class="cam__view">
+      <video id="cam-video" autoplay playsinline muted></video>
+      <div class="cam__frame" aria-hidden="true"></div>
+    </div>
+    <p class="cam__hint" data-i18n="scan.camHint">Fill the guide with one leaf. Hold steady.</p>
+    <div class="cam__actions">
+      <button class="btn btn--ghost" id="cam-cancel" type="button" data-i18n="scan.cancel">Cancel</button>
+      <button class="btn btn--primary" id="cam-snap" type="button" data-i18n="scan.capture">Capture</button>
+    </div>
+  </div>
+</div>
+
+<div class="net-banner" id="net-banner" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/umd/chart.umd.min.js"></script>
+<!-- TensorFlow.js and Teachable Machine are loaded on demand by script/ai.js,
+     only when an offline model is actually configured. -->
+
+<script src="script/lib/core.js"></script>
+<script src="script/i18n.js"></script>
+<script src="script/config.js"></script>
+<script src="script/util.js"></script>
+<script src="script/demo.js"></script>
+<script src="script/db.js"></script>
+<script src="script/offline.js"></script>
+<script src="script/quality.js"></script>
+<script src="script/ai.js"></script>
+<script src="script/guard.js"></script>
+<script src="script/farmer.js"></script>
+</body>
+</html>

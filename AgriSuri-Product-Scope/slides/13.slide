@@ -1,0 +1,115 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#0B1F14', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.4 }}>ACCESS</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#F5F8F2', letterSpacing: -0.6, marginTop: 8 }}>Who can see what</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 44 }}>
+
+    <Box style={{ width: 800 }}>
+
+      <Box style={{ flexDirection: 'row', background: '#056526', height: 46, alignItems: 'center', borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 700, color: '#F5F8F2', letterSpacing: 1.2 }}>CAPABILITY</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 700, color: '#F5F8F2', letterSpacing: 1.2 }}>FARMER</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 700, color: '#F5F8F2', letterSpacing: 1.2 }}>DA OFFICER</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 700, color: '#F5F8F2', letterSpacing: 1.2 }}>ADMIN</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Scan a crop and receive guidance</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)', background: 'rgba(245,248,242,0.03)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Read own scan history</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Read scans in one municipality</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)', background: 'rgba(245,248,242,0.03)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Barangay-level disease analytics</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Farmer roster and photo consent</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)', background: 'rgba(245,248,242,0.03)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Change roles and jurisdiction</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Issue one-time staff invites</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', height: 60, alignItems: 'center', borderBottom: '1px solid rgba(245,248,242,0.14)', background: 'rgba(245,248,242,0.03)' }}>
+        <Text style={{ width: 380, paddingLeft: 18, fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2' }}>Read the audit log</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.28)' }}>—</Text>
+        <Text style={{ width: 140, textAlign: 'center', fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#A4DA22' }}>Yes</Text>
+      </Box>
+
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1.4 }}>
+          Permissions are rows,<br />not menus.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.65)', lineHeight: 1.7, marginTop: 16 }}>
+          Role, jurisdiction and active status are not columns a client can write. A forged session lands on a page it cannot read from.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.65)', lineHeight: 1.7, marginTop: 12 }}>
+          A DA Officer's scope is applied twice: in the row-level policy, and in the storage policy that serves the photo itself.
+        </Text>
+      </Box>
+
+      <Box style={{ borderTop: '1px solid rgba(245,248,242,0.18)', paddingTop: 16 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#A4DA22', letterSpacing: 1.6 }}>ACCOUNT CEILINGS</Text>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)' }}>Farmers</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 16, fontWeight: 'bold', color: '#F5F8F2' }}>10</Text>
+        </Box>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)' }}>DA Officers</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 16, fontWeight: 'bold', color: '#F5F8F2' }}>5</Text>
+        </Box>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)' }}>Admins</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 16, fontWeight: 'bold', color: '#F5F8F2' }}>6</Text>
+        </Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.45)', lineHeight: 1.6, marginTop: 10 }}>
+          Enforced under a database lock, so two simultaneous signups cannot both take the last slot.
+        </Text>
+      </Box>
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(245,248,242,0.16)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>13 / 19</Text>
+  </Box>
+</Slide>

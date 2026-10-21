@@ -1,0 +1,81 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>SCOPE</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>Built, and deliberately not built</Text>
+  </Box>
+
+  <Box style={{ height: 532 }}>
+
+    <Box style={{ background: '#FFFFFF', border: '1px solid rgba(11,31,20,0.1)', borderRadius: 10, padding: '20px 24px', height: 236 }}>
+      <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid rgba(11,31,20,0.1)', paddingBottom: 12 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 700, color: '#056526', letterSpacing: 1.8 }}>IN SCOPE — RUNNING TODAY</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.45)' }}>six capabilities</Text>
+      </Box>
+      <Box style={{ flexDirection: 'row', marginTop: 16 }}>
+        <Box style={{ flex: 1, paddingRight: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Two crops, 14 classes</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>Tomato and palay, each with a healthy baseline.</Text>
+        </Box>
+        <Box style={{ flex: 1, paddingRight: 20, borderLeft: '1px solid rgba(11,31,20,0.08)', paddingLeft: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Two inference paths</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>On-device model and a server-side gateway.</Text>
+        </Box>
+        <Box style={{ flex: 1, borderLeft: '1px solid rgba(11,31,20,0.08)', paddingLeft: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Bilingual guidance</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>English and Filipino, same interface.</Text>
+        </Box>
+      </Box>
+      <Box style={{ flexDirection: 'row', marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.08)' }}>
+        <Box style={{ flex: 1, paddingRight: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Farmer history and analytics</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>Filters, charts, paged records.</Text>
+        </Box>
+        <Box style={{ flex: 1, paddingRight: 20, borderLeft: '1px solid rgba(11,31,20,0.08)', paddingLeft: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Municipal analytics</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>Barangay breakdown for a DA Officer.</Text>
+        </Box>
+        <Box style={{ flex: 1, borderLeft: '1px solid rgba(11,31,20,0.08)', paddingLeft: 20 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#0B1F14' }}>Administration</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)', lineHeight: 1.6, marginTop: 4 }}>Invites, role caps, audit trail.</Text>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box style={{ background: '#0B1F14', borderRadius: 10, padding: '20px 24px', height: 214, marginTop: 24 }}>
+      <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid rgba(245,248,242,0.18)', paddingBottom: 12 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 700, color: '#A4DA22', letterSpacing: 1.8 }}>OUT OF SCOPE — REFUSED ON PURPOSE</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.45)' }}>four decisions</Text>
+      </Box>
+      <Box style={{ flexDirection: 'row', marginTop: 16 }}>
+        <Box style={{ flex: 1, paddingRight: 18 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#F5F8F2' }}>Other crops</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.6, marginTop: 4 }}>Rejected, not guessed. A label on a crop the model never saw is worse than no label.</Text>
+        </Box>
+        <Box style={{ flex: 1, paddingRight: 18, borderLeft: '1px solid rgba(245,248,242,0.14)', paddingLeft: 18 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#F5F8F2' }}>Outbreak confirmation</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.6, marginTop: 4 }}>The app reports suspected findings. Declaring an outbreak stays a human decision.</Text>
+        </Box>
+        <Box style={{ flex: 1, paddingRight: 18, borderLeft: '1px solid rgba(245,248,242,0.14)', paddingLeft: 18 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#F5F8F2' }}>Yield forecasting</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.6, marginTop: 4 }}>Not enough seasons of local data. Any number would be invented.</Text>
+        </Box>
+        <Box style={{ flex: 1, borderLeft: '1px solid rgba(245,248,242,0.14)', paddingLeft: 18 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#F5F8F2' }}>Training on photos by default</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.6, marginTop: 4 }}>Off unless the farmer turns it on, per account.</Text>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14, borderTop: '1px solid rgba(11,31,20,0.12)', paddingTop: 14 }}>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>READ THIS AS</Text>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)' }}>The upper list is what a user can do today. Nothing in the lower list has a placeholder anywhere in the interface.</Text>
+    </Box>
+
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>15 / 19</Text>
+  </Box>
+</Slide>

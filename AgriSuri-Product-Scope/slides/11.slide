@@ -1,0 +1,164 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Box>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>ROLE 01 · FARMER</Text>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>The farmer workspace</Text>
+    </Box>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.42)', width: 250, textAlign: 'right', lineHeight: 1.55 }}>
+      Interface schematic — layout and labels from the build, not a live screenshot
+    </Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 48 }}>
+
+    <Box style={{ width: 604 }}>
+      <Box style={{ width: 604, height: 468, background: '#FFFFFF', border: '1px solid rgba(11,31,20,0.12)', borderRadius: 12, flexDirection: 'row', overflow: 'hidden', boxShadow: '0 10px 30px rgba(11,31,20,0.08)' }}>
+
+        <Box style={{ width: 148, background: '#0B1F14', padding: '16px 12px', justifyContent: 'space-between' }}>
+          <Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Image src='assets/logo.png' style={{ width: 20, height: 20 }} />
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, fontWeight: 700, color: '#F5F8F2' }}>AgriSuri PH</Text>
+            </Box>
+            <Box style={{ marginTop: 22 }}>
+              <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8, background: 'rgba(164,218,34,0.16)', borderRadius: 6, padding: '7px 8px' }}>
+                <Box style={{ width: 4, height: 12, background: '#A4DA22', borderRadius: 2 }} />
+                <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, fontWeight: 600, color: '#A4DA22' }}>Dashboard</Text>
+              </Box>
+              <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8, padding: '7px 8px', marginTop: 2 }}>
+                <Box style={{ width: 4, height: 12, background: 'rgba(245,248,242,0.25)', borderRadius: 2 }} />
+                <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, color: 'rgba(245,248,242,0.6)' }}>Scan Crops</Text>
+              </Box>
+              <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8, padding: '7px 8px', marginTop: 2 }}>
+                <Box style={{ width: 4, height: 12, background: 'rgba(245,248,242,0.25)', borderRadius: 2 }} />
+                <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, color: 'rgba(245,248,242,0.6)' }}>Analytics</Text>
+              </Box>
+            </Box>
+          </Box>
+          <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <Box style={{ width: 22, height: 22, borderRadius: 11, background: '#056526', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 10, fontWeight: 700, color: '#F5F8F2' }}>R</Text>
+            </Box>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 10, color: 'rgba(245,248,242,0.55)' }}>Farmer</Text>
+          </Box>
+        </Box>
+
+        <Box style={{ flex: 1, padding: 16 }}>
+          <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#0B1F14' }}>Peñaranda, Nueva Ecija</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 10, color: 'rgba(11,31,20,0.5)' }}>Barangay Sto. Tomas</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', gap: 6 }}>
+              <Box style={{ border: '1px solid rgba(11,31,20,0.15)', borderRadius: 4, padding: '3px 7px' }}>
+                <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.6)' }}>FIL</Text>
+              </Box>
+              <Box style={{ background: 'rgba(5,101,38,0.08)', borderRadius: 4, padding: '3px 7px' }}>
+                <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: '#056526' }}>Sample data</Text>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box style={{ background: '#056526', borderRadius: 8, padding: 14, marginTop: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(245,248,242,0.65)' }}>Welcome back</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 700, color: '#F5F8F2', marginTop: 2 }}>Rosa Dela Cruz</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(245,248,242,0.6)', marginTop: 2 }}>2 scans this week</Text>
+            </Box>
+            <Box style={{ background: '#A4DA22', borderRadius: 6, padding: '7px 10px' }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 10, fontWeight: 700, color: '#0B1F14' }}>Scan a crop</Text>
+            </Box>
+          </Box>
+
+          <Box style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 10 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>Weather now</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, fontWeight: 700, color: '#0B1F14', marginTop: 2 }}>31°C</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.45)' }}>Open-Meteo</Text>
+            </Box>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 10 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>This week</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#0B1F14', marginTop: 2, lineHeight: 1.4 }}>Humid — watch lower leaves</Text>
+            </Box>
+          </Box>
+
+          <Box style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 8 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>Today</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#0B1F14' }}>1</Text>
+            </Box>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 8 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>This week</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#0B1F14' }}>2</Text>
+            </Box>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 8 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>This month</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#0B1F14' }}>5</Text>
+            </Box>
+            <Box style={{ flex: 1, border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 8 }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>Flagged</Text>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 700, color: '#056526' }}>3</Text>
+            </Box>
+          </Box>
+
+          <Box style={{ border: '1px solid rgba(11,31,20,0.1)', borderRadius: 6, padding: 10, marginTop: 10, flex: 1, justifyContent: 'flex-end' }}>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 9, color: 'rgba(11,31,20,0.5)' }}>Scan activity · 7d</Text>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: 140, marginTop: 8 }}>
+              <Box style={{ width: 26, height: 42, background: 'rgba(5,101,38,0.25)', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 80, background: 'rgba(5,101,38,0.35)', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 28, background: 'rgba(5,101,38,0.25)', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 104, background: '#056526', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 58, background: 'rgba(5,101,38,0.35)', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 126, background: '#A4DA22', borderRadius: 2 }} />
+              <Box style={{ width: 26, height: 70, background: 'rgba(5,101,38,0.35)', borderRadius: 2 }} />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1 }}>
+
+      <Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>DASHBOARD</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>
+          Live weather, a weekly read on the farm, four counters and an activity chart that switches between 7 days, 30 days and 12 months.
+        </Text>
+      </Box>
+
+      <Box style={{ marginTop: 30 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>SCAN</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>
+          Pick the crop, then take a photo or upload one. A stage log narrates each gate as it runs, so a rejection is explained rather than silent.
+        </Text>
+      </Box>
+
+      <Box style={{ marginTop: 30 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>ANALYTICS</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>
+          Range and crop filters, healthy share, the most frequent finding, a by-crop and by-disease chart, and a paged history of every saved scan.
+        </Text>
+      </Box>
+
+      <Box style={{ marginTop: 26 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>EVERYWHERE</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>
+          An English/Filipino toggle on every screen, home-screen install, and a banner when the connection drops — never a silent failure.
+        </Text>
+      </Box>
+
+      <Box style={{ background: 'rgba(5,101,38,0.06)', borderRadius: 8, padding: '14px 16px', marginTop: 26 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.7)', lineHeight: 1.6 }}>
+          The farmer's view is scoped to their own rows. They never see another farm's scans, and no screen offers a way to.
+        </Text>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>11 / 19</Text>
+  </Box>
+</Slide>

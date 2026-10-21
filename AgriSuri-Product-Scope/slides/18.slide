@@ -1,0 +1,91 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>ROADMAP</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>What ships next</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 56 }}>
+
+    <Box style={{ width: 336, justifyContent: 'space-between' }}>
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, color: '#0B1F14', lineHeight: 1.5 }}>
+          Ordered by dependency, not by enthusiasm.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, color: 'rgba(11,31,20,0.62)', lineHeight: 1.7, marginTop: 18 }}>
+          No dates on this list. Each step needs the one above it to be true first — a bigger dataset before a better model, and a better model before a field trial worth running.
+        </Text>
+      </Box>
+      <Box>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.6 }}>PILOT FOOTPRINT</Text>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, borderBottom: '1px solid rgba(11,31,20,0.1)', paddingBottom: 6 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)' }}>Municipality</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 15, fontWeight: 'bold', color: '#0B1F14' }}>1</Text>
+        </Box>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6, borderBottom: '1px solid rgba(11,31,20,0.1)', paddingBottom: 6 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)' }}>Barangays</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 15, fontWeight: 'bold', color: '#0B1F14' }}>10</Text>
+        </Box>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.6)' }}>Crops</Text>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 15, fontWeight: 'bold', color: '#0B1F14' }}>2</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ borderTop: '1px solid rgba(11,31,20,0.12)', paddingTop: 16 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 15, fontStyle: 'italic', color: 'rgba(11,31,20,0.7)', lineHeight: 1.55 }}>
+          The pilot covers one municipality and ten barangays. Nothing here assumes it generalises further.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingBottom: 14, borderBottom: '1px solid rgba(11,31,20,0.1)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#056526', width: 44, lineHeight: 1 }}>01</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#0B1F14' }}>Expand the dataset</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 4 }}>More field photos per class, especially palay sheath blight and the healthy baselines.</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 14, paddingBottom: 14, borderBottom: '1px solid rgba(11,31,20,0.1)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#056526', width: 44, lineHeight: 1 }}>02</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#0B1F14' }}>Field testing</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 4 }}>Run the acceptance tests with farmers, in daylight, on the phones they actually own.</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 14, paddingBottom: 14, borderBottom: '1px solid rgba(11,31,20,0.1)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#056526', width: 44, lineHeight: 1 }}>03</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#0B1F14' }}>Close the offline gap</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 4 }}>Retrain the on-device model and re-measure against the gateway — the 23 points are the target.</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 14, paddingBottom: 14, borderBottom: '1px solid rgba(11,31,20,0.1)' }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#056526', width: 44, lineHeight: 1 }}>04</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#0B1F14' }}>Expert validation</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 4 }}>Have a municipal agriculturist review both the labels and the guidance text, not just the model.</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 20, paddingTop: 14 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 26, fontWeight: 'bold', color: '#056526', width: 44, lineHeight: 1 }}>05</Text>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#0B1F14' }}>Privacy review before any rollout</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.6, marginTop: 4 }}>Confirm consent, retention and access rules hold before a second municipality is added.</Text>
+        </Box>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>18 / 19</Text>
+  </Box>
+</Slide>

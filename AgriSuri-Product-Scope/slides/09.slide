@@ -1,0 +1,94 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#F5F8F2', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#056526', letterSpacing: 2.4 }}>THE RESULT</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#0B1F14', letterSpacing: -0.6, marginTop: 8 }}>What comes back to the farmer</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 48 }}>
+
+    <Box style={{ width: 610 }}>
+      <Box style={{ background: '#FFFFFF', border: '1px solid rgba(11,31,20,0.1)', borderRadius: 10, padding: 24, boxShadow: '0 8px 24px rgba(11,31,20,0.07)' }}>
+
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+            <Box style={{ background: 'rgba(5,101,38,0.08)', borderRadius: 4, padding: '4px 10px' }}>
+              <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526' }}>Tomato</Text>
+            </Box>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.45)' }}>Brgy. Sto. Tomas</Text>
+          </Box>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.45)' }}>Saved to history</Text>
+        </Box>
+
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: 'rgba(11,31,20,0.45)', letterSpacing: 1.6, marginTop: 20 }}>LEADING READING</Text>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 34, fontWeight: 'bold', color: '#0B1F14', marginTop: 6 }}>Early Blight</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.55)', marginTop: 2 }}>Alternaria solani</Text>
+
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 14 }}>
+          <Box style={{ flex: 1, height: 6, background: 'rgba(11,31,20,0.08)', borderRadius: 3 }}>
+            <Box style={{ width: 246, height: 6, background: '#056526', borderRadius: 3 }} />
+          </Box>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526' }}>High band</Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', gap: 10, marginTop: 16 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.5)' }}>Also possible:</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(11,31,20,0.7)' }}>Septoria leaf spot · Late blight</Text>
+        </Box>
+
+        <Box style={{ borderTop: '1px solid rgba(11,31,20,0.08)', marginTop: 18, paddingTop: 16 }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.4 }}>WHAT TO DO</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.7)', lineHeight: 1.6, marginTop: 6 }}>
+            Remove and destroy badly infected lower leaves. Apply a registered chlorothalonil- or mancozeb-based fungicide, following the label interval while conditions stay humid.
+          </Text>
+        </Box>
+
+        <Box style={{ flexDirection: 'row', gap: 20, marginTop: 14 }}>
+          <Box style={{ flex: 1 }}>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.4 }}>PREVENT</Text>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>Rotate away from tomato and potato, stake for airflow, mulch, water at the base.</Text>
+          </Box>
+          <Box style={{ flex: 1, background: 'rgba(5,101,38,0.05)', padding: '10px 12px', borderRadius: 6 }}>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#056526', letterSpacing: 1.4 }}>SAFETY</Text>
+            <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.65)', lineHeight: 1.6, marginTop: 6 }}>Gloves and mask when spraying. Observe the pre-harvest interval.</Text>
+          </Box>
+        </Box>
+
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, color: 'rgba(11,31,20,0.4)', marginTop: 16 }}>Preliminary reading — confirm with the municipal agriculturist.</Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 18, fontWeight: 'bold', color: '#056526' }}>01</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, fontWeight: 600, color: '#0B1F14', marginTop: 4 }}>Label first, alternatives second</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 6 }}>The model is more often right about the family than the species. Showing both keeps a near-miss visible.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 18, fontWeight: 'bold', color: '#056526' }}>02</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, fontWeight: 600, color: '#0B1F14', marginTop: 4 }}>Confidence is a band, not a number</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 6 }}>Raw probabilities are not calibrated. High is ≥ 0.75, medium ≥ 0.50, and below 0.50 the result is uncertain.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 18, fontWeight: 'bold', color: '#056526' }}>03</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, fontWeight: 600, color: '#0B1F14', marginTop: 4 }}>Three blocks, in order of use</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 6 }}>What to do today, how to stop it returning, and what to wear while doing it.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 18, fontWeight: 'bold', color: '#056526' }}>04</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 16, fontWeight: 600, color: '#0B1F14', marginTop: 4 }}>Traceable by default</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(11,31,20,0.62)', lineHeight: 1.65, marginTop: 6 }}>Crop, barangay and date travel with the result, so a row in the history can be explained later.</Text>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(11,31,20,0.1)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(11,31,20,0.45)' }}>09 / 19</Text>
+  </Box>
+</Slide>

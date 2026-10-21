@@ -1,0 +1,19 @@
+{
+  "name": "agrisuri",
+  "version": "4.0.0",
+  "private": true,
+  "description": "AgriSuri — crop disease detection for tomato and palay. Static front end + Supabase + Edge Function inference gateway.",
+  "scripts": {
+    "serve": "node tools/serve.js",
+    "serve:lan": "node tools/serve.js --lan",
+    "test": "node --test tests/core.test.js tests/integrity.test.js",
+    "test:dom": "node --test tests/dom.test.js",
+    "test:all": "node --test tests/core.test.js tests/integrity.test.js tests/dom.test.js",
+    "test:browser": "node tests/browser.smoke.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0",
+    "puppeteer-core": "^22.0.0"
+  },
+  "comment": "No build step. jsdom is only needed for test:dom; puppeteer-core only for test:browser. Both are optional."
+}

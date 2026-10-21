@@ -1,0 +1,1 @@
+Put Logo_AgriSuri.png, Background_Landscape.png and Background_Portrait.png in this folder.

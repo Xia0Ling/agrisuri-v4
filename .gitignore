@@ -1,0 +1,28 @@
+# Local tooling
+node_modules/
+.workbuddy-ai/
+
+# Secrets — the local inference proxy reads this, it must never be committed
+tools/roboflow.key
+*.key
+.env
+.env.local
+
+# Generated training data (never commit images)
+dataset/
+training_images/
+_tmp_ds/
+__pycache__/
+
+# Generated evaluation sets (rebuild with tools/make_eval_set.py)
+tools/_eval/
+tools/_eval_stress/
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test artifacts
+tests/screenshots/
+*.log

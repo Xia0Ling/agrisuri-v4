@@ -1,0 +1,75 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#0B1F14', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.4 }}>THE PRODUCT</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#F5F8F2', letterSpacing: -0.6, marginTop: 8 }}>What AgriSuri is</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 56 }}>
+
+    <Box style={{ width: 700, justifyContent: 'space-between' }}>
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 46, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1.24, letterSpacing: -0.6 }}>
+          Photograph one leaf.<br />Get a reading you can act on.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, color: 'rgba(245,248,242,0.72)', lineHeight: 1.72, marginTop: 24, width: 660 }}>
+          A farmer picks a crop, photographs a single leaf, and gets the most likely disease with treatment, prevention and safety guidance — in English or Filipino. It runs in a phone browser, and it runs without a signal.
+        </Text>
+      </Box>
+
+      <Box style={{ flexDirection: 'row', gap: 0, borderTop: '1px solid rgba(245,248,242,0.16)', borderBottom: '1px solid rgba(245,248,242,0.16)', paddingTop: 20, paddingBottom: 20, width: 660 }}>
+        <Box style={{ flex: 1 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1 }}>12</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)', marginTop: 8, lineHeight: 1.5 }}>disease states, plus 2 healthy baselines</Text>
+        </Box>
+        <Box style={{ flex: 1, borderLeft: '1px solid rgba(245,248,242,0.16)', paddingLeft: 22 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1 }}>2</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)', marginTop: 8, lineHeight: 1.5 }}>crops: tomato (kamatis) and palay</Text>
+        </Box>
+        <Box style={{ flex: 1, borderLeft: '1px solid rgba(245,248,242,0.16)', paddingLeft: 22 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 30, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1 }}>2</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)', marginTop: 8, lineHeight: 1.5 }}>languages in one interface: English, Filipino</Text>
+        </Box>
+      </Box>
+
+      <Box style={{ background: 'rgba(164,218,34,0.1)', borderLeft: '3px solid #A4DA22', padding: '18px 22px', width: 660 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, color: '#F5F8F2', lineHeight: 1.6 }}>
+          <span style={{ fontWeight: 700, color: '#A4DA22' }}>It is not a diagnosis.</span> The output is a preliminary reading. Confirmation still belongs to the municipal agriculturist — the app says so on every result.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between', borderLeft: '1px solid rgba(245,248,242,0.16)', paddingLeft: 34 }}>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 20, fontWeight: 'bold', color: '#A4DA22' }}>01</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 18, fontWeight: 600, color: '#F5F8F2', marginTop: 6 }}>Offline-first</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.6)', lineHeight: 1.6, marginTop: 4 }}>The classifier can run on the device. No signal required.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 20, fontWeight: 'bold', color: '#A4DA22' }}>02</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 18, fontWeight: 600, color: '#F5F8F2', marginTop: 6 }}>Guided capture</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.6)', lineHeight: 1.6, marginTop: 4 }}>Four gates reject a bad photo before any diagnosis runs.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 20, fontWeight: 'bold', color: '#A4DA22' }}>03</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 18, fontWeight: 600, color: '#F5F8F2', marginTop: 6 }}>Plain-language guidance</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.6)', lineHeight: 1.6, marginTop: 4 }}>Treatment, prevention, safety — not a bare class label.</Text>
+      </Box>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 20, fontWeight: 'bold', color: '#A4DA22' }}>04</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 18, fontWeight: 600, color: '#F5F8F2', marginTop: 6 }}>Scoped data</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.6)', lineHeight: 1.6, marginTop: 4 }}>A farmer sees their own scans. An officer sees one municipality.</Text>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(245,248,242,0.16)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>05 / 19</Text>
+  </Box>
+</Slide>

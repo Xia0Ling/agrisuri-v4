@@ -1,0 +1,76 @@
+<Slide style={{ width: 1280, height: 720, position: 'relative', overflow: 'hidden', background: 'linear-gradient(150deg, #0B1F14 0%, #0B1F14 56%, #056526 100%)', padding: 0 }}>
+
+  <svg width={620} height={660} viewBox='0 0 620 660' style={{ position: 'absolute', right: 0, top: 24 }}>
+    <g fill='none' stroke='#A4DA22' strokeWidth='1.6'>
+      <g transform='translate(120,230) scale(0.85)' opacity='0.42'>
+        <path d='M0 -230 C -92 -144, -114 12, 0 208 C 114 12, 92 -144, 0 -230 Z' />
+        <path d='M0 -206 L 0 198' opacity='0.7' />
+        <path d='M0 -140 C -34 -126, -54 -98, -62 -62' opacity='0.6' />
+        <path d='M0 -140 C 34 -126, 54 -98, 62 -62' opacity='0.6' />
+      </g>
+      <g transform='translate(400,330) scale(1)' opacity='0.6'>
+        <path d='M0 -230 C -92 -144, -114 12, 0 208 C 114 12, 92 -144, 0 -230 Z' />
+        <path d='M0 -206 L 0 198' opacity='0.7' />
+        <path d='M0 -140 C -34 -126, -54 -98, -62 -62' opacity='0.6' />
+        <path d='M0 -140 C 34 -126, 54 -98, 62 -62' opacity='0.6' />
+        <path d='M0 -60 C -36 -46, -58 -16, -68 22' opacity='0.6' />
+        <path d='M0 -60 C 36 -46, 58 -16, 68 22' opacity='0.6' />
+      </g>
+      <g transform='translate(250,520) scale(0.55)' opacity='0.34'>
+        <path d='M0 -230 C -92 -144, -114 12, 0 208 C 114 12, 92 -144, 0 -230 Z' />
+        <path d='M0 -206 L 0 198' opacity='0.7' />
+      </g>
+      <circle cx='400' cy='330' r='72' opacity='0.4' />
+      <path d='M450 380 L 508 438' strokeWidth='3' opacity='0.4' />
+    </g>
+  </svg>
+
+  <Box style={{ position: 'absolute', left: 700, top: 436, width: 300 }}>
+    <Box style={{ width: 44, height: 2, background: '#A4DA22', marginBottom: 16 }} />
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 11, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.2 }}>PILOT SITE</Text>
+    <Text style={{ fontFamily: 'Georgia', fontSize: 28, fontWeight: 'bold', color: '#F5F8F2', marginTop: 8 }}>Peñaranda</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.6)', marginTop: 6 }}>Nueva Ecija · 10 barangays</Text>
+  </Box>
+
+  <Box style={{ position: 'absolute', left: 72, top: 56, width: 600, height: 608, justifyContent: 'space-between' }}>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <Image src='assets/logo.png' style={{ width: 40, height: 40 }} />
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 15, fontWeight: 600, color: '#F5F8F2', letterSpacing: 3 }}>AGRISURI PH</Text>
+    </Box>
+
+    <Box>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.6 }}>PRODUCT SCOPE &amp; FEATURES</Text>
+      <Text style={{ fontFamily: 'Georgia', fontSize: 82, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1.05, letterSpacing: -1, marginTop: 16 }}>AgriSuri PH</Text>
+      <Box style={{ width: 96, height: 3, background: '#A4DA22', marginTop: 24, marginBottom: 24 }} />
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 20, color: 'rgba(245,248,242,0.78)', lineHeight: 1.6, width: 590 }}>
+        A crop-disease triage tool for tomato and palay farmers in Peñaranda, Nueva Ecija. One photo in, a plain-language reading out — with or without a data connection.
+      </Text>
+
+      <Box style={{ flexDirection: 'row', gap: 40, marginTop: 44 }}>
+        <Box style={{ width: 118 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 38, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1 }}>2</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.58)', marginTop: 8, lineHeight: 1.4 }}>crops supported</Text>
+        </Box>
+        <Box style={{ width: 118 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 38, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1 }}>14</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.58)', marginTop: 8, lineHeight: 1.4 }}>disease classes</Text>
+        </Box>
+        <Box style={{ width: 118 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 38, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1 }}>3</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.58)', marginTop: 8, lineHeight: 1.4 }}>account roles</Text>
+        </Box>
+        <Box style={{ width: 118 }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 38, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1 }}>0</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.58)', marginTop: 8, lineHeight: 1.4 }}>bars of signal required</Text>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box style={{ borderTop: '1px solid rgba(245,248,242,0.18)', paddingTop: 18, flexDirection: 'row', justifyContent: 'space-between', width: 600 }}>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.5)' }}>Product walkthrough — scope, features, limits</Text>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.5)' }}>19 pages</Text>
+    </Box>
+
+  </Box>
+</Slide>

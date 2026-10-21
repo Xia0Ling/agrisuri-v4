@@ -1,0 +1,72 @@
+<Slide style={{ width: 1280, height: 720, padding: '20px 72px 0px 72px', background: '#0B1F14', position: 'relative' }}>
+
+  <Box style={{ height: 108, justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.4 }}>EVIDENCE</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 34, fontWeight: 700, color: '#F5F8F2', letterSpacing: -0.6, marginTop: 8 }}>The mode changes the accuracy</Text>
+  </Box>
+
+  <Box style={{ height: 532, flexDirection: 'row', gap: 44 }}>
+
+    <Box style={{ width: 640 }}>
+      <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: 84, height: 366, borderBottom: '1px solid rgba(245,248,242,0.22)' }}>
+
+        <Box style={{ alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 34, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1, marginBottom: 10 }}>75%</Text>
+          <Box style={{ width: 132, height: 236, background: 'linear-gradient(180deg, #A4DA22 0%, #056526 100%)', borderTopLeftRadius: 6, borderTopRightRadius: 6 }} />
+        </Box>
+
+        <Box style={{ alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'Georgia', fontSize: 34, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1, marginBottom: 10 }}>98%</Text>
+          <Box style={{ width: 132, height: 308, background: 'linear-gradient(180deg, #A4DA22 0%, #056526 100%)', borderTopLeftRadius: 6, borderTopRightRadius: 6 }} />
+        </Box>
+
+      </Box>
+
+      <Box style={{ flexDirection: 'row', justifyContent: 'center', gap: 84, marginTop: 12 }}>
+        <Box style={{ width: 132, alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 600, color: '#F5F8F2' }}>Offline</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.5)' }}>on-device model</Text>
+        </Box>
+        <Box style={{ width: 132, alignItems: 'center' }}>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, fontWeight: 600, color: '#F5F8F2' }}>Online</Text>
+          <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.5)' }}>gateway model</Text>
+        </Box>
+      </Box>
+
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.45)', marginTop: 18 }}>
+        Classification accuracy on the same 14-class label set, from the project's validation run. Percent of test images classified correctly.
+      </Text>
+    </Box>
+
+    <Box style={{ flex: 1, justifyContent: 'space-between' }}>
+
+      <Box>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 104, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1, letterSpacing: -3 }}>23</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 17, fontWeight: 600, color: '#F5F8F2', marginTop: 6 }}>percentage points between the two paths</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: 'rgba(245,248,242,0.62)', lineHeight: 1.7, marginTop: 12 }}>
+          The on-device model is smaller and cheaper to run. The gateway calls a hosted model. That difference is the whole trade-off in one number.
+        </Text>
+      </Box>
+
+      <Box style={{ borderTop: '1px solid rgba(245,248,242,0.18)', paddingTop: 14 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: '#A4DA22', letterSpacing: 1.6 }}>WHAT THIS ESTABLISHES</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.65, marginTop: 6 }}>
+          Both paths can carry the same 14 classes end to end, and the online path is the more accurate of the two.
+        </Text>
+      </Box>
+
+      <Box style={{ borderTop: '1px solid rgba(245,248,242,0.18)', paddingTop: 14 }}>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, fontWeight: 600, color: 'rgba(245,248,242,0.5)', letterSpacing: 1.6 }}>WHAT IT DOES NOT</Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.62)', lineHeight: 1.65, marginTop: 6 }}>
+          Field accuracy across a whole season, or that either figure survives a farmer's phone in poor light. No error bars, no significance claim — the sample does not support one.
+        </Text>
+      </Box>
+
+    </Box>
+  </Box>
+
+  <Box style={{ height: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 16, borderTop: '1px solid rgba(245,248,242,0.16)' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>AgriSuri PH · Product Scope</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.45)' }}>17 / 19</Text>
+  </Box>
+</Slide>

@@ -1,0 +1,23 @@
+<Slide style={{ width: 1280, height: 720, position: 'relative', overflow: 'hidden', background: 'linear-gradient(150deg, #0B1F14 0%, #0B1F14 55%, #056526 100%)', padding: 0 }}>
+
+  <Box style={{ position: 'absolute', left: 0, top: 0, width: 1280, height: 720, alignItems: 'center', justifyContent: 'center' }}>
+
+    <Image src='assets/logo.png' style={{ width: 56, height: 56 }} />
+
+    <Text style={{ fontFamily: 'Georgia', fontSize: 62, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1.2, letterSpacing: -1, marginTop: 34, textAlign: 'center' }}>
+      Two crops. One photo.<br />No signal required.
+    </Text>
+
+    <Box style={{ width: 96, height: 3, background: '#A4DA22', marginTop: 30, marginBottom: 26 }} />
+
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 18, color: 'rgba(245,248,242,0.7)', textAlign: 'center', width: 720, lineHeight: 1.6 }}>
+      Tomato and palay, in Peñaranda, Nueva Ecija — with a preliminary reading that says so, and a refusal to guess when it cannot tell.
+    </Text>
+
+  </Box>
+
+  <Box style={{ position: 'absolute', left: 72, right: 72, bottom: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(245,248,242,0.2)', paddingTop: 16 }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.5)', letterSpacing: 2 }}>AGRISURI PH · PRODUCT SCOPE</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.5)' }}>19 / 19</Text>
+  </Box>
+</Slide>

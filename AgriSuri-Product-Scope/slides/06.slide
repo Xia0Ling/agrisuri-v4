@@ -1,0 +1,34 @@
+<Slide style={{ width: 1280, height: 720, position: 'relative', overflow: 'hidden', background: '#0B1F14', padding: 0 }}>
+
+  <Box style={{ position: 'absolute', right: 0, top: 0, width: 500, height: 720, background: '#056526', alignItems: 'center', justifyContent: 'center' }}>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: 'rgba(245,248,242,0.6)', letterSpacing: 3 }}>CHAPTER</Text>
+    <Text style={{ fontFamily: 'Georgia', fontSize: 230, fontWeight: 'bold', color: '#A4DA22', lineHeight: 1, letterSpacing: 2, marginTop: 4 }}>02</Text>
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: 'rgba(245,248,242,0.6)', letterSpacing: 3, marginTop: 10 }}>OF 04</Text>
+  </Box>
+
+  <Box style={{ position: 'absolute', left: 72, top: 0, width: 560, height: 720, justifyContent: 'center' }}>
+
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, fontWeight: 600, color: '#A4DA22', letterSpacing: 2.6 }}>HOW A SCAN WORKS</Text>
+    <Text style={{ fontFamily: 'Georgia', fontSize: 62, fontWeight: 'bold', color: '#F5F8F2', lineHeight: 1.1, letterSpacing: -0.8, marginTop: 16 }}>Five gates<br />before a guess</Text>
+    <Box style={{ width: 88, height: 3, background: '#A4DA22', marginTop: 26, marginBottom: 24 }} />
+    <Text style={{ fontFamily: 'Segoe UI', fontSize: 19, color: 'rgba(245,248,242,0.72)', lineHeight: 1.65, width: 480 }}>
+      Every stage can end the scan. A bad photo is cheaper to reject than a wrong label is to trust.
+    </Text>
+
+    <Box style={{ flexDirection: 'row', gap: 18, marginTop: 40 }}>
+      <Box style={{ width: 3, background: '#A4DA22' }} />
+      <Box style={{ flex: 1 }}>
+        <Text style={{ fontFamily: 'Georgia', fontSize: 21, fontStyle: 'italic', color: '#F5F8F2', lineHeight: 1.55, width: 460 }}>
+          The most common failure in crop apps is not a weak model. It is a model that was asked a question it could not answer.
+        </Text>
+        <Text style={{ fontFamily: 'Segoe UI', fontSize: 13, color: 'rgba(245,248,242,0.55)', marginTop: 12 }}>Why the gates exist at all</Text>
+      </Box>
+    </Box>
+
+    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 40, borderTop: '1px solid rgba(245,248,242,0.22)', paddingTop: 16 }}>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 12, color: 'rgba(245,248,242,0.55)', letterSpacing: 2 }}>UP NEXT</Text>
+      <Text style={{ fontFamily: 'Segoe UI', fontSize: 14, color: '#F5F8F2' }}>The pipeline · pages 07–09</Text>
+    </Box>
+
+  </Box>
+</Slide>

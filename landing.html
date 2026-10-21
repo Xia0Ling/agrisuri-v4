@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSuri — Crop disease detection for Filipino farmers</title>
+    <meta name="description" content="Photograph a tomato or palay leaf and get an instant, plain-language reading with treatment and prevention guidance.">
+    <link rel="stylesheet" href="style/landing.css">
+    <link rel="apple-touch-icon" href="assets/AgriSuri_Favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#056526">
+    <link rel="icon" type="image/png" href="assets/AgriSuri_Favicon.png">
+</head>
+<body>
+
+<header class="nav" id="nav">
+    <div class="nav__inner">
+        <a class="brand" href="landing.html">
+            <img src="assets/AgriSuri_Logo.png" alt="" class="brand__logo">
+            <span class="brand__name">AgriSuri</span>
+        </a>
+        <nav class="nav__links">
+            <a href="#how" data-i18n="land.nav.how">How it works</a>
+            <a href="#who" data-i18n="land.nav.who">Who it's for</a>
+            <a href="#limits" data-i18n="land.nav.limits">What it can't do</a>
+        </nav>
+        <div class="nav__actions">
+            <button class="lang" id="lang-btn" type="button" aria-label="Switch language">
+                <span id="lang-label">FIL</span>
+            </button>
+            <a href="auth.html" class="btn btn--ghost" data-i18n="land.nav.signin">Sign in</a>
+            <a href="auth.html" class="btn btn--primary" data-i18n="land.nav.start">Get started</a>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="hero__inner">
+            <p class="eyebrow reveal" data-i18n="land.hero.eyebrow">Peñaranda, Nueva Ecija</p>
+            <h1 class="reveal"><span data-i18n="land.hero.title1">Find the disease</span><br><span data-i18n="land.hero.title2">before it spreads.</span></h1>
+            <p class="hero__lead reveal" data-i18n="land.hero.lead">
+                Take one clear photo of a leaf. AgriSuri checks the image, confirms it is
+                actually a crop, then names the most likely disease and tells you what to do next.
+            </p>
+
+            <div class="hero__cta reveal">
+                <a href="auth.html" class="btn btn--primary btn--lg">
+                    <span data-i18n="land.hero.cta">Get started</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#how" class="btn btn--text" data-i18n="land.hero.how">See how it works</a>
+            </div>
+
+            <ul class="hero__meta reveal">
+                <li><b>2</b><span data-i18n="land.meta.crops">crops supported</span></li>
+                <li><b>1</b><span data-i18n="land.meta.photo">photo per scan</span></li>
+                <li><b>Free</b><span data-i18n="land.meta.free">for farmers</span></li>
+            </ul>
+        </div>
+
+        <!-- ================= animated plant ================= -->
+        <div class="hero__art" id="hero-art" aria-hidden="true">
+            <div class="frame" id="hero-frame">
+                <div class="frame__glow"></div>
+                <div class="frame__rings"><span></span><span></span><span></span></div>
+
+                <svg class="plant" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="stemGrad" x1="0" y1="1" x2="0" y2="0">
+                            <stop offset="0%" stop-color="#2c6236"/>
+                            <stop offset="100%" stop-color="#5aa662"/>
+                        </linearGradient>
+                        <linearGradient id="leafGrad" x1="0" y1="0" x2="0.8" y2="1">
+                            <stop offset="0%" stop-color="#4aa85e"/>
+                            <stop offset="55%" stop-color="#2f8a48"/>
+                            <stop offset="100%" stop-color="#1a6335"/>
+                        </linearGradient>
+                        <linearGradient id="leafGradDark" x1="0" y1="0" x2="0.8" y2="1">
+                            <stop offset="0%" stop-color="#3c9450"/>
+                            <stop offset="100%" stop-color="#14522b"/>
+                        </linearGradient>
+                        <radialGradient id="fruitGrad" cx="34%" cy="28%" r="72%">
+                            <stop offset="0%" stop-color="#f07a63"/>
+                            <stop offset="45%" stop-color="#cf4030"/>
+                            <stop offset="100%" stop-color="#8d2015"/>
+                        </radialGradient>
+                        <radialGradient id="soilGrad" cx="50%" cy="30%">
+                            <stop offset="0%" stop-color="#9a7754"/>
+                            <stop offset="100%" stop-color="#5a4029"/>
+                        </radialGradient>
+                        <radialGradient id="soilGlow" cx="50%" cy="50%">
+                            <stop offset="0%" stop-color="#7fd08c" stop-opacity=".55"/>
+                            <stop offset="100%" stop-color="#7fd08c" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+
+                    <ellipse class="ground-glow" cx="150" cy="332" rx="120" ry="34" fill="url(#soilGlow)"/>
+                    <ellipse cx="150" cy="334" rx="96" ry="20" fill="url(#soilGrad)"/>
+                    <ellipse cx="150" cy="328" rx="96" ry="18" fill="#7a5c3e" opacity=".55"/>
+                    <ellipse cx="126" cy="322" rx="16" ry="4" fill="#a8875f" opacity=".5"/>
+
+                    <g class="plant__sway">
+                        <path class="stem" d="M150 330 C 145 282, 156 232, 150 184 C 145 148, 153 116, 150 86"
+                              fill="none" stroke="url(#stemGrad)" stroke-width="7" stroke-linecap="round"/>
+
+                        <g transform="translate(150,304) scale(.78)">
+                            <path class="leaf leaf--left" style="--d:.30s" d="M0 0 C -20 -13 -54 -19 -80 -8 C -58 15 -24 15 0 0 Z" fill="url(#leafGradDark)"/>
+                            <path class="vein" style="--d:.34s" d="M0 0 C -24 -3 -52 -6 -74 -5"/>
+                        </g>
+                        <g transform="translate(150,288) scale(.84)">
+                            <path class="leaf leaf--right" style="--d:.42s" d="M0 0 C 20 -13 54 -19 80 -8 C 58 15 24 15 0 0 Z" fill="url(#leafGrad)"/>
+                            <path class="vein" style="--d:.46s" d="M0 0 C 24 -3 52 -6 74 -5"/>
+                        </g>
+                        <g transform="translate(150,262) scale(.92)">
+                            <path class="leaf leaf--left" style="--d:.54s" d="M0 0 C -20 -13 -54 -19 -80 -8 C -58 15 -24 15 0 0 Z" fill="url(#leafGrad)"/>
+                            <path class="vein" style="--d:.58s" d="M0 0 C -24 -3 -52 -6 -74 -5"/>
+                        </g>
+                        <g transform="translate(150,246) scale(.98)">
+                            <path class="leaf leaf--right" style="--d:.66s" d="M0 0 C 20 -13 54 -19 80 -8 C 58 15 24 15 0 0 Z" fill="url(#leafGradDark)"/>
+                            <path class="vein" style="--d:.70s" d="M0 0 C 24 -3 52 -6 74 -5"/>
+                        </g>
+                        <g transform="translate(150,220) scale(1)">
+                            <path class="leaf leaf--left" style="--d:.78s" d="M0 0 C -20 -13 -54 -19 -80 -8 C -58 15 -24 15 0 0 Z" fill="url(#leafGrad)"/>
+                            <path class="vein" style="--d:.82s" d="M0 0 C -24 -3 -52 -6 -74 -5"/>
+                        </g>
+                        <g transform="translate(150,204) scale(.95)">
+                            <path class="leaf leaf--right" style="--d:.90s" d="M0 0 C 20 -13 54 -19 80 -8 C 58 15 24 15 0 0 Z" fill="url(#leafGrad)"/>
+                            <path class="vein" style="--d:.94s" d="M0 0 C 24 -3 52 -6 74 -5"/>
+                        </g>
+                        <g transform="translate(150,178) scale(.86)">
+                            <path class="leaf leaf--left" style="--d:1.02s" d="M0 0 C -20 -13 -54 -19 -80 -8 C -58 15 -24 15 0 0 Z" fill="url(#leafGradDark)"/>
+                            <path class="vein" style="--d:1.06s" d="M0 0 C -24 -3 -52 -6 -74 -5"/>
+                        </g>
+                        <g transform="translate(150,164) scale(.8)">
+                            <path class="leaf leaf--right" style="--d:1.14s" d="M0 0 C 20 -13 54 -19 80 -8 C 58 15 24 15 0 0 Z" fill="url(#leafGrad)"/>
+                            <path class="vein" style="--d:1.18s" d="M0 0 C 24 -3 52 -6 74 -5"/>
+                        </g>
+                        <g transform="translate(150,140) scale(.62)">
+                            <path class="leaf leaf--left" style="--d:1.26s" d="M0 0 C -20 -13 -54 -19 -80 -8 C -58 15 -24 15 0 0 Z" fill="url(#leafGrad)"/>
+                        </g>
+                        <g transform="translate(150,128) scale(.58)">
+                            <path class="leaf leaf--right" style="--d:1.34s" d="M0 0 C 20 -13 54 -19 80 -8 C 58 15 24 15 0 0 Z" fill="url(#leafGradDark)"/>
+                        </g>
+
+                        <g transform="translate(112,276)">
+                            <circle class="fruit" style="--d:1.46s" r="17" fill="url(#fruitGrad)"/>
+                            <path class="fruit__calyx" style="--d:1.52s" d="M0 -17 l -7 -6 M0 -17 l 7 -6 M0 -17 l 0 -8" stroke="#2f8a48" stroke-width="3" stroke-linecap="round" fill="none"/>
+                        </g>
+                        <g transform="translate(194,232)">
+                            <circle class="fruit" style="--d:1.56s" r="20" fill="url(#fruitGrad)"/>
+                            <path class="fruit__calyx" style="--d:1.62s" d="M0 -20 l -8 -7 M0 -20 l 8 -7 M0 -20 l 0 -9" stroke="#2f8a48" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+                        </g>
+                        <g transform="translate(124,198)">
+                            <circle class="fruit" style="--d:1.66s" r="13" fill="url(#fruitGrad)"/>
+                            <path class="fruit__calyx" style="--d:1.72s" d="M0 -13 l -5 -5 M0 -13 l 5 -5 M0 -13 l 0 -6" stroke="#2f8a48" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                        </g>
+                    </g>
+
+                    <circle class="pollen" cx="88" cy="250" r="3" style="--delay:0s;   --dur:7s"/>
+                    <circle class="pollen" cx="214" cy="196" r="2.4" style="--delay:1.4s; --dur:8s"/>
+                    <circle class="pollen" cx="72"  cy="180" r="2"   style="--delay:2.8s; --dur:6.5s"/>
+                    <circle class="pollen" cx="232" cy="268" r="2.8" style="--delay:.7s;  --dur:9s"/>
+                    <circle class="pollen" cx="132" cy="120" r="2.2" style="--delay:3.6s; --dur:7.5s"/>
+                    <circle class="pollen" cx="196" cy="146" r="1.8" style="--delay:4.8s; --dur:6s"/>
+                </svg>
+
+                <div class="frame__scan"></div>
+                <span class="frame__corner tl"></span>
+                <span class="frame__corner tr"></span>
+                <span class="frame__corner bl"></span>
+                <span class="frame__corner br"></span>
+
+                <div class="frame__chip frame__chip--ok"><span class="dot"></span> Leaf detected</div>
+                <div class="frame__chip frame__chip--bad"><span class="dot"></span> Blur — retake</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="strip" aria-label="How a scan is processed">
+        <div class="strip__item"><span>01</span> <em data-i18n="land.strip.1">Photo quality check</em></div>
+        <div class="strip__item"><span>02</span> <em data-i18n="land.strip.2">Crop validation</em></div>
+        <div class="strip__item"><span>03</span> <em data-i18n="land.strip.3">Disease inference</em></div>
+        <div class="strip__item"><span>04</span> <em data-i18n="land.strip.4">Guidance</em></div>
+    </section>
+
+    <section class="section" id="how">
+        <div class="section__head reveal">
+            <p class="eyebrow" data-i18n="land.how.eyebrow">How it works</p>
+            <h2 data-i18n="land.how.title">Four checks, in this order.</h2>
+            <p class="section__lead" data-i18n="land.how.lead">
+                Each step can stop the scan. A photo that fails a check is never turned into a
+                diagnosis — it is sent back for a better shot.
+            </p>
+        </div>
+
+        <ol class="steps">
+            <li class="reveal">
+                <span class="steps__num">01</span>
+                <h3 data-i18n="land.s1.t">Take the photo</h3>
+                <p data-i18n="land.s1.b">Centre the leaf, keep it well lit, and hold steady. The camera only opens when you tap the button.</p>
+            </li>
+            <li class="reveal">
+                <span class="steps__num">02</span>
+                <h3 data-i18n="land.s2.t">Quality gate</h3>
+                <p data-i18n="land.s2.b">Brightness, exposure, focus and texture are measured from the actual pixels. Too dark or too blurry, and you are asked again.</p>
+            </li>
+            <li class="reveal">
+                <span class="steps__num">03</span>
+                <h3 data-i18n="land.s3.t">Crop gate</h3>
+                <p data-i18n="land.s3.b">Green walls and grass textures get rejected before any disease model runs. Only real foliage goes forward.</p>
+            </li>
+            <li class="reveal">
+                <span class="steps__num">04</span>
+                <h3 data-i18n="land.s4.t">Result and guidance</h3>
+                <p data-i18n="land.s4.b">You get the leading disease, the alternatives, how confident the model is, and what to do — treatment, prevention and safety.</p>
+            </li>
+        </ol>
+    </section>
+
+    <section class="section section--alt" id="who">
+        <div class="section__head reveal">
+            <p class="eyebrow" data-i18n="land.who.eyebrow">Who it's for</p>
+            <h2 data-i18n="land.who.title">Three roles, three levels of access.</h2>
+        </div>
+
+        <div class="roles">
+            <article class="role reveal">
+                <h3 data-i18n="land.farmer.t">Farmer</h3>
+                <p data-i18n="land.farmer.b">Scan crops, read the guidance, and keep a personal record of every result. You see your own data and nothing else.</p>
+                <ul>
+                    <li data-i18n="land.farmer.l1">Mobile-first scanning</li>
+                    <li data-i18n="land.farmer.l2">Personal scan history</li>
+                    <li data-i18n="land.farmer.l3">Daily, weekly and monthly trends</li>
+                </ul>
+            </article>
+
+            <article class="role reveal">
+                <h3 data-i18n="land.da.t">DA Officer</h3>
+                <p data-i18n="land.da.b">Watch disease pressure across the barangays inside one assigned municipality. Nothing outside that boundary.</p>
+                <ul>
+                    <li data-i18n="land.da.l1">Prevalence by barangay and crop</li>
+                    <li data-i18n="land.da.l2">Hotspot detection</li>
+                    <li data-i18n="land.da.l3">Jurisdiction-scoped records</li>
+                </ul>
+            </article>
+
+            <article class="role reveal">
+                <h3 data-i18n="land.admin.t">Admin</h3>
+                <p data-i18n="land.admin.b">Run the platform: accounts, role assignments, platform-wide analytics and the audit trail.</p>
+                <ul>
+                    <li data-i18n="land.admin.l1">Account and role management</li>
+                    <li data-i18n="land.admin.l2">Enforced account limits</li>
+                    <li data-i18n="land.admin.l3">Full audit history</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="limits">
+        <div class="section__head reveal">
+            <p class="eyebrow" data-i18n="land.limits.eyebrow">Honest limits</p>
+            <h2 data-i18n="land.limits.title">What this tool does not claim.</h2>
+        </div>
+
+        <div class="limits">
+            <div class="limit reveal">
+                <h4 data-i18n="land.lim1.t">It is not a diagnosis</h4>
+                <p data-i18n="land.lim1.b">AI output is a preliminary reading. Confirm with your municipal agriculturist before spending on treatment.</p>
+            </div>
+            <div class="limit reveal">
+                <h4 data-i18n="land.lim2.t">Only two crops</h4>
+                <p data-i18n="land.lim2.b">Tomato and palay. Other crops are rejected rather than guessed at.</p>
+            </div>
+            <div class="limit reveal">
+                <h4 data-i18n="land.lim3.t">Uncertain results are not saved as cases</h4>
+                <p data-i18n="land.lim3.b">If the model is not confident, you get a retry prompt — not a label on your record.</p>
+            </div>
+            <div class="limit reveal">
+                <h4 data-i18n="land.lim4.t">Your photos are not training data</h4>
+                <p data-i18n="land.lim4.b">Images stay in private storage. Nothing is used to train a model unless you explicitly opt in.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-band">
+        <div class="cta-band__inner reveal">
+            <h2 data-i18n="land.cta.title">Start with one leaf.</h2>
+            <p data-i18n="land.cta.lead">Registration takes under a minute. All you need is your barangay.</p>
+            <a href="auth.html" class="btn btn--primary btn--lg" data-i18n="land.cta.btn">Get started</a>
+        </div>
+    </section>
+
+</main>
+
+<footer class="foot">
+    <div class="foot__brand">
+        <img src="assets/AgriSuri_Logo.png" alt="">
+        <span>AgriSuri</span>
+    </div>
+    <p data-i18n="land.foot.1">Crop disease detection for Peñaranda.</p>
+    <p class="foot__fine" data-i18n="land.foot.2">Weather data by Open-Meteo. Disease guidance from PhilRice, IRRI and Cornell IPM references.</p>
+</footer>
+
+<script src="script/i18n.js"></script>
+<script>
+(function () {
+  I18N.apply();
+
+  const langLabel = document.getElementById('lang-label');
+  const paintLang = () => { langLabel.textContent = I18N.lang === 'en' ? 'FIL' : 'EN'; };
+  paintLang();
+
+  document.getElementById('lang-btn').addEventListener('click', () => {
+    I18N.toggle();
+    paintLang();
+  });
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = document.querySelectorAll('.reveal');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (i) { i.classList.add('is-visible'); });
+  } else {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    items.forEach(function (item, i) {
+      item.style.transitionDelay = Math.min(i * 55, 260) + 'ms';
+      io.observe(item);
+    });
+  }
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('is-scrolled', window.scrollY > 12);
+  }, { passive: true });
+
+  /* Pointer parallax on the hero frame. Transform only, so it stays on the
+     compositor and never reflows the text column. */
+  const art = document.getElementById('hero-art');
+  const frame = document.getElementById('hero-frame');
+  const fine = window.matchMedia('(pointer: fine)').matches;
+
+  if (art && frame && !reduce && fine) {
+    let raf = 0;
+    art.addEventListener('pointermove', function (e) {
+      const r = art.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        frame.style.setProperty('--tilt-x', (y * -5).toFixed(2) + 'deg');
+        frame.style.setProperty('--tilt-y', (x * 7).toFixed(2) + 'deg');
+        frame.style.setProperty('--shift-x', (x * 10).toFixed(1) + 'px');
+        frame.style.setProperty('--shift-y', (y * 10).toFixed(1) + 'px');
+        raf = 0;
+      });
+    });
+
+    art.addEventListener('pointerleave', function () {
+      frame.style.setProperty('--tilt-x', '0deg');
+      frame.style.setProperty('--tilt-y', '0deg');
+      frame.style.setProperty('--shift-x', '0px');
+      frame.style.setProperty('--shift-y', '0px');
+    });
+  }
+
+  /* Growth sequence. `plant--animate` hides the parts first; `is-grown` then
+     reveals them with their staggered delays, so the plant draws itself up.
+     Without JS the plant is simply already grown — no blank hero. */
+  const plant = document.querySelector('.plant');
+  if (plant && !reduce) {
+    plant.classList.add('plant--animate');
+
+    if ('IntersectionObserver' in window) {
+      const replay = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          plant.classList.toggle('is-grown', entry.isIntersecting);
+        });
+      }, { threshold: 0.25 });
+      replay.observe(plant);
+    } else {
+      requestAnimationFrame(function () { plant.classList.add('is-grown'); });
+    }
+  } else if (plant) {
+    plant.classList.add('is-grown');
+  }
+})();
+</script>
+
+</body>
+</html>
