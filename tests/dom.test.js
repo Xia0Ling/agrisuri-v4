@@ -478,8 +478,24 @@ test('admin console renders KPIs and exposes administration sections', async () 
   dom.window.close();
 });
 
-test('DA officer console hides administration and reports jurisdiction scope', async () => {
-  const dom = loadPage('dashboard.html', staffClient('da'));
+test('accounts screen reports the live caps, not stale hardcoded ones', async () => {
+  const dom = loadPage('dashboard.html', staffClient('admin'));
+  const { window } = dom;
+  await wait(1100);
+
+  const doc = window.document;
+  doc.querySelector('[data-view="accounts"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(700);
+
+  const text = doc.getElementById('cap-text').textContent;
+  assert.match(text, /of 50 farmer accounts used/, `farmer cap missing: ${text}`);
+  assert.match(text, /of 15 admin accounts used/, `admin cap missing: ${text}`);
+  assert.match(text, /of 15 DA Officer accounts used/, `DA cap missing: ${text}`);
+
+  dom.window.close();
+});
+
+test('DA officer console hides administration and reports jurisdiction scope', async () => {  const dom = loadPage('dashboard.html', staffClient('da'));
   const { window } = dom;
   await wait(700);
 
@@ -553,10 +569,13 @@ test('auth page loads barangays and switches between farmer and staff sign-up', 
   assert.equal(doc.getElementById('group-code').classList.contains('hidden'), false);
   assert.equal(doc.getElementById('group-brgy').classList.contains('hidden'), true);
   assert.equal(doc.getElementById('input-code').required, true);
+  // The key is per role, so the label must name the selected one.
+  assert.match(doc.getElementById('label-code').textContent, /Admin Officer/);
 
   doc.getElementById('tab-da').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
   await wait(40);
   assert.equal(doc.getElementById('tab-da').classList.contains('active'), true);
+  assert.match(doc.getElementById('label-code').textContent, /DA Officer/);
 
   // Turning it off returns to the plain farmer login.
   doc.getElementById('dev-toggle').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));

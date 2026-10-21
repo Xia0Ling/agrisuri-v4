@@ -18,6 +18,10 @@ let staffRole = 'admin';
 
 const el = (id) => document.getElementById(id);
 
+/* Each staff role has its own one-time key, so the field must say which one. */
+const ROLE_LABEL = { admin: 'auth.keyForAdmin', da: 'auth.keyForDa' };
+const ROLE_PROMPT = { admin: 'auth.keyPromptAdmin', da: 'auth.keyPromptDa' };
+
 /* ---------------------------------------------------------------------------
  * Toast
  * ------------------------------------------------------------------------ */
@@ -121,6 +125,11 @@ function render() {
   el('input-brgy').required = registering && !staff;
   el('input-code').required = registering && staff;
 
+  // The key is issued per role, so the label follows the selected tab.
+  el('label-code').textContent = staff
+    ? t(ROLE_LABEL[staffRole] || 'auth.accessCode')
+    : t('auth.accessCode');
+
   el('input-password').setAttribute('autocomplete', registering ? 'new-password' : 'current-password');
 
   const key = registering ? (staff ? 'auth.submitStaff' : 'auth.submitRegister') : 'auth.submitLogin';
@@ -132,12 +141,24 @@ function render() {
   el('dev-label').textContent = devMode ? t('auth.devModeOn') : t('auth.devMode');
 }
 
+/**
+ * Selecting a role means "I hold the key for this role". Put the cursor in the
+ * field and say which key is expected, rather than leaving the user to guess.
+ * The field is cleared because an Admin key is not a DA key.
+ */
+function promptStaffKey() {
+  const input = el('input-code');
+  input.value = '';
+  input.focus();
+  showToast(t(ROLE_PROMPT[staffRole] || 'auth.keyPromptAdmin'));
+}
+
 function bindEvents() {
   el('tab-login').onclick = () => { mode = 'login'; render(); };
   el('tab-register').onclick = () => { mode = 'register'; render(); };
 
-  el('tab-admin').onclick = () => { staffRole = 'admin'; render(); };
-  el('tab-da').onclick = () => { staffRole = 'da'; render(); };
+  el('tab-admin').onclick = () => { staffRole = 'admin'; render(); promptStaffKey(); };
+  el('tab-da').onclick = () => { staffRole = 'da'; render(); promptStaffKey(); };
 
   document.querySelectorAll('.toggle-password-btn').forEach((btn) => {
     btn.onclick = () => togglePassword(btn.dataset.toggle, btn);
@@ -154,7 +175,7 @@ function bindEvents() {
     if (devMode) mode = 'register';
     else { mode = 'login'; staffRole = 'admin'; }
     render();
-    if (devMode) showToast(t('auth.devHint'));
+    if (devMode) promptStaffKey();
   };
 
   el('lang-btn').onclick = () => {

@@ -307,11 +307,16 @@ const Store = (() => {
   }
 
   async function accountCounts() {
-    const [admins, officers] = await Promise.all([
+    const [farmers, admins, officers] = await Promise.all([
+      db.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'farmer'),
       db.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin'),
       db.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'da'),
     ]);
-    return { admins: admins.count || 0, officers: officers.count || 0 };
+    return {
+      farmers: farmers.count || 0,
+      admins: admins.count || 0,
+      officers: officers.count || 0,
+    };
   }
 
   return {

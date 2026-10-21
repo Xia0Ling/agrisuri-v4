@@ -24,7 +24,7 @@ const Staff = (() => {
     scanBarangay: '',
     jurisdictions: [],
     barangays: [],
-    accounts: { admins: 0, officers: 0 },
+    accounts: { farmers: 0, admins: 0, officers: 0 },
   };
 
   const PAGE_META = {
@@ -810,8 +810,11 @@ const Staff = (() => {
     try {
       const counts = await Store.accountCounts();
       state.accounts = counts;
+      const caps = APP.accountCaps;
       document.getElementById('cap-text').textContent =
-        `${counts.admins} of 6 admin accounts used · ${counts.officers} of 5 DA Officer accounts used. ` +
+        `${counts.farmers} of ${caps.farmer} farmer accounts used · ` +
+        `${counts.admins} of ${caps.admin} admin accounts used · ` +
+        `${counts.officers} of ${caps.da} DA Officer accounts used. ` +
         'Limits are enforced in the database, not in this screen.';
 
       const { rows } = await Store.listProfiles({ limit: 200 });

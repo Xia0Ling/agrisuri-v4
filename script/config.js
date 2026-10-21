@@ -70,6 +70,14 @@ const APP = {
   /* The pilot municipality. Used for copy and the weather fallback. */
   municipality: 'Peñaranda',
   province: 'Nueva Ecija',
+
+  /*
+   * Mirrors `enforce_role_cap` in sql/schema.sql. The database is the actual
+   * control — this copy exists only so the admin screen can say "3 of 50 used"
+   * without a second query. If you change one, change both, and the assertion
+   * in tests/integrity.test.js will fail if they drift.
+   */
+  accountCaps: { farmer: 50, admin: 15, da: 15 },
 };
 
 /* ============================================================================

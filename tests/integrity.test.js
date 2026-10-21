@@ -223,6 +223,21 @@ test('account caps are 50 farmers, 15 admins and 15 DA officers', () => {
   assert.match(fn, /role = 'da'[\s\S]{0,200}v_count >= 15/, 'DA cap must be 15');
 });
 
+test('the caps shown in the UI match the caps enforced in the database', () => {
+  const cfg = read('script/config.js');
+  const m = cfg.match(/accountCaps:\s*\{\s*farmer:\s*(\d+),\s*admin:\s*(\d+),\s*da:\s*(\d+)\s*\}/);
+  assert.ok(m, 'script/config.js must declare APP.accountCaps');
+
+  const fn = SQL.slice(
+    SQL.indexOf('create or replace function public.enforce_role_cap'),
+    SQL.indexOf('drop trigger if exists role_cap'),
+  );
+
+  assert.match(fn, new RegExp(`role = 'farmer'[\\s\\S]{0,200}v_count >= ${m[1]}`), 'farmer cap drifted');
+  assert.match(fn, new RegExp(`role = 'admin'[\\s\\S]{0,200}v_count >= ${m[2]}`), 'admin cap drifted');
+  assert.match(fn, new RegExp(`role = 'da'[\\s\\S]{0,200}v_count >= ${m[3]}`), 'DA cap drifted');
+});
+
 test('sample data is client-side only and never touches the database', () => {
   const demo = read('script/demo.js');
   assert.doesNotMatch(demo, /\bdb\.(from|rpc|storage)\b/, 'demo.js must not call Supabase');
