@@ -19,6 +19,7 @@ const Farmer = (() => {
     historyPageSize: 10,
     crop: null,
     result: null,
+    lastScanId: null,
     busy: false,
     weather: null,
     barangays: [],
@@ -995,6 +996,9 @@ const Farmer = (() => {
     const save = host.querySelector('[data-save]');
     if (save) save.addEventListener('click', (e) => saveResult(result, file, e.currentTarget));
 
+    const fb = host.querySelector('[data-feedback]');
+    if (fb) bindFeedback(fb, result);
+
     requestAnimationFrame(() => {
       host.querySelectorAll('.dist__fill').forEach((el) => { el.style.width = `${el.dataset.pct}%`; });
     });
@@ -1180,6 +1184,21 @@ const Farmer = (() => {
           <button class="btn btn--ghost" type="button" data-again>${esc(t('scan.another'))}</button>
           <button class="btn btn--text" type="button" data-home>${esc(t('result.backHome'))}</button>
         </div>
+
+        ${result.demo ? '' : `
+        <div class="feedback" data-feedback hidden>
+          <p class="feedback__q">${esc(t('feedback.question'))}</p>
+          <div class="feedback__row" data-fb-row>
+            <button class="btn btn--sm btn--primary" type="button" data-fb="correct">${esc(t('feedback.yes'))}</button>
+            <button class="btn btn--sm btn--ghost" type="button" data-fb="wrong">${esc(t('feedback.no'))}</button>
+          </div>
+          <div class="feedback__wrong" data-fb-wrong hidden>
+            <label for="fb-code">${esc(t('feedback.actual'))}</label>
+            <select id="fb-code"></select>
+            <button class="btn btn--sm btn--primary" type="button" data-fb-send>${esc(t('feedback.send'))}</button>
+          </div>
+          <p class="feedback__done" data-fb-done hidden></p>
+        </div>`}
       </div>`;
   }
 
@@ -1222,7 +1241,8 @@ const Farmer = (() => {
     try {
       if (navigator.onLine) {
         const path = await Store.uploadImage(new File([blob], 'scan.jpg', { type: 'image/jpeg' }), state.me.id);
-        await Store.createScan({ ...payload, imagePath: path });
+        const scanId = await Store.createScan({ ...payload, imagePath: path });
+        state.lastScanId = scanId || null;
         toast(t('result.saved'), 'success');
       } else {
         await Net.enqueue({ userId: state.me.id, blob, payload, createdAt: Date.now() });
@@ -1230,12 +1250,65 @@ const Farmer = (() => {
         toast('Saved on this device. It will upload when you are back online.', 'warn', 5200);
       }
       btn.textContent = t('result.saved');
+      revealFeedback();
       await loadHome();
       if (state.view === 'history') loadHistory();
     } catch (err) {
       btn.disabled = false;
       btn.textContent = t('result.save');
       toast(`Could not save: ${err.message || 'unknown error'}`, 'error');
+    }
+  }
+
+  /*
+   * Feedback is keyed by scan_id, so it can only be collected once the scan
+   * exists on the server. An offline scan sits in the IndexedDB queue with no
+   * id yet, which is why the prompt stays hidden in that case.
+   */
+  function revealFeedback() {
+    const box = document.querySelector('[data-feedback]');
+    if (!box || !state.lastScanId) return;
+    box.hidden = false;
+  }
+
+  function bindFeedback(box, result) {
+    const select = box.querySelector('#fb-code');
+    const wrongBox = box.querySelector('[data-fb-wrong]');
+
+    Store.diseases()
+      .then((refs) => {
+        const rows = refs.filter((d) => d.crop_code === result.crop);
+        select.innerHTML = rows
+          .map((d) => `<option value="${esc(d.code)}">${esc(d.name)}</option>`)
+          .join('');
+      })
+      .catch(() => { select.innerHTML = ''; });
+
+    box.querySelector('[data-fb="correct"]').addEventListener('click', (e) => {
+      e.currentTarget.disabled = true;
+      sendFeedback(box, { verdict: 'correct' });
+    });
+
+    box.querySelector('[data-fb="wrong"]').addEventListener('click', () => {
+      wrongBox.hidden = false;
+    });
+
+    box.querySelector('[data-fb-send]').addEventListener('click', () => {
+      sendFeedback(box, { verdict: 'wrong', correctedCode: select.value });
+    });
+  }
+
+  async function sendFeedback(box, payload) {
+    if (!state.lastScanId) return;
+    try {
+      await Store.saveFeedback({ scanId: state.lastScanId, ...payload });
+      box.querySelector('[data-fb-row]').hidden = true;
+      box.querySelector('[data-fb-wrong]').hidden = true;
+      const done = box.querySelector('[data-fb-done]');
+      done.hidden = false;
+      done.textContent = t('feedback.thanks');
+    } catch (err) {
+      toast(t('feedback.failed'), 'error');
     }
   }
 

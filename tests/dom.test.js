@@ -488,7 +488,8 @@ test('the language toggle switches the farmer UI to Filipino and back', async ()
  * Staff console
  * ======================================================================== */
 
-function staffClient(role) {
+function staffClient(role, overrides) {
+  const o = overrides || {};
   const profile = { ...PROFILE, role, full_name: role === 'admin' ? 'Admin Cruz' : 'Officer Reyes', barangay_id: null };
 
   return makeClient({
@@ -501,6 +502,7 @@ function staffClient(role) {
           single: { data: profile, error: null },
         };
       }
+      if (table === 'scan_feedback') return o.feedback || { data: [], error: null };
       if (table === 'barangays') return { data: BARANGAYS, error: null };
       if (table === 'jurisdictions') return { data: [{ id: 'j1', name: 'Peñaranda', province: 'Nueva Ecija' }], error: null };
       if (table === 'scans') return { data: [SCAN], error: null, count: 1 };
@@ -535,6 +537,57 @@ test('admin console renders KPIs and exposes administration sections', async () 
   assert.equal(doc.getElementById('rail-role').textContent, 'Administrator');
   assert.equal(doc.getElementById('rail-admin-nav').hidden, false, 'admin must see the admin nav');
   assert.equal(doc.getElementById('scope-text').textContent, 'All jurisdictions');
+
+  dom.window.close();
+});
+
+test('admin sees farmer verdicts and the error rate in the training view', async () => {
+  const feedback = {
+    data: [
+      {
+        scan_id: 's1',
+        verdict: 'wrong',
+        corrected_code: 'tomato_late_blight',
+        note: null,
+        created_at: '2026-10-21T03:00:00.000Z',
+        scans: {
+          id: 's1', crop_code: 'tomato', top_label: 'tomato_early_blight',
+          image_path: 'u1/x.jpg', created_at: '2026-10-21T03:00:00.000Z',
+          user_id: 'u2', barangay_id: 'b1',
+        },
+      },
+      {
+        scan_id: 's2',
+        verdict: 'correct',
+        corrected_code: null,
+        note: null,
+        created_at: '2026-10-21T02:00:00.000Z',
+        scans: {
+          id: 's2', crop_code: 'palay', top_label: 'palay_blast',
+          image_path: 'u1/y.jpg', created_at: '2026-10-21T02:00:00.000Z',
+          user_id: 'u2', barangay_id: 'b1',
+        },
+      },
+    ],
+    error: null,
+  };
+
+  const dom = loadPage('dashboard.html', staffClient('admin', { feedback }));
+  const { window } = dom;
+  await wait(900);
+
+  const doc = window.document;
+  doc.querySelector('[data-view="training"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(600);
+
+  const summary = doc.getElementById('train-summary').textContent;
+  assert.match(summary, /2 verdicts/, `summary must count verdicts: ${summary}`);
+  assert.match(summary, /50% error rate/, `summary must compute the error rate: ${summary}`);
+
+  const body = doc.querySelector('#tbl-training tbody').textContent;
+  assert.match(body, /Wrong/);
+  assert.match(body, /tomato_late_blight/);
+  assert.match(body, /Correct/);
 
   dom.window.close();
 });

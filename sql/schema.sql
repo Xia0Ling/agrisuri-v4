@@ -344,6 +344,25 @@ create table if not exists public.training_candidates (
 );
 
 -- ---------------------------------------------------------------------------
+-- 6b. Scan feedback: the farmer's verdict on a diagnosis
+--
+-- A confident answer is not a correct one. This is the only source of ground
+-- truth the system has, and it is what a retraining set is built from.
+-- ---------------------------------------------------------------------------
+
+create table if not exists public.scan_feedback (
+  scan_id        uuid primary key references public.scans(id) on delete cascade,
+  user_id        uuid not null references public.profiles(id) on delete cascade,
+  verdict        text not null check (verdict in ('correct', 'wrong', 'unsure')),
+  corrected_code text,
+  note           text,
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
+);
+
+alter table public.scan_feedback enable row level security;
+
+-- ---------------------------------------------------------------------------
 -- 7. Helper functions (security definer, fixed search_path)
 -- ---------------------------------------------------------------------------
 

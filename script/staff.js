@@ -33,10 +33,11 @@ const Staff = (() => {
     scans: ['Scan records', 'Individual scans inside your scope'],
     farmers: ['Farmers', 'Registered farmer accounts'],
     accounts: ['Accounts', 'Staff access and role assignment'],
+    training: ['Training data', 'Farmer verdicts on past diagnoses'],
     audit: ['Audit log', 'Account and scan events'],
   };
 
-  const ADMIN_ONLY = new Set(['accounts', 'audit']);
+  const ADMIN_ONLY = new Set(['accounts', 'training', 'audit']);
 
   /* ============================================================ boot */
 
@@ -150,6 +151,12 @@ const Staff = (() => {
       jurSelect.innerHTML = state.jurisdictions.map((j) => `<option value="${j.id}">${esc(j.name)}</option>`).join('');
       inviteForm.addEventListener('submit', createInvite);
     }
+
+    /* training data */
+    const csvBtn = document.getElementById('btn-export-csv');
+    if (csvBtn) csvBtn.addEventListener('click', exportTrainingCsv);
+    const zipBtn = document.getElementById('btn-export-zip');
+    if (zipBtn) zipBtn.addEventListener('click', exportTrainingZip);
   }
 
   function show(view) {
@@ -170,6 +177,7 @@ const Staff = (() => {
     if (view === 'scans') loadScans();
     if (view === 'farmers') loadFarmers();
     if (view === 'accounts') loadAccounts();
+    if (view === 'training') loadTraining();
     if (view === 'audit') loadAudit();
   }
 
@@ -180,6 +188,7 @@ const Staff = (() => {
       scans: loadScans,
       farmers: loadFarmers,
       accounts: loadAccounts,
+      training: loadTraining,
       audit: loadAudit,
     }[state.view];
     if (fn) fn();
@@ -941,6 +950,201 @@ const Staff = (() => {
     } catch (err) {
       toast(err.message || 'Could not create the invite.', 'error');
     }
+  }
+
+  /* ============================================================ training data */
+
+  let trainingRows = [];
+
+  /**
+   * The only ground truth in the system. A farmer marks a diagnosis right or
+   * wrong; wrong ones carry the true class and become a retraining candidate.
+   *
+   * Nothing here retrains anything. Roboflow retraining is a manual trigger and
+   * Teachable Machine has no API at all — what this view produces is the
+   * labelled dataset both tools accept.
+   */
+  async function loadTraining() {
+    if (state.role !== 'admin') return;
+
+    const tbody = document.querySelector('#tbl-training tbody');
+    const summary = document.getElementById('train-summary');
+    if (!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__hint">Loading…</p></div></td></tr>';
+
+    try {
+      const rows = await Store.feedback(300);
+      trainingRows = rows.filter((r) => r.scans);
+
+      const wrong = trainingRows.filter((r) => r.verdict === 'wrong').length;
+      const right = trainingRows.filter((r) => r.verdict === 'correct').length;
+      const total = trainingRows.length;
+
+      summary.textContent = total
+        ? `${total} verdict${total === 1 ? '' : 's'} · ${right} correct · ${wrong} wrong · ` +
+          `${Math.round((wrong / total) * 100)}% error rate`
+        : 'No feedback yet. Farmers see the prompt after they save a scan.';
+
+      if (!total) {
+        tbody.innerHTML =
+          '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">Nothing to review yet</p>' +
+          '<p class="empty-state__hint">Save a scan as a farmer and answer the "Was this reading right?" prompt.</p></div></td></tr>';
+        return;
+      }
+
+      let names = {};
+      try {
+        const { rows: people } = await Store.listProfiles({ limit: 200 });
+        names = Object.fromEntries(people.map((p) => [p.id, p.full_name]));
+      } catch (e) {
+        /* the farmer column degrades to a dash; the verdicts still render */
+      }
+
+      tbody.innerHTML = trainingRows
+        .map((r) => {
+          const s = r.scans;
+          const badge =
+            r.verdict === 'wrong'
+              ? '<span class="badge badge--bad">Wrong</span>'
+              : r.verdict === 'correct'
+                ? '<span class="badge badge--ok">Correct</span>'
+                : '<span class="badge badge--muted">Unsure</span>';
+          return `<tr>
+            <td class="muted">${esc(fmtDate(r.created_at))}</td>
+            <td class="strong">${esc(names[s.user_id] || '—')}</td>
+            <td>${esc(cropName(s.crop_code))}</td>
+            <td>${esc(s.top_label || '—')}</td>
+            <td>${badge}</td>
+            <td>${esc(r.corrected_code || '—')}</td>
+          </tr>`;
+        })
+        .join('');
+    } catch (err) {
+      tbody.innerHTML =
+        '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">Could not load feedback</p>' +
+        `<p class="empty-state__hint">${esc(err.message || 'Unknown error')}</p></div></td></tr>`;
+    }
+  }
+
+  const wrongRows = () =>
+    trainingRows.filter((r) => r.verdict === 'wrong' && r.scans && r.scans.image_path);
+
+  function exportTrainingCsv() {
+    const rows = wrongRows();
+    if (!rows.length) {
+      toast('No wrong verdicts to export yet.', 'warn');
+      return;
+    }
+
+    const header = 'scan_id,crop,predicted,corrected,image_path,created_at';
+    const body = rows.map((r) =>
+      [
+        r.scan_id,
+        r.scans.crop_code,
+        r.scans.top_label || '',
+        r.corrected_code || '',
+        r.scans.image_path || '',
+        r.created_at,
+      ]
+        .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+        .join(','),
+    );
+
+    downloadBlob(
+      new Blob([[header, ...body].join('\n')], { type: 'text/csv;charset=utf-8' }),
+      `agrisuri-labels-${today()}.csv`,
+    );
+  }
+
+  /**
+   * Builds the folder layout both trainers expect:
+   *   <label>/<scan_id>.jpg  +  labels.csv
+   * Roboflow accepts a zip of class folders; Teachable Machine accepts the same
+   * structure through its uploader. That is why this beats a pile of links.
+   */
+  async function exportTrainingZip() {
+    const rows = wrongRows();
+    if (!rows.length) {
+      toast('No wrong verdicts to export yet.', 'warn');
+      return;
+    }
+
+    const btn = document.getElementById('btn-export-zip');
+    const label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Building…';
+
+    try {
+      const JSZip = await loadJSZip();
+      const zip = new JSZip();
+      const root = zip.folder('agrisuri-dataset');
+      const lines = ['image,label,crop,predicted,scan_id,created_at'];
+
+      const urls = await Store.signedUrls(rows.map((r) => r.scans.image_path));
+      const byPath = Object.fromEntries((urls || []).map((u) => [u.path, u.signedUrl]));
+
+      let added = 0;
+      for (const r of rows) {
+        const url = byPath[r.scans.image_path];
+        if (!url) continue;
+
+        const res = await fetch(url);
+        if (!res.ok) continue;
+
+        const label2 = r.corrected_code || 'unlabeled';
+        const file = `${label2}/${r.scan_id}.jpg`;
+        root.file(file, await res.arrayBuffer());
+        lines.push(
+          [file, label2, r.scans.crop_code, r.scans.top_label || '', r.scan_id, r.created_at]
+            .map((v) => `"${String(v).replace(/"/g, '""')}"`)
+            .join(','),
+        );
+        added++;
+      }
+
+      if (!added) {
+        toast('The images could not be fetched. Try again.', 'error');
+        return;
+      }
+
+      root.file('labels.csv', lines.join('\n'));
+      const blob = await zip.generateAsync({ type: 'blob' });
+      downloadBlob(blob, `agrisuri-dataset-${today()}.zip`);
+      toast(`${added} image${added === 1 ? '' : 's'} exported.`, 'success');
+    } catch (err) {
+      toast(err.message || 'Could not build the dataset.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  }
+
+  function today() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
+
+  /** ~100 KB, admin-only, so it is loaded on demand rather than shipped. */
+  function loadJSZip() {
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js';
+      s.onload = () => resolve(window.JSZip);
+      s.onerror = () => reject(new Error('Could not load the zip library.'));
+      document.head.appendChild(s);
+    });
   }
 
   /* ============================================================ audit */

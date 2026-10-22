@@ -52,6 +52,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6.5v5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5v-5L12 3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>Accounts</span>
       </button>
+      <button class="rail__link" data-view="training" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16M8 15l3.5-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Training data</span>
+      </button>
       <button class="rail__link" data-view="audit" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         <span>Audit log</span>
@@ -305,6 +309,45 @@
             </div>
           </article>
         </div>
+      </section>
+
+      <!-- ======================= TRAINING DATA (admin) ======================= -->
+      <section class="view" data-view="training">
+        <div class="notice notice--info">
+          <b>Feedback loop</b>
+          <span id="train-summary">—</span>
+        </div>
+
+        <article class="panel">
+          <header class="panel__head">
+            <div>
+              <h2>Farmer verdicts</h2>
+              <p class="panel__sub">
+                A confident answer is not a correct one. Scans a farmer marked as wrong are the
+                only ones worth retraining on: the image, the model's guess and the true label
+                travel together.
+              </p>
+            </div>
+          </header>
+
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem">
+            <button class="btn btn--ghost btn--sm" type="button" id="btn-export-csv">
+              Export labels (.csv)
+            </button>
+            <button class="btn btn--primary btn--sm" type="button" id="btn-export-zip">
+              Download dataset (.zip)
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table" id="tbl-training">
+              <thead>
+                <tr><th>When</th><th>Farmer</th><th>Crop</th><th>Model said</th><th>Verdict</th><th>Actual</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
       </section>
 
       <!-- ======================= AUDIT (admin) ======================= -->

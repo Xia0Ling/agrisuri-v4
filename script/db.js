@@ -360,6 +360,53 @@ const Store = (() => {
     };
   }
 
+  /* ------------------------------------------------------------------ *
+   * Feedback on a diagnosis
+   *
+   * The farmer's verdict is the only ground truth this system has. It is
+   * written per scan (upsert), so a farmer can change their mind.
+   * ------------------------------------------------------------------ */
+
+  async function saveFeedback({ scanId, verdict, correctedCode, note }) {
+    if (!scanId) throw new Error('No scan to attach feedback to.');
+    if (!['correct', 'wrong', 'unsure'].includes(verdict)) throw new Error('Invalid verdict.');
+
+    const s = await session();
+    if (!s) throw new Error('Not signed in.');
+
+    const { error } = await db.from('scan_feedback').upsert(
+      {
+        scan_id: scanId,
+        user_id: s.user.id,
+        verdict,
+        corrected_code: verdict === 'wrong' ? correctedCode || null : null,
+        note: note ? String(note).slice(0, 500) : null,
+      },
+      { onConflict: 'scan_id' },
+    );
+    if (error) throw error;
+  }
+
+  /** Admin / DA view: every verdict with the scan it belongs to. */
+  async function feedback(limit) {
+    const { data, error } = await db
+      .from('scan_feedback')
+      .select(
+        'scan_id, verdict, corrected_code, note, created_at, ' +
+          'scans(id, crop_code, top_label, image_path, created_at, user_id, barangay_id)',
+      )
+      .order('created_at', { ascending: false })
+      .limit(limit || 300);
+    if (error) throw error;
+    return data || [];
+  }
+
+  /** Only the scans a farmer got wrong — the ones worth retraining on. */
+  async function feedbackWrong(limit) {
+    const rows = await feedback(limit);
+    return rows.filter((r) => r.verdict === 'wrong' && r.scans);
+  }
+
   return {
     reset,
     session,
@@ -388,5 +435,8 @@ const Store = (() => {
     createInvite,
     auditEvents,
     accountCounts,
+    saveFeedback,
+    feedback,
+    feedbackWrong,
   };
 })();

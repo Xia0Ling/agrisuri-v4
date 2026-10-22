@@ -914,6 +914,34 @@ svg { display: block; }
 
 .result__actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.1rem; }
 
+/* feedback on a diagnosis */
+
+.feedback {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.feedback__q { font-size: .82rem; font-weight: 650; color: var(--ink-2); margin: 0 0 .55rem; }
+.feedback__row { display: flex; gap: .5rem; flex-wrap: wrap; }
+.feedback__wrong {
+  display: grid;
+  gap: .45rem;
+  margin-top: .7rem;
+}
+.feedback__wrong label { font-size: .78rem; color: var(--ink-3); }
+.feedback__wrong select {
+  width: 100%;
+  padding: .5rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink-1);
+  font: inherit;
+  font-size: .82rem;
+}
+.feedback__wrong .btn { justify-self: start; }
+.feedback__done { font-size: .8rem; color: var(--green-700); margin: .2rem 0 0; }
+
 /* setup instructions */
 
 .setup {
