@@ -643,12 +643,51 @@ const Staff = (() => {
         b.addEventListener('click', () => openScanDetail(b.dataset.detail));
       });
 
+      tbody.querySelectorAll('[data-del]').forEach((b) => {
+        b.addEventListener('click', () => deleteScanRecord(b.dataset.del, b));
+      });
+
       await paintGallery(filtered, gallery);
     } catch (err) {
       tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
         <p class="empty-state__title">Could not load records</p>
         <p class="empty-state__hint">${esc(err.message || 'Unknown error')}</p>
       </div></td></tr>`;
+    }
+  }
+
+  /**
+   * Hard delete, admin only. The RPC is the real control: it re-checks the role
+   * server-side, writes an audit event and returns the photo path.
+   *
+   * Order matters: the row goes first. If the storage call fails afterwards we
+   * are left with an orphaned file, which is invisible. The reverse would leave
+   * a record pointing at a photo that no longer exists.
+   */
+  async function deleteScanRecord(id, btn) {
+    const ok = await confirmDialog(
+      'Delete this record?',
+      'The scan, its predictions and any feedback are removed from the database, ' +
+        'and the photo is deleted from storage. This cannot be undone.',
+      'Delete record',
+    );
+    if (!ok) return;
+
+    btn.disabled = true;
+    try {
+      const path = await Store.adminDeleteScan(id);
+      if (path) {
+        try {
+          await Store.removeImage(path);
+        } catch (e) {
+          /* The record is already gone; a leftover file is not worth failing on. */
+        }
+      }
+      toast('Record deleted.', 'success');
+      loadScans();
+    } catch (err) {
+      btn.disabled = false;
+      toast(err.message || 'Could not delete the record.', 'error');
     }
   }
 
@@ -670,7 +709,14 @@ const Staff = (() => {
         : '<span class="muted">—</span>'}</td>
       <td class="num">${r.top_confidence != null ? Math.round(r.top_confidence * 100) + '%' : '—'}</td>
       <td>${statusBadge}</td>
-      <td><button class="link" type="button" data-detail="${esc(r.id)}">View</button></td>
+      <td>
+        <div class="row-actions">
+          <button class="link" type="button" data-detail="${esc(r.id)}">View</button>
+          ${state.role === 'admin'
+            ? `<button class="link link--danger" type="button" data-del="${esc(r.id)}">Delete</button>`
+            : ''}
+        </div>
+      </td>
     </tr>`;
   }
 

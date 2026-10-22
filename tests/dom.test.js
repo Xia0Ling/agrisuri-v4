@@ -562,6 +562,33 @@ test('admin console renders KPIs and exposes administration sections', async () 
   dom.window.close();
 });
 
+test('only an admin gets a delete control on scan records', async () => {
+  const admin = loadPage('dashboard.html', staffClient('admin'));
+  await wait(900);
+  admin.window.document.querySelector('[data-view="scans"]')
+    .dispatchEvent(new admin.window.MouseEvent('click', { bubbles: true }));
+  await wait(600);
+
+  assert.ok(
+    admin.window.document.querySelectorAll('#tbl-scans [data-del]').length > 0,
+    'admin must be able to delete a record',
+  );
+  admin.window.close();
+
+  const da = loadPage('dashboard.html', staffClient('da'));
+  await wait(900);
+  da.window.document.querySelector('[data-view="scans"]')
+    .dispatchEvent(new da.window.MouseEvent('click', { bubbles: true }));
+  await wait(600);
+
+  assert.equal(
+    da.window.document.querySelectorAll('#tbl-scans [data-del]').length,
+    0,
+    'a DA officer must not see a delete control',
+  );
+  da.window.close();
+});
+
 test('a DA officer gets the mail queue and can reach training data', async () => {
   const feedback = {
     data: [

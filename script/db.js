@@ -183,6 +183,17 @@ const Store = (() => {
     if (error) throw error;
   }
 
+  /**
+   * Admin-only hard delete. Goes through an RPC so the action lands in
+   * audit_events and the caller learns which photo to remove from storage.
+   * Returns the image path, or null when the scan had no photo.
+   */
+  async function adminDeleteScan(id) {
+    const { data, error } = await db.rpc('admin_delete_scan', { p_scan_id: id });
+    if (error) throw error;
+    return data || null;
+  }
+
   async function signedUrl(path, expires) {
     if (!path) return null;
     const { data, error } = await db.storage.from('crop-images').createSignedUrl(path, expires || 3600);
@@ -446,6 +457,7 @@ const Store = (() => {
     myScans,
     scanPredictions,
     deleteScan,
+    adminDeleteScan,
     signedUrl,
     signedUrls,
     summary,

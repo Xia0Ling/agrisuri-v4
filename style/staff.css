@@ -311,6 +311,8 @@ svg { display: block; }
 .table .muted { color: var(--ink-4); }
 .table button.link { color: var(--green-700); font-weight: 650; font-size: .78rem; }
 .table button.link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.table button.link--danger { color: var(--red); }
+.table button.link--danger:hover { color: var(--red); }
 
 /* ============================================================ sample data */
 
