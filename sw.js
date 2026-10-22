@@ -35,6 +35,9 @@ const SHELL = [
   'script/staff.js',
   'assets/AgriSuri_Logo.png',
   'assets/AgriSuri_Favicon.png',
+  'assets/apple-touch-icon.png',
+  'assets/icon-192.png',
+  'assets/icon-512.png',
   'assets/Background_Landscape.png',
   'assets/Background_Portrait.png',
 ];

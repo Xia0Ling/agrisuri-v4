@@ -66,6 +66,25 @@ test('the service worker precache list only names files that exist', () => {
   assert.deepEqual(missing, [], `sw.js precaches missing files: ${missing.join(', ')}`);
 });
 
+test('every page carries the tags iOS needs to install as an app', () => {
+  for (const page of ['landing.html', 'auth.html', 'index.html', 'dashboard.html']) {
+    const html = read(page);
+
+    // iOS ignores manifest `display`; without this meta tag the home-screen
+    // shortcut opens inside Safari with its chrome.
+    assert.match(
+      html,
+      /<meta name="apple-mobile-web-app-capable" content="yes">/,
+      `${page} is missing apple-mobile-web-app-capable`,
+    );
+    assert.match(
+      html,
+      /rel="apple-touch-icon"[^>]*href="assets\/apple-touch-icon\.png"/,
+      `${page} is missing the 180x180 apple-touch-icon`,
+    );
+  }
+});
+
 /* ==========================================================================
  * Secret hygiene
  * ======================================================================== */
