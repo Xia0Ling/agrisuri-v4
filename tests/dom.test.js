@@ -573,6 +573,15 @@ test('only an admin gets a delete control on scan records', async () => {
     admin.window.document.querySelectorAll('#tbl-scans [data-del]').length > 0,
     'admin must be able to delete a record',
   );
+
+  // Gallery cards open the same detail modal, so the control must be in there too.
+  admin.window.document.querySelector('#tbl-scans [data-detail]')
+    .dispatchEvent(new admin.window.MouseEvent('click', { bubbles: true }));
+  await wait(500);
+  const foot = admin.window.document.querySelector('.modal__foot');
+  assert.ok(foot, 'the detail modal must open');
+  assert.match(foot.textContent, /Delete record/, 'the modal must offer delete for an admin');
+
   admin.window.close();
 
   const da = loadPage('dashboard.html', staffClient('da'));
@@ -586,6 +595,13 @@ test('only an admin gets a delete control on scan records', async () => {
     0,
     'a DA officer must not see a delete control',
   );
+
+  da.window.document.querySelector('#tbl-scans [data-detail]')
+    .dispatchEvent(new da.window.MouseEvent('click', { bubbles: true }));
+  await wait(500);
+  const daFoot = da.window.document.querySelector('.modal__foot');
+  assert.ok(!daFoot || !/Delete record/.test(daFoot.textContent), 'no delete for a DA officer');
+
   da.window.close();
 });
 

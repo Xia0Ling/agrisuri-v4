@@ -664,7 +664,7 @@ const Staff = (() => {
    * are left with an orphaned file, which is invisible. The reverse would leave
    * a record pointing at a photo that no longer exists.
    */
-  async function deleteScanRecord(id, btn) {
+  async function deleteScanRecord(id, btn, closeAfter) {
     const ok = await confirmDialog(
       'Delete this record?',
       'The scan, its predictions and any feedback are removed from the database, ' +
@@ -673,7 +673,7 @@ const Staff = (() => {
     );
     if (!ok) return;
 
-    btn.disabled = true;
+    if (btn) btn.disabled = true;
     try {
       const path = await Store.adminDeleteScan(id);
       if (path) {
@@ -684,9 +684,10 @@ const Staff = (() => {
         }
       }
       toast('Record deleted.', 'success');
+      if (closeAfter) closeModal();
       loadScans();
     } catch (err) {
-      btn.disabled = false;
+      if (btn) btn.disabled = false;
       toast(err.message || 'Could not delete the record.', 'error');
     }
   }
@@ -749,7 +750,16 @@ const Staff = (() => {
   async function openScanDetail(id) {
     const body = document.createElement('div');
     body.innerHTML = '<div class="skeleton-stack"><div class="skeleton skeleton--lg"></div><div class="skeleton"></div></div>';
-    openModal({ title: 'Scan record', body, wide: true });
+    openModal({
+      title: 'Scan record',
+      body,
+      wide: true,
+      // Gallery cards open this same modal, so the delete control has to live
+      // here as well as on the table row.
+      actions: state.role === 'admin'
+        ? [{ label: 'Delete record', variant: 'danger', onClick: () => deleteScanRecord(id, null, true) }]
+        : [],
+    });
 
     try {
       const { data: scan, error } = await db
