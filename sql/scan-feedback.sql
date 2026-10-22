@@ -77,25 +77,3 @@ end $$;
 drop trigger if exists scan_feedback_touch on public.scan_feedback;
 create trigger scan_feedback_touch before update on public.scan_feedback
   for each row execute function public.touch_scan_feedback();
-
--- ---------------------------------------------------------------------------
--- Reporting: how often is the model wrong, and where does it confuse things?
--- ---------------------------------------------------------------------------
-
-create or replace function public.analytics_feedback(p_limit int default 20)
-returns table (
-  predicted_code text,
-  corrected_code text,
-  times          bigint
-)
-language sql stable security definer set search_path = public, extensions as $$
-  select s.top_label, f.corrected_code, count(*)::bigint
-  from public.scan_feedback f
-  join public.scans s on s.id = f.scan_id
-  where f.verdict = 'wrong'
-  group by s.top_label, f.corrected_code
-  order by count(*) desc
-  limit greatest(1, least(coalesce(p_limit, 20), 100));
-$$;
-
-grant execute on function public.analytics_feedback(int) to authenticated;
