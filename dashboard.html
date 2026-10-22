@@ -337,7 +337,9 @@
               <p class="panel__sub">
                 A farmer said the diagnosis was wrong. Check that the barangay on the scan
                 makes sense and that the correction holds up, then approve or reject it.
-                Approved items move to Training data and leave this queue.
+                Approving moves it to Training data under its disease class. Rejecting keeps
+                the photo as a negative example, filed under "not a leaf" or "not a supported
+                crop" — those are the examples the gates learn to refuse.
               </p>
             </div>
           </header>
@@ -368,9 +370,9 @@
             <div>
               <h2>Farmer verdicts</h2>
               <p class="panel__sub">
-                Only submissions a reviewer approved. A confident answer is not a correct one,
-                and a farmer's correction is a claim until someone checks it: the image, the
-                model's guess and the confirmed label travel together.
+                Everything a reviewer has decided. Approved corrections go to their disease
+                class; rejected photos go to a negative class. The export mirrors those
+                folders, so it can be uploaded to Roboflow or Teachable Machine as-is.
               </p>
             </div>
           </header>

@@ -404,7 +404,7 @@ const Store = (() => {
       .from('scan_feedback')
       .select(
         'scan_id, verdict, corrected_code, note, created_at, status, ' +
-          'reviewed_by, reviewed_at, review_note, ' +
+          'reviewed_by, reviewed_at, review_note, reject_class, ' +
           'scans(id, crop_code, top_label, top_confidence, image_path, created_at, ' +
           'user_id, barangay_id, jurisdiction_id, lat, lng)',
       )
@@ -421,19 +421,33 @@ const Store = (() => {
   /** The Mail tab: what is waiting for a reviewer. */
   const feedbackPending = (limit) => feedback(limit, 'pending');
 
-  /** The Training tab: what a reviewer already approved. */
-  const feedbackApproved = (limit) => feedback(limit, 'approved');
+  /**
+   * The Training tab: everything a reviewer has decided. Approved rows become
+   * their disease class; rejected ones become `not_leaf` or
+   * `not_supported_crop` — a rejected photo is a negative example, not waste.
+   */
+  async function feedbackTraining(limit) {
+    const rows = await feedback(limit);
+    return rows.filter((r) => r.status === 'approved' || r.status === 'rejected');
+  }
 
   /**
    * Approve or reject a farmer's correction. The trigger stamps reviewed_by
    * and reviewed_at server-side, so the client cannot forge them.
    */
-  async function reviewFeedback(scanId, status, note) {
+  async function reviewFeedback(scanId, status, note, rejectClass) {
     if (!['approved', 'rejected'].includes(status)) throw new Error('Invalid review status.');
+    if (status === 'rejected' && !['not_leaf', 'not_supported_crop'].includes(rejectClass)) {
+      throw new Error('A rejected photo needs a reason: not a leaf, or an unsupported crop.');
+    }
 
     const { error } = await db
       .from('scan_feedback')
-      .update({ status, review_note: note ? String(note).slice(0, 500) : null })
+      .update({
+        status,
+        review_note: note ? String(note).slice(0, 500) : null,
+        reject_class: status === 'rejected' ? rejectClass : null,
+      })
       .eq('scan_id', scanId);
     if (error) throw error;
   }
@@ -477,7 +491,7 @@ const Store = (() => {
     saveFeedback,
     feedback,
     feedbackPending,
-    feedbackApproved,
+    feedbackTraining,
     reviewFeedback,
     removeImage,
   };

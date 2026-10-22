@@ -1105,7 +1105,6 @@ const Staff = (() => {
               <div class="row-actions">
                 <button class="btn btn--sm btn--primary" data-approve="${esc(r.scan_id)}" type="button">Approve</button>
                 <button class="btn btn--sm btn--ghost" data-reject="${esc(r.scan_id)}" type="button">Reject</button>
-                <button class="btn btn--sm btn--text" data-drop="${esc(r.scan_id)}" type="button">Delete photo</button>
               </div>
             </td>
           </tr>`;
@@ -1128,11 +1127,10 @@ const Staff = (() => {
     });
 
     tbody.querySelectorAll('[data-reject]').forEach((btn) => {
-      btn.addEventListener('click', () => review(btn.dataset.reject, 'rejected', btn));
-    });
-
-    tbody.querySelectorAll('[data-drop]').forEach((btn) => {
-      btn.addEventListener('click', () => dropPhoto(btn.dataset.drop, btn));
+      btn.addEventListener('click', async () => {
+        const rejectClass = await askRejectClass();
+        if (rejectClass) review(btn.dataset.reject, 'rejected', btn, rejectClass);
+      });
     });
 
     tbody.querySelectorAll('[data-photo]').forEach((btn) => {
@@ -1140,11 +1138,16 @@ const Staff = (() => {
     });
   }
 
-  async function review(scanId, status, btn) {
+  async function review(scanId, status, btn, rejectClass) {
     btn.disabled = true;
     try {
-      await Store.reviewFeedback(scanId, status);
-      toast(status === 'approved' ? 'Approved. Moved to Training data.' : 'Rejected.', 'success');
+      await Store.reviewFeedback(scanId, status, null, rejectClass);
+      toast(
+        status === 'approved'
+          ? 'Approved. Moved to Training data.'
+          : 'Rejected. Kept as a negative example.',
+        'success',
+      );
       loadMail();
       if (state.view === 'training') loadTraining();
     } catch (err) {
@@ -1153,27 +1156,45 @@ const Staff = (() => {
     }
   }
 
-  async function dropPhoto(scanId, btn) {
-    const ok = await confirmDialog(
-      'Delete this photo?',
-      'The image is removed from storage and the submission is rejected. It will not be used for training. This cannot be undone.',
-      'Delete photo',
-    );
-    if (!ok) return;
+  /**
+   * A rejected photo is not deleted. It is the negative example the gates need:
+   * either the shape/texture gate should have caught it, or the model answered
+   * for a crop it does not support. The reviewer says which.
+   */
+  function askRejectClass() {
+    return new Promise((resolve) => {
+      const body = document.createElement('div');
+      body.innerHTML = `
+        <p class="modal__text">Why is this photo not usable?</p>
+        <label style="display:flex;gap:.5rem;align-items:center;margin:.45rem 0">
+          <input type="radio" name="reject-class" value="not_leaf" checked>
+          <span>Not a leaf</span>
+        </label>
+        <label style="display:flex;gap:.5rem;align-items:center;margin:.45rem 0">
+          <input type="radio" name="reject-class" value="not_supported_crop">
+          <span>Not a supported crop</span>
+        </label>
+        <p style="font-size:.76rem;color:var(--ink-3);margin-top:.6rem">
+          The photo is kept and exported under this class. It teaches the gate what to reject.
+        </p>`;
 
-    const row = mailRows.find((r) => r.scan_id === scanId);
-    const path = row && row.scans ? row.scans.image_path : null;
-
-    btn.disabled = true;
-    try {
-      if (path) await Store.removeImage(path);
-      await Store.reviewFeedback(scanId, 'rejected', 'photo deleted');
-      toast('Photo deleted and submission rejected.', 'success');
-      loadMail();
-    } catch (err) {
-      btn.disabled = false;
-      toast(err.message || 'Could not delete the photo.', 'error');
-    }
+      openModal({
+        title: 'Reject submission',
+        body,
+        actions: [
+          { label: 'Cancel', onClick: () => { closeModal(); resolve(null); } },
+          {
+            label: 'Reject',
+            variant: 'danger',
+            onClick: (overlay) => {
+              const picked = overlay.querySelector('input[name="reject-class"]:checked');
+              closeModal();
+              resolve(picked ? picked.value : null);
+            },
+          },
+        ],
+      });
+    });
   }
 
   async function viewPhoto(scanId) {
@@ -1217,22 +1238,22 @@ const Staff = (() => {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__hint">Loading…</p></div></td></tr>';
 
     try {
-      const rows = await Store.feedbackApproved(300);
+      const rows = await Store.feedbackTraining(300);
       trainingRows = rows.filter((r) => r.scans);
       await ensureDiseaseNames();
 
-      const wrong = trainingRows.filter((r) => r.verdict === 'wrong').length;
-      const right = trainingRows.filter((r) => r.verdict === 'correct').length;
+      const approved = trainingRows.filter((r) => r.status === 'approved').length;
+      const rejected = trainingRows.filter((r) => r.status === 'rejected').length;
       const total = trainingRows.length;
 
       summary.textContent = total
-        ? `${total} approved · ${right} confirmed correct · ${wrong} corrected`
-        : 'Nothing approved yet. Submissions land in Mail first.';
+        ? `${total} decided · ${approved} approved · ${rejected} rejected as negative examples`
+        : 'Nothing decided yet. Submissions land in Mail first.';
 
       if (!total) {
         tbody.innerHTML =
-          '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">No approved data yet</p>' +
-          '<p class="empty-state__hint">Approve a submission in Mail and it appears here.</p></div></td></tr>';
+          '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">Nothing decided yet</p>' +
+          '<p class="empty-state__hint">Approve or reject a submission in Mail and it appears here.</p></div></td></tr>';
         return;
       }
 
@@ -1246,20 +1267,23 @@ const Staff = (() => {
 
       tbody.innerHTML = trainingRows
         .map((r) => {
-          const s = r.scans;
+          const sc = r.scans;
           const badge =
-            r.verdict === 'wrong'
-              ? '<span class="badge badge--bad">Wrong</span>'
-              : r.verdict === 'correct'
-                ? '<span class="badge badge--ok">Correct</span>'
-                : '<span class="badge badge--muted">Unsure</span>';
+            r.status === 'rejected'
+              ? '<span class="badge badge--bad">Rejected</span>'
+              : r.verdict === 'wrong'
+                ? '<span class="badge badge--warn">Corrected</span>'
+                : r.verdict === 'correct'
+                  ? '<span class="badge badge--ok">Confirmed</span>'
+                  : '<span class="badge badge--muted">Unsure</span>';
+
           return `<tr>
             <td class="muted">${esc(fmtDate(r.created_at))}</td>
-            <td class="strong">${esc(names[s.user_id] || '—')}</td>
-            <td>${esc(cropName(s.crop_code))}</td>
-            <td>${esc(labelFor(s.top_label))}</td>
+            <td class="strong">${esc(names[sc.user_id] || '—')}</td>
+            <td>${esc(cropName(sc.crop_code))}</td>
+            <td>${esc(labelFor(sc.top_label))}</td>
             <td>${badge}</td>
-            <td>${esc(r.corrected_code ? labelFor(r.corrected_code) : r.note ? 'Other: ' + r.note : '—')}</td>
+            <td>${esc(labelFor(exportLabel(r)))}</td>
           </tr>`;
         })
         .join('');
@@ -1270,23 +1294,35 @@ const Staff = (() => {
     }
   }
 
-  const wrongRows = () =>
-    trainingRows.filter((r) => r.verdict === 'wrong' && r.scans && r.scans.image_path);
+  /**
+   * Folder name for the export. An approved correction goes to its disease
+   * class; a confirmed-correct scan goes to whatever the model said; a rejected
+   * photo goes to its negative class.
+   */
+  function exportLabel(r) {
+    if (r.status === 'rejected') return r.reject_class || 'not_leaf';
+    if (r.corrected_code) return r.corrected_code;
+    if (r.verdict === 'correct' && r.scans) return r.scans.top_label || 'other';
+    return 'other';
+  }
+
+  const exportRows = () => trainingRows.filter((r) => r.scans && r.scans.image_path);
 
   function exportTrainingCsv() {
-    const rows = wrongRows();
+    const rows = exportRows();
     if (!rows.length) {
-      toast('No wrong verdicts to export yet.', 'warn');
+      toast('Nothing decided to export yet.', 'warn');
       return;
     }
 
-    const header = 'scan_id,crop,predicted,corrected,note,image_path,created_at';
+    const header = 'scan_id,crop,predicted,class,status,note,image_path,created_at';
     const body = rows.map((r) =>
       [
         r.scan_id,
         r.scans.crop_code,
         r.scans.top_label || '',
-        r.corrected_code || '',
+        exportLabel(r),
+        r.status,
         r.note || '',
         r.scans.image_path || '',
         r.created_at,
@@ -1308,9 +1344,9 @@ const Staff = (() => {
    * structure through its uploader. That is why this beats a pile of links.
    */
   async function exportTrainingZip() {
-    const rows = wrongRows();
+    const rows = exportRows();
     if (!rows.length) {
-      toast('No wrong verdicts to export yet.', 'warn');
+      toast('Nothing decided to export yet.', 'warn');
       return;
     }
 
@@ -1323,7 +1359,7 @@ const Staff = (() => {
       const JSZip = await loadJSZip();
       const zip = new JSZip();
       const root = zip.folder('agrisuri-dataset');
-      const lines = ['image,label,crop,predicted,note,scan_id,created_at'];
+      const lines = ['image,class,status,crop,predicted,note,scan_id,created_at'];
 
       const byPath = await Store.signedUrls(rows.map((r) => r.scans.image_path));
 
@@ -1335,11 +1371,11 @@ const Staff = (() => {
         const res = await fetch(url);
         if (!res.ok) continue;
 
-        const label2 = r.corrected_code || 'other';
+        const label2 = exportLabel(r);
         const file = `${label2}/${r.scan_id}.jpg`;
         root.file(file, await res.arrayBuffer());
         lines.push(
-          [file, label2, r.scans.crop_code, r.scans.top_label || '', r.note || '', r.scan_id, r.created_at]
+          [file, label2, r.status, r.scans.crop_code, r.scans.top_label || '', r.note || '', r.scan_id, r.created_at]
             .map((v) => `"${String(v).replace(/"/g, '""')}"`)
             .join(','),
         );

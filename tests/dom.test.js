@@ -643,7 +643,8 @@ test('a DA officer gets the mail queue and can reach training data', async () =>
   assert.match(body, /Other:/, `free-text correction must be labelled: ${body}`);
   assert.match(body, /yellow edges after the rain/);
   assert.match(body, /Approve/);
-  assert.match(body, /Delete photo/);
+  assert.match(body, /Reject/);
+  assert.doesNotMatch(body, /Delete photo/, 'rejected photos are kept, not deleted');
   assert.match(doc.getElementById('mail-summary').textContent, /1 submission/);
 
   // Training data is no longer admin-only.
@@ -662,6 +663,7 @@ test('admin sees farmer verdicts and the error rate in the training view', async
         verdict: 'wrong',
         corrected_code: 'tomato_late_blight',
         note: null,
+        status: 'approved',
         created_at: '2026-10-21T03:00:00.000Z',
         scans: {
           id: 's1', crop_code: 'tomato', top_label: 'tomato_early_blight',
@@ -674,10 +676,25 @@ test('admin sees farmer verdicts and the error rate in the training view', async
         verdict: 'correct',
         corrected_code: null,
         note: null,
+        status: 'approved',
         created_at: '2026-10-21T02:00:00.000Z',
         scans: {
           id: 's2', crop_code: 'palay', top_label: 'palay_blast',
           image_path: 'u1/y.jpg', created_at: '2026-10-21T02:00:00.000Z',
+          user_id: 'u2', barangay_id: 'b1',
+        },
+      },
+      {
+        scan_id: 's3',
+        verdict: 'wrong',
+        corrected_code: null,
+        note: 'this is a carabao, not a leaf',
+        status: 'rejected',
+        reject_class: 'not_leaf',
+        created_at: '2026-10-21T01:00:00.000Z',
+        scans: {
+          id: 's3', crop_code: 'tomato', top_label: 'tomato_healthy',
+          image_path: 'u1/z.jpg', created_at: '2026-10-21T01:00:00.000Z',
           user_id: 'u2', barangay_id: 'b1',
         },
       },
@@ -694,13 +711,16 @@ test('admin sees farmer verdicts and the error rate in the training view', async
   await wait(600);
 
   const summary = doc.getElementById('train-summary').textContent;
-  assert.match(summary, /2 approved/, `summary must count approved rows: ${summary}`);
-  assert.match(summary, /1 corrected/, `summary must count corrections: ${summary}`);
+  assert.match(summary, /3 decided/, `summary must count decided rows: ${summary}`);
+  assert.match(summary, /2 approved/, `summary must count approvals: ${summary}`);
+  assert.match(summary, /1 rejected as negative examples/, `rejections must be counted: ${summary}`);
 
   const body = doc.querySelector('#tbl-training tbody').textContent;
-  assert.match(body, /Wrong/);
+  assert.match(body, /Corrected/, 'a corrected verdict must be labelled');
   assert.match(body, /Late Blight/, 'codes must be shown as disease names');
-  assert.match(body, /Correct/);
+  assert.match(body, /Confirmed/);
+  assert.match(body, /Rejected/, 'a rejected photo must appear as a negative example');
+  assert.match(body, /Not Leaf/, 'its negative class must be visible');
 
   dom.window.close();
 });
