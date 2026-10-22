@@ -44,6 +44,12 @@ const Staff = (() => {
   async function boot() {
     applyChartDefaults();
 
+    // Charts are canvas: they must be rebuilt with the new palette.
+    document.addEventListener('agri:theme', () => {
+      applyChartDefaults();
+      reload();
+    });
+
     const me = await Guard.require(['admin', 'da']);
     if (!me) return;
 

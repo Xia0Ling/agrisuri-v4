@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>try{(function(){var m=localStorage.getItem('agri_theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;})()}catch(e){}</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgriSuri — Crop disease detection for Filipino farmers</title>
     <meta name="description" content="Photograph a tomato or palay leaf and get an instant, plain-language reading with treatment and prevention guidance.">
     <link rel="stylesheet" href="style/landing.css">
+    <link rel="stylesheet" href="style/theme.css">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -29,6 +31,7 @@
             <a href="#limits" data-i18n="land.nav.limits">What it can't do</a>
         </nav>
         <div class="nav__actions">
+<button class="theme-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme"><svg data-theme-icon="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><svg data-theme-icon="sun" viewBox="0 0 24 24" aria-hidden="true" hidden><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
             <button class="lang" id="lang-btn" type="button" aria-label="Switch language">
                 <span id="lang-label">FIL</span>
             </button>
@@ -308,6 +311,7 @@
 </footer>
 
 <script src="script/i18n.js"></script>
+<script src="script/theme.js"></script>
 <script>
 (function () {
   I18N.apply();

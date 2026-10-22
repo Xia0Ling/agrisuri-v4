@@ -66,6 +66,18 @@ test('the service worker precache list only names files that exist', () => {
   assert.deepEqual(missing, [], `sw.js precaches missing files: ${missing.join(', ')}`);
 });
 
+test('every page can switch to the dark theme without a flash', () => {
+  for (const page of ['landing.html', 'auth.html', 'index.html', 'dashboard.html']) {
+    const html = read(page);
+
+    // Without this inline script the first paint is light and then flips.
+    assert.match(html, /localStorage\.getItem\('agri_theme'\)/, `${page} needs the no-flash theme script`);
+    assert.match(html, /style\/theme\.css/, `${page} must load theme.css`);
+    assert.match(html, /script\/theme\.js/, `${page} must load theme.js`);
+    assert.match(html, /data-theme-toggle/, `${page} needs a theme toggle button`);
+  }
+});
+
 test('every page carries the tags iOS needs to install as an app', () => {
   for (const page of ['landing.html', 'auth.html', 'index.html', 'dashboard.html']) {
     const html = read(page);
@@ -323,7 +335,13 @@ test('every page is zoomable and declares a responsive viewport', () => {
 });
 
 test('every stylesheet ships at least one mobile breakpoint', () => {
-  for (const file of fs.readdirSync(path.join(ROOT, 'style')).filter((f) => f.endsWith('.css'))) {
+  // theme.css is a colour layer, not a layout one: it defines no widths, so it
+  // has nothing to adapt. Every page stylesheet is still checked.
+  const layout = fs
+    .readdirSync(path.join(ROOT, 'style'))
+    .filter((f) => f.endsWith('.css') && f !== 'theme.css');
+
+  for (const file of layout) {
     const css = read(`style/${file}`);
     assert.match(css, /@media[^{]*max-width/, `style/${file} has no max-width breakpoint`);
   }

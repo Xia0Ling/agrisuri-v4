@@ -87,6 +87,12 @@ const Farmer = (() => {
       loadHome();
       loadHistory();
     });
+
+    // Charts are canvas: they must be rebuilt with the new palette.
+    document.addEventListener('agri:theme', () => {
+      applyChartDefaults();
+      show(state.view);
+    });
   }
 
   function setSampleBadge(on) {

@@ -1,0 +1,156 @@
+/* ============================================================================
+ * Midnight theme.
+ *
+ * Loaded by every page, after the page's own stylesheet, so these rules win.
+ *
+ * The palette is a cool charcoal rather than pure black: #0f1418 is dark enough
+ * to read as "midnight" without the harsh contrast that makes long text tiring.
+ * Brand greens are kept, but the ones used as *text* are lightened so they stay
+ * legible on dark, while the one used as a *button background* stays saturated
+ * so white labels still work.
+ * ========================================================================== */
+
+/* ------------------------------------------------------------------ *
+ * The reveal: the new theme grows out of the button that was pressed.
+ * ------------------------------------------------------------------ */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-reveal 560ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--theme-r, 150vmax) at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(root) { animation: none; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Toggle button
+ * ------------------------------------------------------------------ */
+
+.theme-btn {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.theme-btn:hover { color: var(--green-700); border-color: var(--border-hover); }
+.theme-btn:focus-visible { outline: 2px solid var(--green-600); outline-offset: 2px; }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn svg[hidden] { display: none; }
+
+/* ------------------------------------------------------------------ *
+ * Dark palette
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] {
+  --paper: #0f1418;
+  --surface: #151c21;
+  --surface-2: #1a232a;
+  --line: #243038;
+  --line-2: #32424d;
+  --border-hover: #46596a;
+
+  --ink: #dde6ea;
+  --ink-2: #bcc9d0;
+  --ink-3: #92a4ad;
+  --ink-4: #71858f;
+
+  /* Text roles: lightened. */
+  --green-900: #8fe3ad;
+  --green-700: #7bd69c;
+  --green-600: #4bb377;
+  --green-500: #3f9e63;
+
+  /* Background roles: saturated, so #fff labels keep their contrast. */
+  --green-800: #2f8f57;
+
+  --green-200: #274a38;
+  --green-100: #1c3527;
+  --green-050: #16271e;
+
+  --amber: #e2a94f;
+  --amber-bg: #2a2113;
+  --red: #ec7d74;
+  --red-bg: #2d1a18;
+  --blue: #74b0dd;
+  --blue-bg: #16242f;
+
+  --shadow-auth-card: 0 10px 30px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-submit-btn: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------ *
+ * Fixes where a stylesheet hardcodes a light value instead of a variable
+ * ------------------------------------------------------------------ */
+
+/* --green-800 is a button background; these two rules use it as text. */
+[data-theme="dark"] .badge--ok { color: var(--green-900); }
+[data-theme="dark"] .segmented button:hover { color: var(--green-900); }
+
+/* Photographic backgrounds are multiplied toward the paper colour rather than
+   removed, so the texture survives without washing out the text. */
+[data-theme="dark"] body {
+  background-color: var(--paper);
+  background-blend-mode: multiply;
+}
+
+/* Form controls are #fff in auth.css and a few app rules. */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder { color: var(--ink-4); }
+
+[data-theme="dark"] .form-card,
+[data-theme="dark"] .password-wrapper,
+[data-theme="dark"] .tab-switcher { background: var(--surface); }
+
+[data-theme="dark"] .tab-btn { color: var(--ink-3); }
+[data-theme="dark"] .tab-btn.active { color: var(--green-900); }
+
+[data-theme="dark"] .toast { background: var(--surface); color: var(--ink); }
+[data-theme="dark"] .toast.toast--error { background: var(--red-bg); color: var(--red); }
+[data-theme="dark"] .toast.toast--success { background: var(--green-050); color: var(--green-900); }
+
+/* Charts draw on a canvas: tell Chart.js nothing, but keep the container dark. */
+[data-theme="dark"] canvas { background: transparent; }
+
+/* Tables and cards that assume a white page behind them. */
+[data-theme="dark"] .panel,
+[data-theme="dark"] .card,
+[data-theme="dark"] .table-wrap { background: var(--surface); }
+
+[data-theme="dark"] .table th { color: var(--ink-3); border-color: var(--line); }
+[data-theme="dark"] .table td { border-color: var(--line); }
+
+/* Images and the scan preview keep their own colours. */
+[data-theme="dark"] img { color-scheme: only light; }

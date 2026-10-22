@@ -186,8 +186,22 @@ const CHART = {
   palette: ['#0f7a3d', '#8fbe2f', '#2f8f83', '#d08a1e', '#c2453a', '#7c6bb0', '#3f7fbf', '#a3a86a'],
 };
 
+/*
+ * Chart.js paints to a canvas, so it cannot pick up CSS variables on its own.
+ * These two values are the only ones that break on a dark background: grid
+ * lines disappear and tick labels go unreadable. Mutating CHART before a config
+ * is built is enough, because charts are rebuilt whenever the view changes.
+ */
+function syncChartTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  CHART.grid = dark ? 'rgba(255, 255, 255, 0.09)' : 'rgba(24, 44, 32, 0.08)';
+  CHART.tick = dark ? '#93a4ad' : '#5c6f62';
+  CHART.slate = dark ? '#9db0a4' : '#6b7c70';
+}
+
 function applyChartDefaults() {
   if (typeof Chart === 'undefined') return;
+  syncChartTheme();
   Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
   Chart.defaults.font.size = 11;
   Chart.defaults.color = CHART.tick;
