@@ -37,16 +37,57 @@ const Store = (() => {
     return profileCache;
   }
 
+  /*
+   * `diseases` is static reference data — 14 rows that change only when the
+   * seed changes. Keeping the last copy means an offline scan can still name a
+   * disease and show its prevention text.
+   *
+   * This is what used to break offline scanning outright: the pipeline calls
+   * Store.diseases() before inference starts, so a failed fetch threw and no
+   * scan happened at all, even with the on-device models available.
+   */
+  const DISEASE_CACHE_KEY = 'agri_diseases';
+
+  function readDiseaseCache() {
+    try {
+      const raw = localStorage.getItem(DISEASE_CACHE_KEY);
+      const rows = raw ? JSON.parse(raw) : null;
+      return Array.isArray(rows) && rows.length ? rows : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeDiseaseCache(rows) {
+    try {
+      localStorage.setItem(DISEASE_CACHE_KEY, JSON.stringify(rows));
+    } catch (e) {
+      /* Quota or private mode: the in-memory copy still covers this session. */
+    }
+  }
+
   async function diseases() {
     if (diseaseCache) return diseaseCache;
-    const { data, error } = await db
-      .from('diseases')
-      .select('id, crop_code, code, name, is_healthy, severity, symptoms, treatment, prevention, safety, source')
-      .order('crop_code')
-      .order('name');
-    if (error) throw error;
-    diseaseCache = data || [];
-    return diseaseCache;
+
+    try {
+      const { data, error } = await db
+        .from('diseases')
+        .select('id, crop_code, code, name, is_healthy, severity, symptoms, treatment, prevention, safety, source')
+        .order('crop_code')
+        .order('name');
+      if (error) throw error;
+
+      diseaseCache = data || [];
+      if (diseaseCache.length) writeDiseaseCache(diseaseCache);
+      return diseaseCache;
+    } catch (err) {
+      const cached = readDiseaseCache();
+      if (cached) {
+        diseaseCache = cached;
+        return diseaseCache;
+      }
+      throw err;
+    }
   }
 
   async function barangays() {

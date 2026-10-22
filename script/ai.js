@@ -112,20 +112,26 @@ const ScanPipeline = (() => {
     };
   }
 
-  async function tmInfer(which, canvas) {
+  async function loadTmModel(which) {
     await loadTmRuntime();
     if (typeof tmImage === 'undefined') {
       throw coded('offline_unavailable', 'The offline model runtime did not load.');
     }
 
     const url = tmUrl(which);
-    const base = url.endsWith('/') ? url : `${url}/`;
+    if (!url) throw coded('offline_unavailable', 'No offline model is configured.');
 
+    const base = url.endsWith('/') ? url : `${url}/`;
     let model = tmModels.get(base);
     if (!model) {
       model = await tmImage.load(`${base}model.json`, `${base}metadata.json`);
       tmModels.set(base, model);
     }
+    return { model, base };
+  }
+
+  async function tmInfer(which, canvas) {
+    const { model, base } = await loadTmModel(which);
 
     const raw = await model.predict(canvas);
     return {
@@ -139,6 +145,39 @@ const ScanPipeline = (() => {
       modelVersion: 'local',
       mode: 'offline',
     };
+  }
+
+  /**
+   * Download the on-device models in the background so an offline scan can
+   * actually run. Without this the gateway answers every online scan, the
+   * Teachable Machine weights are never fetched, and the service worker has
+   * nothing cached when the signal drops.
+   *
+   * Called once after a successful online scan: the user already has their
+   * result, so spending ~6 MB to make the next scan work offline is a fair
+   * trade. Skipped on data-saver and 2G connections.
+   */
+  let warming = null;
+  function warmOffline() {
+    if (warming) return warming;
+
+    const which = ['shape', 'texture', 'tomato', 'palay'].filter((w) => tmUrl(w));
+    if (!which.length) return Promise.resolve();
+
+    const conn = navigator.connection || {};
+    if (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')) return Promise.resolve();
+
+    warming = (async () => {
+      for (const w of which) {
+        try {
+          await loadTmModel(w);
+        } catch (e) {
+          /* Best effort: offline support must never break an online session. */
+        }
+      }
+    })();
+
+    return warming;
   }
 
   /**
@@ -408,5 +447,5 @@ const ScanPipeline = (() => {
     return err;
   }
 
-  return { run, gatewayReady, tmReady, canRunDisease, canRunGate, resolveDisease };
+  return { run, gatewayReady, tmReady, canRunDisease, canRunGate, resolveDisease, warmOffline };
 })();

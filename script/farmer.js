@@ -922,6 +922,10 @@ const Farmer = (() => {
 
       state.result = result;
       renderResult(result, file);
+
+      // The user has their answer; quietly fetch the on-device models so the
+      // next scan still works if the signal drops. Never blocks the UI.
+      if (navigator.onLine) ScanPipeline.warmOffline();
     } catch (err) {
       stageLine('disease', 'fail');
       host.hidden = false;

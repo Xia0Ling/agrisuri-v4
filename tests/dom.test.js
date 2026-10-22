@@ -177,6 +177,14 @@ function loadPage(page, client, opts) {
     beforeParse(window) {
       window.supabase = { createClient: () => client };
 
+      // Seed localStorage before any page script runs, so cache-fallback paths
+      // can be exercised without a network.
+      if (o.storage) {
+        for (const [key, value] of Object.entries(o.storage)) {
+          window.localStorage.setItem(key, JSON.stringify(value));
+        }
+      }
+
       window.Chart = class Chart {
         constructor(canvas, config) {
           this.config = config;
@@ -264,6 +272,7 @@ function farmerClient(overrides) {
       if (table === 'profiles') return { data: PROFILE, error: null, single: { data: PROFILE, error: null } };
       if (table === 'barangays') return { data: BARANGAYS, error: null, count: BARANGAYS.length };
       if (table === 'scans') return o.scans || { data: [SCAN], error: null, count: 1 };
+      if (table === 'diseases') return o.diseases || { data: DISEASES, error: null };
       if (table === 'scan_predictions') return { data: [], error: null };
       return { data: [], error: null, count: 0 };
     },
@@ -309,6 +318,30 @@ test('farmer dashboard boots and renders real-shaped data without throwing', asy
 
   assert.match(doc.getElementById('recent-list').textContent, /Early Blight/);
   assert.ok((window.__charts || []).some((c) => c.id === 'chart-activity'), 'activity chart must be built');
+
+  dom.window.close();
+});
+
+test('diseases fall back to the cached copy when the network is gone', async () => {
+  const seeded = [{
+    id: 'd1', crop_code: 'tomato', code: 'tomato_early_blight', name: 'Cached Only',
+    is_healthy: false, severity: 'high', symptoms: null, treatment: null,
+    prevention: 'Cached prevention', safety: null, source: null,
+  }];
+
+  const dom = loadPage(
+    'index.html',
+    farmerClient({ diseases: { data: null, error: { message: 'Failed to fetch' } } }),
+    { storage: { agri_diseases: seeded } },
+  );
+  const { window } = dom;
+  await wait(400);
+
+  // Store is a top-level const, not a window property, so reach it via eval.
+  const rows = await window.eval('Store.diseases()');
+  assert.equal(rows.length, 1, 'must fall back to the cached rows');
+  assert.equal(rows[0].name, 'Cached Only');
+  assert.equal(rows[0].prevention, 'Cached prevention');
 
   dom.window.close();
 });
