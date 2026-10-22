@@ -43,6 +43,23 @@ test('normalizePercentages sums to 100 across 500 randomised inputs', () => {
   }
 });
 
+test('normalizeLabel maps the rice model classes onto the palay codes', () => {
+  assert.equal(Core.normalizeLabel('rice_healthy'), 'palay_healthy');
+  assert.equal(Core.normalizeLabel('rice_tungro'), 'palay_tungro');
+  assert.equal(Core.normalizeLabel('rice_sheath_blight'), 'palay_sheath_blight');
+  assert.equal(Core.normalizeLabel('rice_blast'), 'palay_blast');
+  assert.equal(Core.normalizeLabel('rice_brown_spot'), 'palay_brown_spot');
+  assert.equal(Core.normalizeLabel('rice_bacterial_blight'), 'palay_bacterial_blight');
+});
+
+test('normalizeLabel leaves canonical class names untouched', () => {
+  assert.equal(Core.normalizeLabel('tomato_early_blight'), 'tomato_early_blight');
+  assert.equal(Core.normalizeLabel('palay_healthy'), 'palay_healthy');
+  assert.equal(Core.normalizeLabel('plant'), 'plant');
+  assert.equal(Core.normalizeLabel('not_leaf'), 'not_leaf');
+  assert.equal(Core.normalizeLabel('something_unmapped'), 'something_unmapped');
+});
+
 test('normalizePercentages drops non-positive and non-finite scores before rounding', () => {
   const out = Core.normalizePercentages([
     { label: 'a', confidence: 0.8 },

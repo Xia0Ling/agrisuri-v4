@@ -129,7 +129,12 @@ const ScanPipeline = (() => {
 
     const raw = await model.predict(canvas);
     return {
-      predictions: raw.map((p) => ({ label: p.className, confidence: p.probability })),
+      // TM classes are not guaranteed to match `diseases.code`; the rice model
+      // says `rice_*` where the database says `palay_*`.
+      predictions: raw.map((p) => ({
+        label: Core.normalizeLabel(p.className),
+        confidence: p.probability,
+      })),
       modelId: `teachable-machine:${base}`,
       modelVersion: 'local',
       mode: 'offline',
@@ -168,24 +173,45 @@ const ScanPipeline = (() => {
   const norm = (s) => String(s || '').toLowerCase().replace(/\([^)]*\)/g, '').replace(/[^a-z0-9]/g, '');
 
   /**
+   * A trained model does not always use our crop code as its class prefix. The
+   * palay classifier was trained with `rice_*` classes, which would never match
+   * `palay_*` rows — the result would render a raw label with no guidance.
+   * Normalise the prefix once, so a single lookup path covers both spellings.
+   */
+  const CROP_PREFIX_ALIAS = { rice: 'palay' };
+
+  function cropPrefixAlias(label) {
+    const m = /^(rice|palay)[_\s-]/i.exec(label);
+    if (!m) return null;
+    const want = CROP_PREFIX_ALIAS[m[1].toLowerCase()];
+    return want ? want + label.slice(m[1].length) : null;
+  }
+
+  /**
    * Map a model class label onto a reference disease row.
    * Matches on code, on full name, and on the leading name segment, because
    * model exports vary ("tomato_early_blight", "Early Blight", "Early_Blight").
    */
   function resolveDisease(label, cropCode, refs) {
-    const target = norm(label);
-    if (!target) return null;
-
+    const raw = String(label || '');
     const pool = (refs || []).filter((d) => !cropCode || d.crop_code === cropCode);
 
-    return (
-      pool.find((d) => norm(d.code) === target) ||
-      pool.find((d) => norm(d.code) === norm(cropCode + target)) ||
-      pool.find((d) => norm(d.name) === target) ||
-      pool.find((d) => norm(d.name).startsWith(target) && target.length >= 4) ||
-      pool.find((d) => target.startsWith(norm(d.code))) ||
-      null
-    );
+    const targets = [norm(raw)];
+    const alias = cropPrefixAlias(raw);
+    if (alias) targets.push(norm(alias));
+
+    for (const target of targets) {
+      if (!target) continue;
+      const hit =
+        pool.find((d) => norm(d.code) === target) ||
+        pool.find((d) => norm(d.code) === norm(cropCode + target)) ||
+        pool.find((d) => norm(d.name) === target) ||
+        pool.find((d) => norm(d.name).startsWith(target) && target.length >= 4) ||
+        pool.find((d) => target.startsWith(norm(d.code)));
+      if (hit) return hit;
+    }
+
+    return null;
   }
 
   /* ------------------------------------------------------------------ *
@@ -303,11 +329,14 @@ const ScanPipeline = (() => {
       if (gatewayReady()) raw = await gatewayInfer('disease', prepared.analysis, cropCode);
       else raw = await tmInfer(cropCode, prepared.analysis);
     } catch (err) {
-      if (err.code === 'model_not_configured' && tmReady(cropCode)) {
-        raw = await tmInfer(cropCode, prepared.analysis);
-      } else {
-        throw err;
-      }
+      /* A dead connection is the whole reason the on-device model exists.
+       * Falling back only on `model_not_configured` meant that with a gateway
+       * URL set, an offline scan failed outright instead of using the local
+       * model — the opposite of the documented order. */
+      const canFallBack =
+        (err.code === 'model_not_configured' || err.code === 'network') && tmReady(cropCode);
+      if (!canFallBack) throw err;
+      raw = await tmInfer(cropCode, prepared.analysis);
     }
 
     if (!raw.predictions.length) {

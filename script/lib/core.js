@@ -29,6 +29,30 @@
    * Raw model probabilities are returned untouched alongside, because they are
    * not calibrated and must not be presented as certainty.
    */
+  /*
+   * Model class names must equal `diseases.code` or the scan resolves to no
+   * disease row: no name, no prevention text, and a healthy leaf gets reported
+   * as an unnamed disease.
+   *
+   * The Teachable Machine rice model was trained with `rice_*` class names
+   * while the database uses `palay_*`. Tomato and both gate models already use
+   * the canonical names, so they pass through untouched.
+   */
+  const LABEL_ALIASES = {
+    rice_healthy: 'palay_healthy',
+    rice_tungro: 'palay_tungro',
+    rice_sheath_blight: 'palay_sheath_blight',
+    rice_blast: 'palay_blast',
+    rice_brown_spot: 'palay_brown_spot',
+    rice_bacterial_blight: 'palay_bacterial_blight',
+  };
+
+  /** Map a model's class name onto the code the database uses. */
+  function normalizeLabel(label) {
+    const key = String(label);
+    return LABEL_ALIASES[key] || key;
+  }
+
   function normalizePercentages(predictions) {
     const cleaned = (predictions || [])
       .filter((p) => p && typeof p.confidence === 'number' && isFinite(p.confidence) && p.confidence > 0)
@@ -511,6 +535,7 @@
 
   return {
     normalizePercentages,
+    normalizeLabel,
     sumPct,
     confidenceBand,
     evaluateQuality,

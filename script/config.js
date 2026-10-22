@@ -41,10 +41,10 @@ const AI_CONFIG = {
    *   2. texture — leaf surface vs wall, floor, paper, skin
    *   3. disease — per-crop disease classifier
    */
-  tmShapeGate: '',
-  tmTextureGate: '',
-  tmDiseaseTomato: '',
-  tmDiseasePalay: '',
+  tmShapeGate: 'https://teachablemachine.withgoogle.com/models/YEc0xe3RA/',
+  tmTextureGate: 'https://teachablemachine.withgoogle.com/models/nDn8d16Cr/',
+  tmDiseaseTomato: 'https://teachablemachine.withgoogle.com/models/6ZCROPIJdo/',
+  tmDiseasePalay: 'https://teachablemachine.withgoogle.com/models/OLUzZa6ah/',
 
   /* Layer 1 acceptance threshold on the model's top class. */
   shapeThreshold: 0.70,
