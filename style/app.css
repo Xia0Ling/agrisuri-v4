@@ -965,6 +965,19 @@ svg { display: block; }
   font: inherit;
   font-size: .82rem;
 }
+.feedback__wrong textarea {
+  width: 100%;
+  padding: .5rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink-1);
+  font: inherit;
+  font-size: .82rem;
+  resize: vertical;
+}
+.feedback__other { display: grid; gap: .35rem; }
+.feedback__other label { font-size: .78rem; color: var(--ink-3); }
 .feedback__wrong .btn { justify-self: start; }
 .feedback__done { font-size: .8rem; color: var(--green-700); margin: .2rem 0 0; }
 

@@ -33,11 +33,12 @@ const Staff = (() => {
     scans: ['Scan records', 'Individual scans inside your scope'],
     farmers: ['Farmers', 'Registered farmer accounts'],
     accounts: ['Accounts', 'Staff access and role assignment'],
-    training: ['Training data', 'Farmer verdicts on past diagnoses'],
+    mail: ['Mail', 'Farmer corrections waiting for review'],
+    training: ['Training data', 'Approved corrections, ready to export'],
     audit: ['Audit log', 'Account and scan events'],
   };
 
-  const ADMIN_ONLY = new Set(['accounts', 'training', 'audit']);
+  const ADMIN_ONLY = new Set(['accounts', 'audit']);
 
   /* ============================================================ boot */
 
@@ -183,6 +184,7 @@ const Staff = (() => {
     if (view === 'scans') loadScans();
     if (view === 'farmers') loadFarmers();
     if (view === 'accounts') loadAccounts();
+    if (view === 'mail') loadMail();
     if (view === 'training') loadTraining();
     if (view === 'audit') loadAudit();
   }
@@ -194,6 +196,7 @@ const Staff = (() => {
       scans: loadScans,
       farmers: loadFarmers,
       accounts: loadAccounts,
+      mail: loadMail,
       training: loadTraining,
       audit: loadAudit,
     }[state.view];
@@ -958,6 +961,184 @@ const Staff = (() => {
     }
   }
 
+  /* ============================================================ mail (review queue) */
+
+  let mailRows = [];
+  let diseaseNames = null;
+
+  const prettyCode = (code) =>
+    String(code || '').replace(/_/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase());
+
+  /** Disease codes are readable only to us; staff should see "Early Blight". */
+  async function ensureDiseaseNames() {
+    if (diseaseNames) return diseaseNames;
+    try {
+      const refs = await Store.diseases();
+      diseaseNames = Object.fromEntries(refs.map((d) => [d.code, d.name || d.label]));
+    } catch (e) {
+      diseaseNames = {};
+    }
+    return diseaseNames;
+  }
+
+  const labelFor = (code) => {
+    if (!code) return '—';
+    return (diseaseNames && diseaseNames[code]) || prettyCode(code);
+  };
+
+  function paintMailCount(n) {
+    const badge = document.getElementById('mail-count');
+    if (!badge) return;
+    badge.textContent = String(n);
+    badge.hidden = !n;
+  }
+
+  /**
+   * A farmer's "wrong" is a claim, not a fact. This queue is where a DA officer
+   * (own jurisdiction) or an admin checks the barangay and the correction before
+   * anything reaches the training set.
+   */
+  async function loadMail() {
+    const tbody = document.querySelector('#tbl-mail tbody');
+    const summary = document.getElementById('mail-summary');
+    if (!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><p class="empty-state__hint">Loading…</p></div></td></tr>';
+
+    try {
+      const rows = await Store.feedbackPending(300);
+      mailRows = rows.filter((r) => r.scans);
+      await ensureDiseaseNames();
+      paintMailCount(mailRows.length);
+
+      summary.textContent = mailRows.length
+        ? `${mailRows.length} submission${mailRows.length === 1 ? '' : 's'} waiting for review`
+        : 'Nothing waiting. Corrections farmers send will land here.';
+
+      if (!mailRows.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="8"><div class="empty-state"><p class="empty-state__title">Inbox empty</p>' +
+          '<p class="empty-state__hint">When a farmer says a diagnosis was wrong, it appears here for review.</p></div></td></tr>';
+        return;
+      }
+
+      let names = {};
+      try {
+        const { rows: people } = await Store.listProfiles({ limit: 200 });
+        names = Object.fromEntries(people.map((p) => [p.id, p.full_name]));
+      } catch (e) { /* the name column degrades to a dash */ }
+
+      const brgyMap = Object.fromEntries((state.barangays || []).map((b) => [b.id, b.name]));
+
+      tbody.innerHTML = mailRows
+        .map((r) => {
+          const sc = r.scans;
+          const says = r.corrected_code
+            ? esc(labelFor(r.corrected_code))
+            : `<span class="muted">Other:</span> ${esc(r.note || '—')}`;
+
+          return `<tr>
+            <td class="muted">${esc(fmtDate(r.created_at))}</td>
+            <td class="strong">${esc(names[sc.user_id] || '—')}</td>
+            <td>${esc(brgyMap[sc.barangay_id] || '—')}</td>
+            <td>${esc(cropName(sc.crop_code))}</td>
+            <td>${esc(labelFor(sc.top_label))}</td>
+            <td>${says}</td>
+            <td><button class="btn btn--text btn--sm" data-photo="${esc(r.scan_id)}" type="button">View</button></td>
+            <td>
+              <div class="row-actions">
+                <button class="btn btn--sm btn--primary" data-approve="${esc(r.scan_id)}" type="button">Approve</button>
+                <button class="btn btn--sm btn--ghost" data-reject="${esc(r.scan_id)}" type="button">Reject</button>
+                <button class="btn btn--sm btn--text" data-drop="${esc(r.scan_id)}" type="button">Delete photo</button>
+              </div>
+            </td>
+          </tr>`;
+        })
+        .join('');
+
+      bindMailActions();
+    } catch (err) {
+      tbody.innerHTML =
+        '<tr><td colspan="8"><div class="empty-state"><p class="empty-state__title">Could not load the queue</p>' +
+        `<p class="empty-state__hint">${esc(err.message || 'Unknown error')}</p></div></td></tr>`;
+    }
+  }
+
+  function bindMailActions() {
+    const tbody = document.querySelector('#tbl-mail tbody');
+
+    tbody.querySelectorAll('[data-approve]').forEach((btn) => {
+      btn.addEventListener('click', () => review(btn.dataset.approve, 'approved', btn));
+    });
+
+    tbody.querySelectorAll('[data-reject]').forEach((btn) => {
+      btn.addEventListener('click', () => review(btn.dataset.reject, 'rejected', btn));
+    });
+
+    tbody.querySelectorAll('[data-drop]').forEach((btn) => {
+      btn.addEventListener('click', () => dropPhoto(btn.dataset.drop, btn));
+    });
+
+    tbody.querySelectorAll('[data-photo]').forEach((btn) => {
+      btn.addEventListener('click', () => viewPhoto(btn.dataset.photo));
+    });
+  }
+
+  async function review(scanId, status, btn) {
+    btn.disabled = true;
+    try {
+      await Store.reviewFeedback(scanId, status);
+      toast(status === 'approved' ? 'Approved. Moved to Training data.' : 'Rejected.', 'success');
+      loadMail();
+      if (state.view === 'training') loadTraining();
+    } catch (err) {
+      btn.disabled = false;
+      toast(err.message || 'Could not save the decision.', 'error');
+    }
+  }
+
+  async function dropPhoto(scanId, btn) {
+    const ok = await confirmDialog(
+      'Delete this photo?',
+      'The image is removed from storage and the submission is rejected. It will not be used for training. This cannot be undone.',
+      'Delete photo',
+    );
+    if (!ok) return;
+
+    const row = mailRows.find((r) => r.scan_id === scanId);
+    const path = row && row.scans ? row.scans.image_path : null;
+
+    btn.disabled = true;
+    try {
+      if (path) await Store.removeImage(path);
+      await Store.reviewFeedback(scanId, 'rejected', 'photo deleted');
+      toast('Photo deleted and submission rejected.', 'success');
+      loadMail();
+    } catch (err) {
+      btn.disabled = false;
+      toast(err.message || 'Could not delete the photo.', 'error');
+    }
+  }
+
+  async function viewPhoto(scanId) {
+    const row = mailRows.find((r) => r.scan_id === scanId);
+    const path = row && row.scans ? row.scans.image_path : null;
+    if (!path) {
+      toast('This scan has no photo.', 'warn');
+      return;
+    }
+    const url = await Store.signedUrl(path, 600);
+    if (!url) {
+      toast('Could not open the photo.', 'error');
+      return;
+    }
+    openModal({
+      title: 'Submitted photo',
+      wide: true,
+      body: `<img src="${esc(url)}" alt="" style="width:100%;border-radius:10px">`,
+    });
+  }
+
   /* ============================================================ training data */
 
   let trainingRows = [];
@@ -980,22 +1161,22 @@ const Staff = (() => {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__hint">Loading…</p></div></td></tr>';
 
     try {
-      const rows = await Store.feedback(300);
+      const rows = await Store.feedbackApproved(300);
       trainingRows = rows.filter((r) => r.scans);
+      await ensureDiseaseNames();
 
       const wrong = trainingRows.filter((r) => r.verdict === 'wrong').length;
       const right = trainingRows.filter((r) => r.verdict === 'correct').length;
       const total = trainingRows.length;
 
       summary.textContent = total
-        ? `${total} verdict${total === 1 ? '' : 's'} · ${right} correct · ${wrong} wrong · ` +
-          `${Math.round((wrong / total) * 100)}% error rate`
-        : 'No feedback yet. Farmers see the prompt after they save a scan.';
+        ? `${total} approved · ${right} confirmed correct · ${wrong} corrected`
+        : 'Nothing approved yet. Submissions land in Mail first.';
 
       if (!total) {
         tbody.innerHTML =
-          '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">Nothing to review yet</p>' +
-          '<p class="empty-state__hint">Save a scan as a farmer and answer the "Was this reading right?" prompt.</p></div></td></tr>';
+          '<tr><td colspan="6"><div class="empty-state"><p class="empty-state__title">No approved data yet</p>' +
+          '<p class="empty-state__hint">Approve a submission in Mail and it appears here.</p></div></td></tr>';
         return;
       }
 
@@ -1020,9 +1201,9 @@ const Staff = (() => {
             <td class="muted">${esc(fmtDate(r.created_at))}</td>
             <td class="strong">${esc(names[s.user_id] || '—')}</td>
             <td>${esc(cropName(s.crop_code))}</td>
-            <td>${esc(s.top_label || '—')}</td>
+            <td>${esc(labelFor(s.top_label))}</td>
             <td>${badge}</td>
-            <td>${esc(r.corrected_code || '—')}</td>
+            <td>${esc(r.corrected_code ? labelFor(r.corrected_code) : r.note ? 'Other: ' + r.note : '—')}</td>
           </tr>`;
         })
         .join('');
@@ -1043,13 +1224,14 @@ const Staff = (() => {
       return;
     }
 
-    const header = 'scan_id,crop,predicted,corrected,image_path,created_at';
+    const header = 'scan_id,crop,predicted,corrected,note,image_path,created_at';
     const body = rows.map((r) =>
       [
         r.scan_id,
         r.scans.crop_code,
         r.scans.top_label || '',
         r.corrected_code || '',
+        r.note || '',
         r.scans.image_path || '',
         r.created_at,
       ]
@@ -1085,10 +1267,9 @@ const Staff = (() => {
       const JSZip = await loadJSZip();
       const zip = new JSZip();
       const root = zip.folder('agrisuri-dataset');
-      const lines = ['image,label,crop,predicted,scan_id,created_at'];
+      const lines = ['image,label,crop,predicted,note,scan_id,created_at'];
 
-      const urls = await Store.signedUrls(rows.map((r) => r.scans.image_path));
-      const byPath = Object.fromEntries((urls || []).map((u) => [u.path, u.signedUrl]));
+      const byPath = await Store.signedUrls(rows.map((r) => r.scans.image_path));
 
       let added = 0;
       for (const r of rows) {
@@ -1098,11 +1279,11 @@ const Staff = (() => {
         const res = await fetch(url);
         if (!res.ok) continue;
 
-        const label2 = r.corrected_code || 'unlabeled';
+        const label2 = r.corrected_code || 'other';
         const file = `${label2}/${r.scan_id}.jpg`;
         root.file(file, await res.arrayBuffer());
         lines.push(
-          [file, label2, r.scans.crop_code, r.scans.top_label || '', r.scan_id, r.created_at]
+          [file, label2, r.scans.crop_code, r.scans.top_label || '', r.note || '', r.scan_id, r.created_at]
             .map((v) => `"${String(v).replace(/"/g, '""')}"`)
             .join(','),
         );

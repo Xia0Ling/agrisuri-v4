@@ -562,6 +562,55 @@ test('admin console renders KPIs and exposes administration sections', async () 
   dom.window.close();
 });
 
+test('a DA officer gets the mail queue and can reach training data', async () => {
+  const feedback = {
+    data: [
+      {
+        scan_id: 's1',
+        verdict: 'wrong',
+        corrected_code: null,
+        note: 'yellow edges after the rain',
+        status: 'pending',
+        created_at: '2026-10-21T03:00:00.000Z',
+        scans: {
+          id: 's1', crop_code: 'tomato', top_label: 'tomato_early_blight',
+          top_confidence: 0.93, image_path: 'u1/x.jpg',
+          created_at: '2026-10-21T03:00:00.000Z',
+          user_id: 'u2', barangay_id: 'b1', jurisdiction_id: 'j1', lat: null, lng: null,
+        },
+      },
+    ],
+    error: null,
+  };
+
+  const dom = loadPage('dashboard.html', staffClient('da', { feedback }));
+  const { window } = dom;
+  await wait(900);
+
+  const doc = window.document;
+
+  // The review nav is for both roles; the administration nav is not.
+  assert.equal(doc.getElementById('rail-admin-nav').hidden, true);
+  assert.equal(doc.getElementById('rail-review-nav').hidden, false);
+
+  doc.querySelector('[data-view="mail"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(600);
+
+  const body = doc.querySelector('#tbl-mail tbody').textContent;
+  assert.match(body, /Other:/, `free-text correction must be labelled: ${body}`);
+  assert.match(body, /yellow edges after the rain/);
+  assert.match(body, /Approve/);
+  assert.match(body, /Delete photo/);
+  assert.match(doc.getElementById('mail-summary').textContent, /1 submission/);
+
+  // Training data is no longer admin-only.
+  doc.querySelector('[data-view="training"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(400);
+  assert.ok(doc.querySelector('[data-view="training"]').classList.contains('is-active'));
+
+  dom.window.close();
+});
+
 test('admin sees farmer verdicts and the error rate in the training view', async () => {
   const feedback = {
     data: [
@@ -602,12 +651,12 @@ test('admin sees farmer verdicts and the error rate in the training view', async
   await wait(600);
 
   const summary = doc.getElementById('train-summary').textContent;
-  assert.match(summary, /2 verdicts/, `summary must count verdicts: ${summary}`);
-  assert.match(summary, /50% error rate/, `summary must compute the error rate: ${summary}`);
+  assert.match(summary, /2 approved/, `summary must count approved rows: ${summary}`);
+  assert.match(summary, /1 corrected/, `summary must count corrections: ${summary}`);
 
   const body = doc.querySelector('#tbl-training tbody').textContent;
   assert.match(body, /Wrong/);
-  assert.match(body, /tomato_late_blight/);
+  assert.match(body, /Late Blight/, 'codes must be shown as disease names');
   assert.match(body, /Correct/);
 
   dom.window.close();

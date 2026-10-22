@@ -157,6 +157,22 @@ svg { display: block; }
 .bar p { font-size: .75rem; color: var(--ink-4); }
 .bar__right { display: flex; align-items: center; gap: .7rem; }
 
+/* Unread count on the Mail tab. */
+.rail__count {
+  margin-left: auto;
+  font-style: normal;
+  font-size: .68rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: .22rem .4rem;
+  border-radius: 999px;
+  background: var(--green-800);
+  color: #fff;
+}
+
+/* Approve / reject / delete in one row without wrapping badly. */
+.row-actions { display: flex; gap: .35rem; flex-wrap: wrap; justify-content: flex-end; }
+
 .scope {
   display: inline-flex;
   align-items: center;

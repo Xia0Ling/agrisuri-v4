@@ -1229,6 +1229,11 @@ const Farmer = (() => {
           <div class="feedback__wrong" data-fb-wrong hidden>
             <label for="fb-code">${esc(t('feedback.actual'))}</label>
             <select id="fb-code"></select>
+            <div class="feedback__other" data-fb-other hidden>
+              <label for="fb-reason">${esc(t('feedback.reason'))}</label>
+              <textarea id="fb-reason" rows="3" maxlength="400"
+                placeholder="${esc(t('feedback.reasonHint'))}"></textarea>
+            </div>
             <button class="btn btn--sm btn--primary" type="button" data-fb-send>${esc(t('feedback.send'))}</button>
           </div>
           <p class="feedback__done" data-fb-done hidden></p>
@@ -1305,18 +1310,31 @@ const Farmer = (() => {
     box.hidden = false;
   }
 
+  const OTHER = '__other';
+
   function bindFeedback(box, result) {
     const select = box.querySelector('#fb-code');
     const wrongBox = box.querySelector('[data-fb-wrong]');
+    const otherBox = box.querySelector('[data-fb-other]');
+    const reason = box.querySelector('#fb-reason');
 
     Store.diseases()
       .then((refs) => {
         const rows = refs.filter((d) => d.crop_code === result.crop);
-        select.innerHTML = rows
-          .map((d) => `<option value="${esc(d.code)}">${esc(d.name)}</option>`)
-          .join('');
+        select.innerHTML =
+          rows.map((d) => `<option value="${esc(d.code)}">${esc(d.name)}</option>`).join('') +
+          `<option value="${OTHER}">${esc(t('feedback.others'))}</option>`;
       })
-      .catch(() => { select.innerHTML = ''; });
+      .catch(() => {
+        // Even with no reference table, "Others" must stay available: it is the
+        // only honest answer when the true cause is not in the list.
+        select.innerHTML = `<option value="${OTHER}">${esc(t('feedback.others'))}</option>`;
+      });
+
+    select.addEventListener('change', () => {
+      otherBox.hidden = select.value !== OTHER;
+      if (!otherBox.hidden) reason.focus();
+    });
 
     box.querySelector('[data-fb="correct"]').addEventListener('click', (e) => {
       e.currentTarget.disabled = true;
@@ -1325,10 +1343,25 @@ const Farmer = (() => {
 
     box.querySelector('[data-fb="wrong"]').addEventListener('click', () => {
       wrongBox.hidden = false;
+      select.focus();
     });
 
     box.querySelector('[data-fb-send]').addEventListener('click', () => {
-      sendFeedback(box, { verdict: 'wrong', correctedCode: select.value });
+      const other = select.value === OTHER;
+      const text = reason.value.trim();
+
+      // A wrong verdict with no class and no words is worthless for retraining.
+      if (other && text.length < 4) {
+        toast(t('feedback.needReason'), 'error');
+        reason.focus();
+        return;
+      }
+
+      sendFeedback(box, {
+        verdict: 'wrong',
+        correctedCode: other ? null : select.value,
+        note: other ? text : null,
+      });
     });
   }
 
