@@ -66,6 +66,15 @@ const Farmer = (() => {
 
     state.me = me;
 
+    /*
+     * The crop is no longer a question. It defaults to whatever this farmer
+     * scanned last, then to tomato. The compact switch in the card header is
+     * there for the rare case they switch crops.
+     */
+    const remembered = cacheGet('crop');
+    state.crop = remembered === 'palay' || remembered === 'tomato' ? remembered : 'tomato';
+    syncCropUI();
+
     try {
       state.barangays = await Store.barangays();
     } catch (e) {
@@ -242,10 +251,8 @@ const Farmer = (() => {
     document.querySelectorAll('.crop-option').forEach((btn) => {
       btn.addEventListener('click', () => {
         state.crop = btn.dataset.crop;
-        document.querySelectorAll('.crop-option').forEach((b) => b.setAttribute('aria-checked', String(b === btn)));
-        document.getElementById('capture-hint').textContent = state.crop === 'tomato'
-          ? t('scan.tomatoHint')
-          : t('scan.palayHint');
+        cacheSet('crop', state.crop);
+        syncCropUI();
         updateCaptureButton();
       });
     });
@@ -395,8 +402,11 @@ const Farmer = (() => {
   /* ============================================================ weather */
 
   async function loadWeather(force) {
+    // Cached per barangay, and only for ten minutes: weather that is half an
+    // hour old is not "live", it is a guess.
+    const brgyId = state.me ? state.me.barangay_id : null;
     const cached = cacheGet('weather');
-    if (cached && !force && Date.now() - cached.at < 20 * 60 * 1000) {
+    if (cached && !force && cached.brgy === brgyId && Date.now() - cached.at < 10 * 60 * 1000) {
       state.weather = cached;
       paintWeather();
       return;
@@ -420,8 +430,13 @@ const Farmer = (() => {
     }
 
     if (!coords) {
-      const geo = await geocode(`${APP.municipality}, ${APP.province}`);
-      if (geo) { coords = geo; source = 'municipality'; }
+      // A farmer in Sinasajan should not see the weather of the town centre.
+      const brgy = state.me ? barangayName(state.me.barangay_id) : '';
+      const label = brgy
+        ? `${brgy}, ${APP.municipality}, ${APP.province}`
+        : `${APP.municipality}, ${APP.province}`;
+      const geo = await geocode(label);
+      if (geo) { coords = geo; source = brgy ? 'barangay' : 'municipality'; }
     }
 
     if (!coords) {
@@ -446,6 +461,7 @@ const Farmer = (() => {
 
       state.weather = {
         at: Date.now(),
+        brgy: brgyId,
         temp: Math.round(c.temperature_2m),
         feels: Math.round(c.apparent_temperature),
         code: c.weather_code,
@@ -519,8 +535,9 @@ const Farmer = (() => {
     const w = state.weather;
 
     if (loc) {
-      loc.textContent = w && w.source === 'gps' && barangayName(state.me.barangay_id)
-        ? `${barangayName(state.me.barangay_id)}, ${APP.province}`
+      const brgy = state.me ? barangayName(state.me.barangay_id) : '';
+      loc.textContent = w && (w.source === 'gps' || w.source === 'barangay') && brgy
+        ? `${brgy}, ${APP.province}`
         : `${APP.municipality}, ${APP.province}`;
     }
 
@@ -578,7 +595,7 @@ const Farmer = (() => {
         </dl>
 
         <p class="weather__note ${w.stale ? 'weather__note--warn' : ''}">
-          ${esc(w.source === 'municipality' ? t('weather.atMunicipality') : t('weather.at'))}
+          ${esc(w.source === 'gps' ? t('weather.at') : w.source === 'barangay' ? t('weather.atBarangay') : t('weather.atMunicipality'))}
           · ${esc(t('weather.updated', { when: ageText }))}
           ${w.stale ? ` · ${esc(t('weather.stale'))}` : ''}
         </p>
@@ -793,10 +810,21 @@ const Farmer = (() => {
 
   /* ============================================================ scan */
 
+  /** Reflect the selected crop in the switch and the hint line. */
+  function syncCropUI() {
+    document.querySelectorAll('.crop-option').forEach((b) => {
+      b.setAttribute('aria-checked', String(b.dataset.crop === state.crop));
+    });
+    const hint = document.getElementById('capture-hint');
+    if (hint) {
+      hint.textContent = state.crop === 'palay' ? t('scan.palayHint') : t('scan.tomatoHint');
+    }
+  }
+
   function updateCaptureButton() {
     const upload = document.getElementById('btn-upload');
     const camera = document.getElementById('btn-camera');
-    const disabled = !state.crop || state.busy;
+    const disabled = state.busy;
     upload.disabled = disabled;
     camera.disabled = disabled;
   }

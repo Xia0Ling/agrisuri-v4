@@ -152,5 +152,15 @@
 [data-theme="dark"] .table th { color: var(--ink-3); border-color: var(--line); }
 [data-theme="dark"] .table td { border-color: var(--line); }
 
+/* Navigation surfaces are translucent light in the base stylesheets: the
+   farmer's bottom tab bar, the staff top bar, the app frame and the landing
+   nav. They are the most visible surfaces on the page, so they must follow. */
+[data-theme="dark"] .app { background-color: rgba(21, 28, 33, 0.94); }
+[data-theme="dark"] .tabbar { background: rgba(21, 28, 33, 0.95); }
+[data-theme="dark"] .bar { background: rgba(15, 20, 24, 0.9); }
+[data-theme="dark"] .nav.is-scrolled { background: rgba(15, 20, 24, 0.9); }
+[data-theme="dark"] .frame__chip { background: rgba(21, 28, 33, 0.94); }
+[data-theme="dark"] .topbar { background: transparent; }
+
 /* Images and the scan preview keep their own colours. */
 [data-theme="dark"] img { color-scheme: only light; }

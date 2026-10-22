@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script>try{(function(){var m=localStorage.getItem('agri_theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;})()}catch(e){}</script>
+<script>try{(function(){var m=localStorage.getItem('agri_theme')||'light';document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;})()}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>AgriSuri — Dashboard</title>
 <link rel="stylesheet" href="style/app.css">
@@ -208,30 +208,18 @@
               <h3 data-i18n="scan.title">Scan a crop</h3>
               <p class="card__sub" data-i18n="scan.sub">One clear photo of a single leaf. Nothing runs until you take the photo.</p>
             </div>
-          </header>
-
-          <div class="scan-step" id="step-crop">
-            <p class="scan-step__label"><span>1</span> <em data-i18n="scan.step1">Which crop are you scanning?</em></p>
-            <div class="crop-picker" id="crop-picker" role="radiogroup" aria-label="Crop">
-              <button class="crop-option" data-crop="tomato" type="button" role="radio" aria-checked="false">
-                <span class="crop-option__art" aria-hidden="true">
-                  <svg viewBox="0 0 32 32"><circle cx="16" cy="18" r="9" fill="#c2453a"/><path d="M16 9c-2-3-5-3.5-7-3 1.5 2 3 3.5 5 4.2M16 9c2-3 5-3.5 7-3-1.5 2-3 3.5-5 4.2" fill="none" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/><path d="M16 9V5" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/></svg>
-                </span>
+            <div class="crop-switch" id="crop-picker" role="radiogroup" aria-label="Crop">
+              <button class="crop-option" data-crop="tomato" type="button" role="radio" aria-checked="true">
                 <b data-i18n="scan.tomato">Tomato</b>
-                <small data-i18n="scan.tomatoSub">Kamatis</small>
               </button>
               <button class="crop-option" data-crop="palay" type="button" role="radio" aria-checked="false">
-                <span class="crop-option__art" aria-hidden="true">
-                  <svg viewBox="0 0 32 32"><path d="M16 28V9" stroke="#2f7d43" stroke-width="1.8" stroke-linecap="round"/><path d="M16 12c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 17c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 22c-3-1-5-3-5.5-6 3 .5 5 2.5 5.5 6ZM16 12c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6ZM16 17c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6ZM16 22c3-1 5-3 5.5-6-3 .5-5 2.5-5.5 6Z" fill="#8fbe2f"/></svg>
-                </span>
                 <b data-i18n="scan.palay">Palay</b>
-                <small data-i18n="scan.palaySub">Rice</small>
               </button>
             </div>
-          </div>
+          </header>
 
           <div class="scan-step" id="step-capture">
-            <p class="scan-step__label"><span>2</span> <em data-i18n="scan.step2">Take the photo</em></p>
+            <p class="scan-step__label"><span>1</span> <em data-i18n="scan.step2">Take the photo</em></p>
 
             <div class="viewport" id="viewport">
               <img id="preview" alt="" hidden>
@@ -257,7 +245,7 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M20 8V6a2 2 0 0 0-2-2h-2M4 16v2a2 2 0 0 0 2 2h2M20 16v2a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
                 <span data-i18n="scan.takePhoto">Take photo</span>
               </button>
-              <p class="scan-hint" id="capture-hint" data-i18n="scan.selectCrop">Select a crop first.</p>
+              <p class="scan-hint" id="capture-hint">Centre one leaf in the frame.</p>
             </div>
           </div>
 

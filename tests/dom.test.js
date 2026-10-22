@@ -346,6 +346,25 @@ test('diseases fall back to the cached copy when the network is gone', async () 
   dom.window.close();
 });
 
+test('the theme starts light and only goes dark when the user asks', async () => {
+  const dom = loadPage('index.html', farmerClient());
+  const { window } = dom;
+  await wait(400);
+
+  const doc = window.document;
+  assert.equal(doc.documentElement.dataset.theme, 'light', 'light must be the default');
+
+  const btn = doc.querySelector('[data-theme-toggle]');
+  assert.ok(btn, 'a toggle must exist');
+  btn.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(60);
+
+  assert.equal(doc.documentElement.dataset.theme, 'dark');
+  assert.equal(window.localStorage.getItem('agri_theme'), 'dark', 'the choice must persist');
+
+  dom.window.close();
+});
+
 test('weather card renders current, daily range and the next hours', async () => {
   const dom = loadPage('index.html', farmerClient());
   const { window } = dom;
@@ -359,8 +378,9 @@ test('weather card renders current, daily range and the next hours', async () =>
   assert.match(body.textContent, /24°/, 'daily low');
   assert.match(body.textContent, /74%/, 'humidity');
 
-  // Geolocation is denied in the harness, so the fallback must be labelled.
-  assert.match(body.textContent, /Peñaranda centre/);
+  // Geolocation is denied in the harness, so the barangay fallback must be
+  // labelled as an approximation rather than presented as exact.
+  assert.match(body.textContent, /near your barangay/);
   assert.equal(window.document.querySelectorAll('.weather__hour').length, 6);
 
   dom.window.close();
@@ -431,14 +451,15 @@ test('switching tabs activates the right section and rebuilds the scan view', as
   assert.doesNotMatch(status, /No model is connected/i, `stale sample notice: ${status}`);
   assert.doesNotMatch(status, /Offline shape gate/i, `offline row must be hidden when online: ${status}`);
 
-  // Without a crop chosen, both capture buttons must stay disabled.
-  assert.equal(doc.getElementById('btn-upload').disabled, true);
-  assert.equal(doc.getElementById('btn-camera').disabled, true);
-
-  doc.querySelector('.crop-option[data-crop="tomato"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
-  await wait(40);
+  // The crop is preselected, so capture is available without answering anything.
   assert.equal(doc.getElementById('btn-upload').disabled, false);
   assert.equal(doc.getElementById('btn-camera').disabled, false);
+
+  // Switching crop keeps capture available and marks the choice.
+  doc.querySelector('.crop-option[data-crop="palay"]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(40);
+  assert.equal(doc.querySelector('.crop-option[data-crop="palay"]').getAttribute('aria-checked'), 'true');
+  assert.equal(doc.getElementById('btn-upload').disabled, false);
 
   dom.window.close();
 });

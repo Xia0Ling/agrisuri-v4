@@ -28,9 +28,6 @@ const Theme = (() => {
     }
   };
 
-  const prefersDark = () =>
-    !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
   const current = () => (root.dataset.theme === 'dark' ? 'dark' : 'light');
 
   function paint() {
@@ -90,20 +87,14 @@ const Theme = (() => {
   }
 
   function init() {
-    apply(stored() || (prefersDark() ? 'dark' : 'light'));
+    // Light is the default. Dark is opt-in: the OS preference is deliberately
+    // ignored, because a farmer opening this in daylight should not be dropped
+    // into a dark screen because their phone was set that way for something else.
+    apply(stored() || 'light');
 
     document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
       btn.addEventListener('click', toggle);
     });
-
-    if (window.matchMedia) {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      const onChange = (ev) => {
-        if (!stored()) apply(ev.matches ? 'dark' : 'light');
-      };
-      if (mq.addEventListener) mq.addEventListener('change', onChange);
-      else if (mq.addListener) mq.addListener(onChange);
-    }
   }
 
   init();

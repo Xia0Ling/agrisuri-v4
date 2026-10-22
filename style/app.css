@@ -728,7 +728,33 @@ svg { display: block; }
   flex: none;
 }
 
-.crop-picker { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; max-width: 420px; }
+/* Compact crop switch in the card header. The crop is preselected, so this is
+   a setting, not a question: it never blocks the capture buttons. */
+.crop-switch {
+  display: inline-flex;
+  gap: .15rem;
+  padding: .2rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  flex: none;
+}
+.crop-switch .crop-option {
+  display: block;
+  padding: .38rem .85rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  transition: background-color .18s ease;
+}
+.crop-switch .crop-option:hover { background: var(--green-050); border: 0; }
+.crop-switch .crop-option[aria-checked="true"] {
+  background: var(--green-800);
+  box-shadow: none;
+}
+.crop-switch .crop-option[aria-checked="true"] b { color: #fff; }
+.crop-switch .crop-option b { font-size: .8rem; letter-spacing: .01em; }
 
 .crop-option {
   display: flex;
