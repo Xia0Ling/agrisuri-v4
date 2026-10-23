@@ -891,6 +891,32 @@ test('auth page loads barangays and switches between farmer and staff sign-up', 
   dom.window.close();
 });
 
+test('the terms card makes the page behind it unreachable', async () => {
+  const dom = loadPage('auth.html', authClient());
+  const { window } = dom;
+  await wait(400);
+
+  const doc = window.document;
+  window.eval("Terms.show({ blocking: false })");
+  await wait(80);
+
+  const modal = doc.getElementById('terms-modal');
+  assert.ok(modal, 'the card must open');
+
+  // Language, theme and developer controls sit above the overlay in auth.css
+  // (z-index 900), so z-index alone leaves them clickable. inert is the fix.
+  const behind = [...doc.body.children].filter((n) => n !== modal);
+  assert.ok(behind.length > 0, 'there must be page content to block');
+  assert.ok(behind.every((n) => n.inert === true), 'everything behind must be inert');
+
+  modal.querySelector('[data-terms-accept]').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(300);
+
+  assert.ok(behind.every((n) => n.inert === false), 'closing must release the page');
+
+  dom.window.close();
+});
+
 test('the terms row only appears when registering', async () => {
   const dom = loadPage('auth.html', authClient());
   const { window } = dom;

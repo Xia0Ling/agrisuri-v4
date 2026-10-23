@@ -93,7 +93,17 @@ const Terms = (() => {
       document.body.appendChild(el);
       requestAnimationFrame(() => el.classList.add('is-open'));
 
+      /*
+       * z-index alone only stops clicks that land on the overlay. The language,
+       * theme and developer controls sit above it in the auth page's own
+       * stacking context, so they stay visible and focusable. `inert` removes
+       * the whole page from hit-testing and tab order until the card closes.
+       */
+      const behind = [...document.body.children].filter((n) => n !== el);
+      behind.forEach((n) => { n.inert = true; });
+
       const done = (accepted) => {
+        behind.forEach((n) => { n.inert = false; });
         el.classList.remove('is-open');
         setTimeout(() => el.remove(), 200);
         resolve(accepted);
