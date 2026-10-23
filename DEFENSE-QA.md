@@ -64,6 +64,27 @@ end-to-end = (passed both gates AND class correct) ÷ total × 100
 refused    = negatives refused ÷ total negatives × 100 = 8 ÷ 8 × 100 = 100%
 ```
 
+### How sure are these numbers?
+
+With 112 test photos, a single percentage hides real uncertainty. The 95%
+confidence interval (Wilson) is the honest range:
+
+| Measure | Result | 95% confidence interval |
+|---|---|---|
+| Online top-1 | 97.3% | **92.4% – 99.1%** |
+| Offline top-1 | 98.2% | **93.7% – 99.5%** |
+| Online end-to-end | 95.5% | **90.0% – 98.1%** |
+| Offline end-to-end | 86.6% | **79.1% – 91.7%** |
+| Non-leaf refused | 100% (8/8) | **67.6% – 100%** |
+
+If asked "how confident are you in 97.3%?", the answer is: *"97.3% on 112 photos,
+which statistically means somewhere between 92% and 99%. A bigger test set would
+narrow it."* That is a stronger answer than repeating 97.3% as if it were exact.
+
+**Per-class numbers are coarser still.** Each class has only 8 photos, so one
+mistake drops that class by 12.5%. "100%" for a class means 8 out of 8 — it does
+not mean the class is perfect.
+
 **Say the end-to-end number out loud, not the top-1.** Top-1 is the model in
 isolation. End-to-end is the product: gate + model + decision.
 
