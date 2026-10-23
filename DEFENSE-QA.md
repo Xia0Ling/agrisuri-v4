@@ -4,6 +4,45 @@ Measured on this machine, 24 Oct 2026, against the exact models the app ships.
 
 ---
 
+## 0. Explain it simply (for a demo, or if the panel asks you to dumb it down)
+
+**What the app does:** the farmer takes a photo of one leaf. The app guesses
+which disease it has, and shows how sure it is.
+
+**Three steps happen before any answer appears:**
+
+1. *Is this even a plant?* — a small checker says yes or no.
+2. *Does it look like a leaf?* — a second checker says yes or no.
+3. *Which disease?* — the model gives every disease a score from 0 to 1, and the
+   highest score wins.
+
+**The only formula you need:**
+
+```
+accuracy = (number of correct answers ÷ total number of photos) × 100
+```
+
+Example: 109 correct out of 112 photos → 109 ÷ 112 = 0.973 → **97.3%**.
+
+**Two more, in one line each:**
+
+- **Top-3** = the right answer was one of the model's top three guesses.
+- **End-to-end** = the photo passed both checkers *and* the disease was right.
+  That is 107 ÷ 112 = **95.5%** — the number that matches what the farmer sees.
+
+**Why two numbers exist:** 97.3% is the disease model alone. 95.5% is the whole
+app, including the two checkers that can say "no" before the model speaks.
+
+**What a score of 0.93 means:** the model gave that disease 93% of its total
+belief across all 8 answers. It is not a 93% chance of being right — a model can
+be confidently wrong.
+
+**Why the offline number is lower:** the offline "is it a leaf" checker said
+"not a leaf" 14 times on real leaves. The disease model never got to answer. The
+checker needs more photos of sick leaves so it learns they are still leaves.
+
+---
+
 ## 1. Headline numbers
 
 | | Online (Roboflow) | Offline (Teachable Machine) |
