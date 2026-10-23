@@ -57,6 +57,16 @@ test('every script referenced by a page exists on disk', () => {
   assert.deepEqual(missing, []);
 });
 
+test('no page loads a third-party script from a CDN', () => {
+  // The Chart.js CDN URL 404'd intermittently and every chart went blank while
+  // the rest of the app kept working. Libraries are served from assets/vendor.
+  for (const page of ['landing.html', 'auth.html', 'index.html', 'dashboard.html']) {
+    const html = read(page);
+    const external = [...html.matchAll(/<script src="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
+    assert.deepEqual(external, [], `${page} loads third-party scripts: ${external.join(', ')}`);
+  }
+});
+
 test('the service worker precache list only names files that exist', () => {
   const sw = read('sw.js');
   const block = sw.slice(sw.indexOf('const SHELL'), sw.indexOf('const VENDOR'));

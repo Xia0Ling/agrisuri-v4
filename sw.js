@@ -45,6 +45,8 @@ const SHELL = [
   'assets/icon-512.png',
   'assets/Background_Landscape.png',
   'assets/Background_Portrait.png',
+  'assets/vendor/chart.umd.js',
+  'assets/vendor/supabase.min.js',
 ];
 
 const VENDOR = [
