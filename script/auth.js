@@ -243,7 +243,14 @@ async function register(email, password) {
   if (fullName.length < 2) throw new Error(t('auth.needName'));
 
   // Staff accounts do not carry the farmer-facing terms.
-  if (!devMode && !el('input-terms').checked) throw new Error(t('auth.needTerms'));
+  if (!devMode && !el('input-terms').checked) {
+    // A toast alone is easy to miss on a phone, so point at the row too.
+    const group = el('group-terms');
+    group.classList.add('is-invalid');
+    el('input-terms').focus();
+    setTimeout(() => group.classList.remove('is-invalid'), 2000);
+    throw new Error(t('auth.needTerms'));
+  }
 
   const meta = { full_name: fullName };
 

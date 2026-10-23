@@ -22,20 +22,20 @@
   overflow-y: auto;
   padding: 1.6rem;
   border-radius: 16px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--line, #e3ede5);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
 .terms__title {
   font-size: 1.1rem;
   font-weight: 800;
-  color: var(--ink);
+  color: var(--ink, #2b3a2e);
   margin-bottom: .3rem;
 }
 .terms__lead {
   font-size: .84rem;
-  color: var(--ink-3);
+  color: var(--ink-3, #6e8773);
   line-height: 1.5;
   margin-bottom: 1rem;
 }
@@ -53,7 +53,7 @@
   padding-left: 1.9rem;
   font-size: .84rem;
   line-height: 1.5;
-  color: var(--ink-2);
+  color: var(--ink-2, #3c4e42);
 }
 .terms__list li::before {
   content: counter(terms);
@@ -67,10 +67,10 @@
   place-items: center;
   font-size: .66rem;
   font-weight: 800;
-  background: var(--green-050);
-  color: var(--green-700);
+  background: var(--green-050, #f0f4f1);
+  color: var(--green-700, #056526);
 }
-.terms__list b { color: var(--ink); font-weight: 700; }
+.terms__list b { color: var(--ink, #2b3a2e); font-weight: 700; }
 
 .terms__foot {
   display: flex;
@@ -82,7 +82,7 @@
 .terms__version {
   flex-basis: 100%;
   font-size: .68rem;
-  color: var(--ink-4);
+  color: var(--ink-4, #94a78a);
   text-align: center;
   margin-top: .2rem;
 }
@@ -101,7 +101,7 @@
   letter-spacing: 0;
   line-height: 1.45;
   text-transform: none;
-  color: var(--ink-3);
+  color: var(--ink-3, #6e8773);
   cursor: pointer;
 }
 .terms-check input[type="checkbox"] {
@@ -111,12 +111,21 @@
   margin: .18rem 0 0;
   padding: 0;
   border-radius: 4px;
-  accent-color: var(--green-700);
+  accent-color: var(--green-700, #056526);
 }
 .terms-check__text { min-width: 0; }
 .terms-check a {
-  color: var(--green-700);
+  color: var(--green-700, #056526);
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
+}
+
+/* Shown when someone submits without ticking the box. A toast alone is easy to
+   miss on a phone, so the row itself reacts. */
+.field-group.is-invalid .terms-check {
+  color: #b23a30;
+  outline: 2px solid rgba(178, 58, 48, 0.35);
+  outline-offset: 6px;
+  border-radius: 6px;
 }

@@ -57,6 +57,14 @@ test('every script referenced by a page exists on disk', () => {
   assert.deepEqual(missing, []);
 });
 
+test('the terms card does not rely on variables auth.css never defines', () => {
+  // auth.css defines no CSS variables at all, so a bare var(--surface) resolved
+  // to nothing and the modal card rendered transparent — a blurry black screen.
+  const css = read('style/terms.css');
+  const bare = [...css.matchAll(/var\((--[a-z0-9-]+)\)/g)].map((m) => m[1]);
+  assert.deepEqual(bare, [], `add a fallback: ${[...new Set(bare)].join(', ')}`);
+});
+
 test('no page loads a third-party script from a CDN', () => {
   // The Chart.js CDN URL 404'd intermittently and every chart went blank while
   // the rest of the app kept working. Libraries are served from assets/vendor.
