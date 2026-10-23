@@ -116,8 +116,8 @@
   color: #f2f5f7;
 }
 [data-theme="dark"] .terms__foot .btn--primary {
-  background: #2f8f57;
-  border-color: #2f8f57;
+  background: #1c854f;
+  border-color: #1c854f;
   color: #ffffff;
 }
 .terms__version {
@@ -174,6 +174,6 @@
 /* The card is opaque without relying on any variable, because auth.css defines
    none. Dark mode restates it rather than inheriting. */
 [data-theme="dark"] .terms__card {
-  background: #151c21;
-  border-color: #243038;
+  background: #212426;
+  border-color: #33373a;
 }

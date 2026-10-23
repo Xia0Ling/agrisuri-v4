@@ -66,45 +66,50 @@
  * ------------------------------------------------------------------ */
 
 [data-theme="dark"] {
-  --paper: #0f1418;
-  --surface: #151c21;
-  --surface-2: #1a232a;
-  --line: #243038;
-  --line-2: #32424d;
-  --border-hover: #46596a;
+  /* Neutral graphite, not green-tinted charcoal: the background should
+     disappear behind the content, and only the accent carries colour. */
+  --paper: #1a1c1e;
+  --surface: #212426;
+  --surface-2: #282b2e;
+  --line: #33373a;
+  --line-2: #3f4448;
+  --border-hover: #4d5357;
 
-  --ink: #f2f5f7;
-  --ink-2: #d9e1e6;
-  --ink-3: #a7b4bd;
-  --ink-4: #7f8d97;
+  /* Off-white rather than #fff: pure white on dark is harsh over a long
+     session. These stay above 7:1 against --paper. */
+  --ink: #e9edf0;
+  --ink-2: #c9d1d6;
+  --ink-3: #9aa5ac;
+  --ink-4: #828d94;
 
   /*
-   * --green-900 is the heading/value colour everywhere in the light theme. In
-   * dark it becomes white: green text on every card is what made the screen
-   * look neon. Green stays as the accent — links, active states, buttons, the
-   * one number that matters — not as the colour of body copy.
+   * --green-900 is the heading/value colour everywhere in the light theme.
+   * In dark it becomes the same off-white as body text — headings should not
+   * shout, and green everywhere is what made the screen look neon. Green is
+   * kept for accents only: links, active states, buttons, one number.
    */
-  --green-900: #f2f5f7;
-  --green-700: #6fce93;
-  --green-600: #4bb377;
-  --green-500: #3f9e63;
+  --green-900: #e9edf0;
+  --green-700: #5fd394;
+  --green-600: #3fbb7d;
+  --green-500: #2f9d66;
 
-  /* Background roles: saturated, so #fff labels keep their contrast. */
-  --green-800: #2f8f57;
+  /* Background role. #1f8f57 read better as a colour but gave white labels
+     only 4.10:1; this is 4.65:1, which passes AA at normal text size. */
+  --green-800: #1c854f;
 
-  --green-200: #274a38;
-  --green-100: #1c3527;
-  --green-050: #16271e;
+  --green-200: #2c4436;
+  --green-100: #233429;
+  --green-050: #1d2a22;
 
-  --amber: #e2a94f;
-  --amber-bg: #2a2113;
-  --red: #ec7d74;
-  --red-bg: #2d1a18;
-  --blue: #74b0dd;
-  --blue-bg: #16242f;
+  --amber: #e0a44a;
+  --amber-bg: #2a2114;
+  --red: #e8736a;
+  --red-bg: #2c1a18;
+  --blue: #6aa9d8;
+  --blue-bg: #16222e;
 
-  --shadow-auth-card: 0 10px 30px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45);
-  --shadow-submit-btn: 0 6px 18px rgba(0, 0, 0, 0.45);
+  --shadow-auth-card: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-submit-btn: 0 6px 18px rgba(0, 0, 0, 0.4);
 
   color-scheme: dark;
 }
@@ -161,12 +166,36 @@
 /* Navigation surfaces are translucent light in the base stylesheets: the
    farmer's bottom tab bar, the staff top bar, the app frame and the landing
    nav. They are the most visible surfaces on the page, so they must follow. */
-[data-theme="dark"] .app { background-color: rgba(21, 28, 33, 0.94); }
-[data-theme="dark"] .tabbar { background: rgba(21, 28, 33, 0.95); }
-[data-theme="dark"] .bar { background: rgba(15, 20, 24, 0.9); }
-[data-theme="dark"] .nav.is-scrolled { background: rgba(15, 20, 24, 0.9); }
-[data-theme="dark"] .frame__chip { background: rgba(21, 28, 33, 0.94); }
+[data-theme="dark"] .app { background-color: rgba(33, 36, 38, 0.94); }
+[data-theme="dark"] .tabbar { background: rgba(33, 36, 38, 0.95); }
+[data-theme="dark"] .bar { background: rgba(26, 28, 30, 0.9); }
+[data-theme="dark"] .nav.is-scrolled { background: rgba(26, 28, 30, 0.9); }
+[data-theme="dark"] .frame__chip { background: rgba(33, 36, 38, 0.94); }
 [data-theme="dark"] .topbar { background: transparent; }
 
 /* Images and the scan preview keep their own colours. */
 [data-theme="dark"] img { color-scheme: only light; }
+
+/* ------------------------------------------------------------------ *
+ * Auth page chrome: auth.css hardcodes white here and defines no
+ * variables, so these have to be restated for dark.
+ * ------------------------------------------------------------------ */
+
+[data-theme="dark"] .lang-toggle,
+[data-theme="dark"] .dev-toggle {
+  background: var(--surface);
+  border-color: var(--line-2);
+  color: var(--ink-2);
+}
+[data-theme="dark"] .dev-toggle.is-on {
+  background: var(--green-050);
+  border-color: var(--green-700);
+  color: var(--green-700);
+}
+[data-theme="dark"] .auth-brand__text b { color: var(--ink); }
+[data-theme="dark"] .auth-brand__text small { color: var(--ink-3); }
+[data-theme="dark"] .tab-switcher { background: var(--surface-2); }
+[data-theme="dark"] .tab-btn.active { background: var(--surface); color: var(--ink); }
+[data-theme="dark"] .btn-submit { background: var(--green-800); }
+[data-theme="dark"] .btn-submit:hover { background: var(--green-600); }
+[data-theme="dark"] .btn-clear { background: var(--surface-2); border-color: var(--line-2); color: var(--ink-2); }
