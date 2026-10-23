@@ -1,0 +1,13 @@
+# Keep the working tree LF on every platform.
+#
+# Windows checkouts were producing CRLF, which silently broke a test that
+# matched an exact string in config.js, and produced "LF will be replaced by
+# CRLF" noise on every commit. Git stores LF either way; this makes the working
+# tree match.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pptx binary

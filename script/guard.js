@@ -4,7 +4,6 @@
  * cannot read a single row they are not entitled to.
  * ========================================================================== */
 
-const HOME_FOR = { farmer: 'index.html', da: 'dashboard.html', admin: 'dashboard.html' };
 
 const Guard = (() => {
   let current = null;

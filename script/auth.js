@@ -10,7 +10,6 @@
  *   - The claimed role must match the key that was entered.
  * ========================================================================== */
 
-const HOME_FOR = { farmer: 'index.html', da: 'dashboard.html', admin: 'dashboard.html' };
 
 let mode = 'login';
 let devMode = false;

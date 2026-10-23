@@ -159,7 +159,8 @@ function loadPage(page, client, opts) {
 
     // Let a test switch sample data off without touching the real config.
     if (o.demo === false && src === 'script/config.js') {
-      code = code.replace('enabled: true,\n  badge:', 'enabled: false,\n  badge:');
+      // Line-ending agnostic: the working tree may be CRLF on Windows.
+      code = code.replace(/enabled:\s*true/, 'enabled: false');
     }
 
     // Let a test simulate "no gateway deployed" so the unconfigured state can

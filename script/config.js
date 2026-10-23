@@ -99,6 +99,11 @@ const DEMO_DATA = {
   badge: 'Sample data',
 };
 
+// Where each role lands after signing in. Declared here because auth.js and
+// guard.js both need it and no page loads both — two copies would be a
+// duplicate-const SyntaxError the moment they did.
+const HOME_FOR = { farmer: 'index.html', da: 'dashboard.html', admin: 'dashboard.html' };
+
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
 });
