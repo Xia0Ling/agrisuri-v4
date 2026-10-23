@@ -218,6 +218,33 @@ test('RLS is enabled on every table that holds user data', () => {
   }
 });
 
+test('a farmer can only ever read their own scans', () => {
+  const sql = read('sql/schema.sql');
+
+  // The table policy is the control for every query and every RPC.
+  assert.match(
+    sql,
+    /create policy scans_select on public\.scans for select to authenticated using \(\s*user_id = auth\.uid\(\)/,
+    'scans_select must scope a farmer to user_id = auth.uid()',
+  );
+
+  // Analytics are SECURITY INVOKER so the same RLS applies. A SECURITY DEFINER
+  // version would run as the owner and hand every farmer the whole table.
+  const blocks = sql.split(/create or replace function public\./).slice(1);
+  const analytics = blocks.filter((b) => b.startsWith('analytics_'));
+  assert.ok(analytics.length >= 5, 'expected the analytics functions to be defined');
+
+  for (const block of analytics) {
+    const name = block.match(/^(analytics_[a-z_]+)/)[1];
+    const header = block.slice(0, block.indexOf('$$'));
+    assert.doesNotMatch(
+      header,
+      /security definer/,
+      `${name} must not be SECURITY DEFINER: it would bypass RLS and expose every farmer's scans`,
+    );
+  }
+});
+
 test('DA officer read access is scoped to their jurisdiction, not global', () => {
   const scansPolicy = SQL.slice(SQL.indexOf('create policy scans_select'), SQL.indexOf('create policy scans_delete_own'));
   assert.match(scansPolicy, /my_role\(\) = 'da' and jurisdiction_id = public\.my_jurisdiction\(\)/);
