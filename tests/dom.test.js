@@ -891,6 +891,28 @@ test('auth page loads barangays and switches between farmer and staff sign-up', 
   dom.window.close();
 });
 
+test('the terms row only appears when registering', async () => {
+  const dom = loadPage('auth.html', authClient());
+  const { window } = dom;
+  await wait(400);
+
+  const doc = window.document;
+  const group = doc.getElementById('group-terms');
+
+  // It must reuse .field-group, because that is the class auth.css actually
+  // hides. A bare .hidden does nothing there — which is how the consent row
+  // ended up showing on the login tab.
+  assert.ok(group.classList.contains('field-group'), 'must use the field-group hidden rule');
+  assert.ok(group.classList.contains('hidden'), 'hidden on the login tab');
+
+  doc.getElementById('tab-register').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await wait(80);
+
+  assert.ok(!group.classList.contains('hidden'), 'visible when registering');
+
+  dom.window.close();
+});
+
 test('staff registration validates the access code then sends role and code', async () => {
   const client = authClient();
   const seen = { rpc: null, signUp: null };
@@ -1033,12 +1055,13 @@ test('every auth mode shows all of its fields at once, with no scroll container'
   // Log in: email + password
   assert.equal(visible(), 2);
 
-  // Register as farmer: name, barangay, email, password, confirm
+  // Register as farmer: name, barangay, email, password, confirm, terms
   doc.getElementById('tab-register').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
   await wait(40);
-  assert.equal(visible(), 5);
+  assert.equal(visible(), 6);
 
-  // Developer mode: name, access code, email, password, confirm
+  // Developer mode: name, access code, email, password, confirm — no terms,
+  // they are a farmer-only consent.
   doc.getElementById('dev-toggle').dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
   await wait(40);
   assert.equal(visible(), 5);

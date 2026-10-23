@@ -87,19 +87,36 @@
   margin-top: .2rem;
 }
 
-/* The inline consent row on the sign-up form. */
+/* The inline consent row on the sign-up form.
+   auth.css applies `label { text-transform: uppercase }` and `input { width:
+   100% }` to every control, which turned this row into a one-word column with
+   a full-width checkbox. Both are reset here, scoped to this control only. */
 .terms-check {
   display: flex;
   gap: .55rem;
   align-items: flex-start;
+  margin: 0;
   font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: 0;
   line-height: 1.45;
+  text-transform: none;
   color: var(--ink-3);
-  margin: .2rem 0 .1rem;
+  cursor: pointer;
 }
-.terms-check input { margin-top: .18rem; flex: none; }
+.terms-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin: .18rem 0 0;
+  padding: 0;
+  border-radius: 4px;
+  accent-color: var(--green-700);
+}
+.terms-check__text { min-width: 0; }
 .terms-check a {
   color: var(--green-700);
   text-decoration: underline;
   text-underline-offset: 2px;
+  white-space: nowrap;
 }
