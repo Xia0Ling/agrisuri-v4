@@ -5,6 +5,7 @@
 <script>try{(function(){var m=localStorage.getItem('agri_theme')||'light';document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;})()}catch(e){}</script>
     <title>AgriSuri PH</title>
     <link rel="stylesheet" href="style/auth.css">
+    <link rel="stylesheet" href="style/terms.css">
 <link rel="stylesheet" href="style/theme.css">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -111,6 +112,14 @@
 
                 </div>
 
+                <label class="terms-check hidden" id="group-terms">
+                    <input type="checkbox" id="input-terms">
+                    <span>
+                        <span data-i18n="auth.termsAgree">I have read and agree to the terms of use.</span>
+                        <a href="#" id="terms-link" data-i18n="auth.termsRead">Read them</a>
+                    </span>
+                </label>
+
                 <div class="action-row">
                     <button type="button" class="btn-clear" id="btn-clear">
                         <span data-i18n="auth.clear">Clear</span>
@@ -147,6 +156,7 @@
     <script src="script/i18n.js"></script>
     <script src="script/config.js"></script>
     <script src="script/theme.js"></script>
+    <script src="script/terms.js"></script>
     <script src="script/auth.js"></script>
 </body>
 </html>

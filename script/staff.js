@@ -57,6 +57,8 @@ const Staff = (() => {
     state.me = me;
     state.role = me.role;
 
+    if (!(await Guard.ensureTerms(me))) return;
+
     // Staff sessions lock after five minutes idle; farmers never do, because a
     // farmer in a field is not a shared workstation.
     Idle.init();

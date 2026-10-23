@@ -24,11 +24,23 @@ const Store = (() => {
     const s = await session();
     if (!s) return null;
 
-    const { data, error } = await db
+    const BASE = 'id, full_name, role, jurisdiction_id, barangay_id, is_active, consent_training, created_at';
+
+    let { data, error } = await db
       .from('profiles')
-      .select('id, full_name, role, jurisdiction_id, barangay_id, is_active, consent_training, created_at')
+      .select('id, full_name, role, jurisdiction_id, barangay_id, is_active, consent_training, terms_version, terms_accepted_at, created_at')
       .eq('id', s.user.id)
       .single();
+
+    /*
+     * sql/terms.sql may not have been applied yet. Without this fallback the
+     * query 400s, the guard finds no profile, and every account is bounced back
+     * to the login page in a loop. Degrade to "no terms gate" instead.
+     */
+    if (error && /terms_version|terms_accepted_at/.test(error.message || '')) {
+      ({ data, error } = await db.from('profiles').select(BASE).eq('id', s.user.id).single());
+      if (data) data.terms_accepted_at = new Date().toISOString();
+    }
 
     if (error || !data) return null;
     if (!data.is_active) return null;
@@ -452,6 +464,12 @@ const Store = (() => {
     if (error) throw error;
   }
 
+  /** Record the user's acceptance of the terms, with the version they read. */
+  async function acceptTerms(version) {
+    const { error } = await db.rpc('accept_terms', { p_version: version });
+    if (error) throw error;
+  }
+
   /** Remove a stored photo. Used when a reviewer rejects a submission. */
   async function removeImage(path) {
     if (!path) return;
@@ -494,5 +512,6 @@ const Store = (() => {
     feedbackTraining,
     reviewFeedback,
     removeImage,
+    acceptTerms,
   };
 })();

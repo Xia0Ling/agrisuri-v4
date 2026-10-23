@@ -335,11 +335,12 @@ test('every page is zoomable and declares a responsive viewport', () => {
 });
 
 test('every stylesheet ships at least one mobile breakpoint', () => {
-  // theme.css is a colour layer, not a layout one: it defines no widths, so it
-  // has nothing to adapt. Every page stylesheet is still checked.
+  // theme.css is a colour layer and terms.css is a dialog layer; neither
+  // defines page widths, so neither has anything to adapt. Every page
+  // stylesheet is still checked.
   const layout = fs
     .readdirSync(path.join(ROOT, 'style'))
-    .filter((f) => f.endsWith('.css') && f !== 'theme.css');
+    .filter((f) => f.endsWith('.css') && !['theme.css', 'terms.css'].includes(f));
 
   for (const file of layout) {
     const css = read(`style/${file}`);

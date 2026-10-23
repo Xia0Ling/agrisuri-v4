@@ -66,6 +66,10 @@ const Farmer = (() => {
 
     state.me = me;
 
+    // Blocking: the terms are the record that the farmer was told the answer is
+    // a guess. Nothing else happens until that is acknowledged.
+    if (!(await Guard.ensureTerms(me))) return;
+
     /*
      * The crop is no longer a question. It defaults to whatever this farmer
      * scanned last, then to tomato. The compact switch in the card header is

@@ -1,0 +1,105 @@
+/* ============================================================================
+ * Terms of use: the blocking notice and its accepted state.
+ * Shared by auth.html, index.html and dashboard.html.
+ * ========================================================================== */
+
+.terms {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(8, 12, 15, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.terms.is-open { display: grid; }
+
+.terms__card {
+  width: min(520px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 1.6rem;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.terms__title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: .3rem;
+}
+.terms__lead {
+  font-size: .84rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.terms__list {
+  display: grid;
+  gap: .7rem;
+  margin: 0 0 1.2rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: terms;
+}
+.terms__list li {
+  counter-increment: terms;
+  position: relative;
+  padding-left: 1.9rem;
+  font-size: .84rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.terms__list li::before {
+  content: counter(terms);
+  position: absolute;
+  left: 0;
+  top: .1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: .66rem;
+  font-weight: 800;
+  background: var(--green-050);
+  color: var(--green-700);
+}
+.terms__list b { color: var(--ink); font-weight: 700; }
+
+.terms__foot {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.terms__foot .btn { flex: 1 1 auto; justify-content: center; }
+.terms__version {
+  flex-basis: 100%;
+  font-size: .68rem;
+  color: var(--ink-4);
+  text-align: center;
+  margin-top: .2rem;
+}
+
+/* The inline consent row on the sign-up form. */
+.terms-check {
+  display: flex;
+  gap: .55rem;
+  align-items: flex-start;
+  font-size: .8rem;
+  line-height: 1.45;
+  color: var(--ink-3);
+  margin: .2rem 0 .1rem;
+}
+.terms-check input { margin-top: .18rem; flex: none; }
+.terms-check a {
+  color: var(--green-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

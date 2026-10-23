@@ -119,6 +119,7 @@ function render() {
   el('group-confirm').classList.toggle('hidden', !registering);
   el('group-brgy').classList.toggle('hidden', !(registering && !staff));
   el('group-code').classList.toggle('hidden', !(registering && staff));
+  el('group-terms').classList.toggle('hidden', !registering);
 
   el('input-name').required = registering;
   el('input-confirm').required = registering;
@@ -163,6 +164,12 @@ function bindEvents() {
   document.querySelectorAll('.toggle-password-btn').forEach((btn) => {
     btn.onclick = () => togglePassword(btn.dataset.toggle, btn);
   });
+
+  el('terms-link').onclick = (e) => {
+    e.preventDefault();
+    // Read-only view: closing it does not tick the box for them.
+    Terms.show({ blocking: false });
+  };
 
   el('btn-clear').onclick = () => {
     el('auth-form').reset();
@@ -236,6 +243,8 @@ async function register(email, password) {
   const fullName = el('input-name').value.trim();
   if (fullName.length < 2) throw new Error(t('auth.needName'));
 
+  if (!el('input-terms').checked) throw new Error(t('auth.needTerms'));
+
   const meta = { full_name: fullName };
 
   if (devMode) {
@@ -267,6 +276,15 @@ async function register(email, password) {
     devMode = false;
     render();
     return;
+  }
+
+  // The account exists and is signed in, so the acceptance can be stored now.
+  // If email confirmation is on there is no session yet; the gate in guard.js
+  // asks again at first login.
+  try {
+    await db.rpc('accept_terms', { p_version: TERMS_VERSION });
+  } catch (e) {
+    console.warn('[AgriSuri] terms not recorded:', e && e.message);
   }
 
   await routeAfterLogin(data.user.id);

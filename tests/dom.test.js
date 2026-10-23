@@ -45,6 +45,7 @@ const PROFILE = {
   role: 'farmer',
   jurisdiction_id: 'j1',
   barangay_id: 'b1',
+  terms_accepted_at: '2026-10-01T00:00:00.000Z',
   is_active: true,
   consent_training: false,
   created_at: '2026-09-01T02:00:00.000Z',
@@ -269,7 +270,10 @@ function farmerClient(overrides) {
   const o = overrides || {};
   return makeClient({
     table(table) {
-      if (table === 'profiles') return { data: PROFILE, error: null, single: { data: PROFILE, error: null } };
+      if (table === 'profiles') {
+        const p = o.noTerms ? { ...PROFILE, terms_accepted_at: null } : PROFILE;
+        return { data: p, error: null, single: { data: p, error: null } };
+      }
       if (table === 'barangays') return { data: BARANGAYS, error: null, count: BARANGAYS.length };
       if (table === 'scans') return o.scans || { data: [SCAN], error: null, count: 1 };
       if (table === 'diseases') return o.diseases || { data: DISEASES, error: null };
@@ -342,6 +346,24 @@ test('diseases fall back to the cached copy when the network is gone', async () 
   assert.equal(rows.length, 1, 'must fall back to the cached rows');
   assert.equal(rows[0].name, 'Cached Only');
   assert.equal(rows[0].prevention, 'Cached prevention');
+
+  dom.window.close();
+});
+
+test('an account that has not accepted the terms is blocked until it does', async () => {
+  const dom = loadPage('index.html', farmerClient({ noTerms: true }));
+  const { window } = dom;
+  await wait(700);
+
+  const doc = window.document;
+  const modal = doc.getElementById('terms-modal');
+  assert.ok(modal, 'the terms must be presented before the app is usable');
+  assert.match(modal.textContent, /guess, not a diagnosis/i);
+  assert.match(modal.textContent, /consult an expert/i);
+  assert.match(modal.textContent, /does not replace an expert/i);
+
+  // Nothing behind the modal may have loaded.
+  assert.equal(doc.getElementById('stat-month').textContent, '0', 'the dashboard must not boot');
 
   dom.window.close();
 });
@@ -878,6 +900,7 @@ test('staff registration validates the access code then sends role and code', as
   await wait(40);
 
   doc.getElementById('input-name').value = 'Officer Reyes';
+  doc.getElementById('input-terms').checked = true;
   doc.getElementById('input-code').value = 'AGRI-OFFICER-2026';
   doc.getElementById('input-email').value = 'officer@agrisuri.ph';
   doc.getElementById('input-password').value = 'Secret123!';
@@ -914,6 +937,7 @@ test('a rejected access code stops the registration before an account is created
   await wait(40);
 
   doc.getElementById('input-name').value = 'Someone';
+  doc.getElementById('input-terms').checked = true;
   doc.getElementById('input-code').value = 'WRONG-CODE';
   doc.getElementById('input-email').value = 'x@y.ph';
   doc.getElementById('input-password').value = 'Secret123!';

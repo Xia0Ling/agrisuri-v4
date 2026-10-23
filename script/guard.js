@@ -76,6 +76,28 @@ const Guard = (() => {
     return null;
   }
 
+  /**
+   * The terms gate. Runs after the role check, before the page is usable.
+   * A profile without terms_accepted_at is asked once; the answer is stored
+   * server-side with the version, so a future rewrite can be re-presented
+   * rather than silently inheriting consent for text nobody read.
+   */
+  async function ensureTerms(profile) {
+    if (!profile || profile.terms_accepted_at) return true;
+
+    const accepted = await Terms.show({ blocking: true });
+    if (!accepted) return false;
+
+    try {
+      await Store.acceptTerms(TERMS_VERSION);
+      profile.terms_accepted_at = new Date().toISOString();
+      profile.terms_version = TERMS_VERSION;
+    } catch (e) {
+      toast('Could not save your acceptance. You will be asked again next time.', 'error');
+    }
+    return true;
+  }
+
   /** Called by the pages once they have rendered. */
   function reveal() {
     document.documentElement.style.visibility = 'visible';
@@ -114,5 +136,5 @@ const Guard = (() => {
     if (document.documentElement.style.visibility === 'hidden') reveal();
   }, 6000);
 
-  return { require, reveal, logout, cachedProfile };
+  return { require, ensureTerms, reveal, logout, cachedProfile };
 })();
