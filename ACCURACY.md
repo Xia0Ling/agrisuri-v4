@@ -95,3 +95,31 @@ node tools/accuracy.js --dir tools/_eval_stress --out tools/accuracy-stress.json
 
 Raw numbers are in `tools/accuracy-report.json` and
 `tools/accuracy-stress.json`.
+
+---
+
+## Offline models (Teachable Machine) — 24 Oct 2026
+
+Same 120-photo set, same preprocessing, the four models the app loads on device.
+
+| | Result |
+|---|---|
+| Disease top-1 (gates ignored) | **98.2%** (110/112) |
+| End-to-end | **86.6%** (97/112) |
+| Non-leaf photos refused | 8/8 (100%) |
+
+Weakest classes: `tomato_leaf_mold` 87.5%, `palay_blast` 87.5%; the other twelve
+100%.
+
+**The end-to-end gap is the gate, not the model.** The texture gate classified 14
+of 112 real leaves as `not_leaf`, so the disease model never answered. Threshold
+sweeps do not recover them — the gate rejects on the label, not the score.
+Fix is data: retrain the texture model with diseased leaves in the "leaf" class.
+
+Reproduce: `NODE_PATH=<workspace>/node_modules node tools/offline_accuracy.js`
+
+### Caveat
+
+The eval photos are sampled from `dataset/`, the corpus the models were trained
+on. These are training-set numbers — an upper bound that validates the pipeline,
+not generalisation. See `DEFENSE-QA.md`.

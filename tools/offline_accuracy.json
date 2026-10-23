@@ -1,0 +1,78 @@
+{
+  "report": {
+    "tomato": {
+      "rows": 64,
+      "top1": 63,
+      "gateBlocked": 5,
+      "perClass": {
+        "tomato_bacterial_spot": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_early_blight": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_healthy": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_late_blight": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_leaf_mold": {
+          "n": 8,
+          "ok": 7
+        },
+        "tomato_mosaic": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_septoria": {
+          "n": 8,
+          "ok": 8
+        },
+        "tomato_yellow_leaf_curl": {
+          "n": 8,
+          "ok": 8
+        }
+      }
+    },
+    "palay": {
+      "rows": 48,
+      "top1": 47,
+      "gateBlocked": 9,
+      "perClass": {
+        "palay_bacterial_blight": {
+          "n": 8,
+          "ok": 8
+        },
+        "palay_blast": {
+          "n": 8,
+          "ok": 7
+        },
+        "palay_brown_spot": {
+          "n": 8,
+          "ok": 8
+        },
+        "palay_healthy": {
+          "n": 8,
+          "ok": 8
+        },
+        "palay_sheath_blight": {
+          "n": 8,
+          "ok": 8
+        },
+        "palay_tungro": {
+          "n": 8,
+          "ok": 8
+        }
+      }
+    }
+  },
+  "e2eCorrect": 97,
+  "e2eTotal": 112,
+  "negatives": 8,
+  "rejected": 8
+}
