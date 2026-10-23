@@ -83,7 +83,13 @@ const Guard = (() => {
    * rather than silently inheriting consent for text nobody read.
    */
   async function ensureTerms(profile) {
-    if (!profile || profile.terms_accepted_at) return true;
+    if (!profile) return true;
+
+    // The terms are about acting on a diagnosis. Staff do not receive one, so
+    // the gate is for farmers only — enforced here, not only at the call site.
+    if (profile.role !== 'farmer') return true;
+
+    if (profile.terms_accepted_at) return true;
 
     const accepted = await Terms.show({ blocking: true });
     if (!accepted) return false;

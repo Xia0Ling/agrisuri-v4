@@ -350,6 +350,18 @@ test('diseases fall back to the cached copy when the network is gone', async () 
   dom.window.close();
 });
 
+test('staff are never asked to accept the farmer terms', async () => {
+  const dom = loadPage('dashboard.html', staffClient('admin', { noTerms: true }));
+  const { window } = dom;
+  await wait(900);
+
+  const doc = window.document;
+  assert.equal(doc.getElementById('terms-modal'), null, 'no terms gate for staff');
+  assert.notEqual(doc.getElementById('page-title').textContent, '', 'the dashboard must boot');
+
+  dom.window.close();
+});
+
 test('an account that has not accepted the terms is blocked until it does', async () => {
   const dom = loadPage('index.html', farmerClient({ noTerms: true }));
   const { window } = dom;
@@ -535,14 +547,16 @@ function staffClient(role, overrides) {
   const o = overrides || {};
   const profile = { ...PROFILE, role, full_name: role === 'admin' ? 'Admin Cruz' : 'Officer Reyes', barangay_id: null };
 
+  const staffProfile = o.noTerms ? { ...profile, terms_accepted_at: null } : profile;
+
   return makeClient({
     table(table) {
       if (table === 'profiles') {
         return {
-          data: [profile, { ...PROFILE, id: 'u2', role: 'farmer' }],
+          data: [staffProfile, { ...PROFILE, id: 'u2', role: 'farmer' }],
           error: null,
           count: 2,
-          single: { data: profile, error: null },
+          single: { data: staffProfile, error: null },
         };
       }
       if (table === 'scan_feedback') return o.feedback || { data: [], error: null };

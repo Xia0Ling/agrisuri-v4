@@ -119,7 +119,7 @@ function render() {
   el('group-confirm').classList.toggle('hidden', !registering);
   el('group-brgy').classList.toggle('hidden', !(registering && !staff));
   el('group-code').classList.toggle('hidden', !(registering && staff));
-  el('group-terms').classList.toggle('hidden', !registering);
+  el('group-terms').classList.toggle('hidden', !(registering && !staff));
 
   el('input-name').required = registering;
   el('input-confirm').required = registering;
@@ -243,7 +243,8 @@ async function register(email, password) {
   const fullName = el('input-name').value.trim();
   if (fullName.length < 2) throw new Error(t('auth.needName'));
 
-  if (!el('input-terms').checked) throw new Error(t('auth.needTerms'));
+  // Staff accounts do not carry the farmer-facing terms.
+  if (!devMode && !el('input-terms').checked) throw new Error(t('auth.needTerms'));
 
   const meta = { full_name: fullName };
 
@@ -281,10 +282,12 @@ async function register(email, password) {
   // The account exists and is signed in, so the acceptance can be stored now.
   // If email confirmation is on there is no session yet; the gate in guard.js
   // asks again at first login.
-  try {
-    await db.rpc('accept_terms', { p_version: TERMS_VERSION });
-  } catch (e) {
-    console.warn('[AgriSuri] terms not recorded:', e && e.message);
+  if (!devMode) {
+    try {
+      await db.rpc('accept_terms', { p_version: TERMS_VERSION });
+    } catch (e) {
+      console.warn('[AgriSuri] terms not recorded:', e && e.message);
+    }
   }
 
   await routeAfterLogin(data.user.id);
