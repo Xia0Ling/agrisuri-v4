@@ -32,6 +32,7 @@ const SHELL = [
   'script/quality.js',
   'script/ai.js',
   'script/guard.js',
+  'script/idle.js',
   'script/auth.js',
   'script/farmer.js',
   'script/staff.js',

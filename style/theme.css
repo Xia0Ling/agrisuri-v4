@@ -73,14 +73,19 @@
   --line-2: #32424d;
   --border-hover: #46596a;
 
-  --ink: #dde6ea;
-  --ink-2: #bcc9d0;
-  --ink-3: #92a4ad;
-  --ink-4: #71858f;
+  --ink: #f2f5f7;
+  --ink-2: #d9e1e6;
+  --ink-3: #a7b4bd;
+  --ink-4: #7f8d97;
 
-  /* Text roles: lightened. */
-  --green-900: #8fe3ad;
-  --green-700: #7bd69c;
+  /*
+   * --green-900 is the heading/value colour everywhere in the light theme. In
+   * dark it becomes white: green text on every card is what made the screen
+   * look neon. Green stays as the accent — links, active states, buttons, the
+   * one number that matters — not as the colour of body copy.
+   */
+  --green-900: #f2f5f7;
+  --green-700: #6fce93;
   --green-600: #4bb377;
   --green-500: #3f9e63;
 
@@ -109,8 +114,9 @@
  * ------------------------------------------------------------------ */
 
 /* --green-800 is a button background; these two rules use it as text. */
-[data-theme="dark"] .badge--ok { color: var(--green-900); }
-[data-theme="dark"] .segmented button:hover { color: var(--green-900); }
+[data-theme="dark"] .badge--ok { color: var(--green-700); }
+[data-theme="dark"] .segmented button:hover { color: var(--green-700); }
+[data-theme="dark"] .segmented button.is-active { color: #fff; }
 
 /* Photographic backgrounds are multiplied toward the paper colour rather than
    removed, so the texture survives without washing out the text. */

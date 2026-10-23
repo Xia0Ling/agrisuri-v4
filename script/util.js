@@ -217,12 +217,38 @@ function applyChartDefaults() {
   Chart.defaults.plugins.legend.labels.padding = 14;
 }
 
+/**
+ * "Brown Spot" is a tomato disease and a palay disease. A chart that shows only
+ * the name is ambiguous, so the crop travels with it — derived from the code
+ * prefix, which is the authoritative part of the identifier.
+ */
+function diseaseLabel(code, label) {
+  const c = String(code || '');
+  const crop = c.startsWith('palay_') ? 'Palay' : c.startsWith('tomato_') ? 'Tomato' : '';
+  const name = String(label || '');
+  return crop ? `${name} · ${crop}` : name;
+}
+
 const chartRegistry = new Map();
 
 function renderChart(canvasId, config) {
-  if (typeof Chart === 'undefined') return null;
   const canvas = document.getElementById(canvasId);
   if (!canvas) return null;
+
+  const box = canvas.parentElement;
+  if (box) box.querySelectorAll('.chart-failed').forEach((n) => n.remove());
+
+  if (typeof Chart === 'undefined') {
+    // A blank card tells the user nothing. Chart.js comes from a CDN, and a
+    // phone on a weak connection is exactly where it fails to arrive.
+    if (box) {
+      const note = document.createElement('div');
+      note.className = 'chart-empty chart-failed';
+      note.innerHTML = '<p>Charts could not load. Check your connection, then reload.</p>';
+      box.appendChild(note);
+    }
+    return null;
+  }
 
   const existing = chartRegistry.get(canvasId);
   if (existing) existing.destroy();

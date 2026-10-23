@@ -605,6 +605,26 @@ test('only an admin gets a delete control on scan records', async () => {
   da.window.close();
 });
 
+test('a staff session can be locked and only released by signing in again', async () => {
+  const dom = loadPage('dashboard.html', staffClient('admin'));
+  await wait(900);
+
+  const doc = dom.window.document;
+  assert.equal(doc.getElementById('idle-lock'), null, 'no lock until the limit passes');
+
+  dom.window.eval('Idle.lock()');
+  await wait(50);
+
+  const lock = doc.getElementById('idle-lock');
+  assert.ok(lock, 'locking must create the overlay');
+  assert.ok(lock.classList.contains('is-open'));
+  assert.match(lock.textContent, /Five minutes of inactivity/);
+  assert.match(lock.textContent, /log in again/i);
+  assert.equal(doc.body.style.overflow, 'hidden', 'the page behind must not scroll');
+
+  dom.window.close();
+});
+
 test('a DA officer gets the mail queue and can reach training data', async () => {
   const feedback = {
     data: [

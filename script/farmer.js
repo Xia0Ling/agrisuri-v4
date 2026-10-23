@@ -1452,8 +1452,10 @@ const Farmer = (() => {
         ? crp.map((c) => c.crop_name).join(', ')
         : '—';
 
-      renderCropChart(crp);
-      renderDiseaseChart(dis);
+      // Each chart is isolated: one bad render used to blank both cards and
+      // leave the user with no clue which one broke.
+      try { renderCropChart(crp); } catch (e) { console.warn('[AgriSuri] crop chart:', e); }
+      try { renderDiseaseChart(dis); } catch (e) { console.warn('[AgriSuri] disease chart:', e); }
     } catch (err) {
       toast(t('history.loadAnalyticsFailed'), 'error');
     }
@@ -1521,7 +1523,7 @@ const Farmer = (() => {
     renderChart('chart-disease', {
       type: 'bar',
       data: {
-        labels: rows.map((d) => shorten(d.label, 26)),
+        labels: rows.map((d) => shorten(diseaseLabel(d.code, d.label), 30)),
         datasets: [{
           label: t('stats.scans'),
           data: rows.map((d) => Number(d.scans)),

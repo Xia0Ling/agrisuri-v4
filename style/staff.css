@@ -668,3 +668,47 @@ svg { display: block; }
     transition-duration: .001ms !important;
   }
 }
+
+/* ============================================================ idle lock */
+
+.idle-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(8, 12, 15, 0.45);
+  backdrop-filter: blur(10px) saturate(0.9);
+  -webkit-backdrop-filter: blur(10px) saturate(0.9);
+}
+.idle-lock.is-open { display: grid; }
+
+.idle-lock__card {
+  width: min(380px, 100%);
+  padding: 1.6rem;
+  border-radius: var(--r-lg, 16px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+.idle-lock__icon {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto .6rem;
+  color: var(--green-700);
+}
+.idle-lock__card h2 {
+  font-size: 1.05rem;
+  font-weight: 780;
+  color: var(--ink);
+  margin-bottom: .35rem;
+}
+.idle-lock__card p {
+  font-size: .82rem;
+  color: var(--ink-3);
+  line-height: 1.45;
+  margin-bottom: 1.1rem;
+}
+.idle-lock__card .btn { width: 100%; justify-content: center; }

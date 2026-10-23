@@ -57,6 +57,10 @@ const Staff = (() => {
     state.me = me;
     state.role = me.role;
 
+    // Staff sessions lock after five minutes idle; farmers never do, because a
+    // farmer in a field is not a shared workstation.
+    Idle.init();
+
     try {
       const [jurisdictions, barangays] = await Promise.all([Store.jurisdictions(), Store.barangays()]);
       state.jurisdictions = jurisdictions;
@@ -377,7 +381,7 @@ const Staff = (() => {
     renderChart('ch-disease', {
       type: 'doughnut',
       data: {
-        labels: rows.map((d) => d.label),
+        labels: rows.map((d) => diseaseLabel(d.code, d.label)),
         datasets: [{
           data: rows.map((d) => Number(d.scans)),
           backgroundColor: CHART.palette,
