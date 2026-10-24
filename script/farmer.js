@@ -624,7 +624,7 @@ const Farmer = (() => {
       ]);
 
       // Sample data only when the database is genuinely empty.
-      const useDemo = Demo.on() && dMonth.scans === 0;
+      const useDemo = Demo.on() && (Demo.forced() || dMonth.scans === 0);
       state.demoHome = useDemo;
       setSampleBadge(useDemo);
 
@@ -696,7 +696,7 @@ const Farmer = (() => {
       const aligned = Core.alignSeries(rows, range, TZ);
       const realTotal = aligned.reduce((s, r) => s + r.scans, 0);
 
-      const useDemo = Demo.on() && realTotal === 0;
+      const useDemo = Demo.on() && (Demo.forced() || realTotal === 0);
       const data = useDemo ? Demo.series(range) : aligned;
       const total = data.reduce((s, r) => s + r.scans, 0);
 
@@ -758,7 +758,7 @@ const Farmer = (() => {
 
     try {
       const scans = await Store.myScans({ limit: 5 });
-      const rows = scans.length ? scans : (Demo.on() ? Demo.scans(4) : []);
+      const rows = scans.length && !Demo.forced() ? scans : (Demo.on() ? Demo.scans(4) : []);
 
       if (!rows.length) {
         host.innerHTML = emptyState(
@@ -1438,7 +1438,7 @@ const Farmer = (() => {
         Store.cropBreakdown(range.from, range.to),
       ]);
 
-      const useDemo = Demo.on() && summary.scans === 0;
+      const useDemo = Demo.on() && (Demo.forced() || summary.scans === 0);
       setSampleBadge(useDemo);
 
       const sum = useDemo ? Demo.summary(range) : summary;
@@ -1566,7 +1566,7 @@ const Farmer = (() => {
 
     try {
       const all = await Store.myScans({ from: range.from, to: range.to, limit: 500 });
-      const source = all.length ? all : (Demo.on() ? Demo.scans(14) : []);
+      const source = all.length && !Demo.forced() ? all : (Demo.on() ? Demo.scans(14) : []);
       const filtered = crop ? source.filter((s) => s.crop_code === crop) : source;
 
       document.getElementById('history-count').textContent = !filtered.length

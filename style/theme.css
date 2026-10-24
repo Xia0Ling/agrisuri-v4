@@ -61,6 +61,13 @@
 .theme-btn svg { width: 18px; height: 18px; }
 .theme-btn svg[hidden] { display: none; }
 
+/* Developer mode: sample analytics for every barangay and every disease. */
+.dev-btn.is-on {
+  color: var(--green-700);
+  border-color: var(--green-700);
+  background: var(--green-050);
+}
+
 /* ------------------------------------------------------------------ *
  * Dark palette
  * ------------------------------------------------------------------ */

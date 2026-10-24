@@ -16,20 +16,60 @@
 const Demo = (() => {
   const ON = () => !!(typeof DEMO_DATA !== 'undefined' && DEMO_DATA.enabled);
 
+  /*
+   * Developer mode: a switch in the top bar that forces the sample data on,
+   * even when the database has real rows. Stored in localStorage so it survives
+   * a reload; the toggle reloads the page so every view re-renders from the
+   * same source instead of half the screen being real and half sample.
+   */
+  const FORCED = () => {
+    try { return localStorage.getItem('agri_demo') === 'on'; } catch (e) { return false; }
+  };
+
+  function setForced(on) {
+    try { localStorage.setItem('agri_demo', on ? 'on' : 'off'); } catch (e) { /* private mode */ }
+  }
+
+  /** True when sample data should be used regardless of how much is in the DB. */
+  const forced = () => ON() && FORCED();
+
+  function attach() {
+    document.querySelectorAll('[data-demo-toggle]').forEach((btn) => {
+      const on = forced();
+      btn.setAttribute('aria-pressed', String(on));
+      btn.classList.toggle('is-on', on);
+      btn.addEventListener('click', () => {
+        setForced(!forced());
+        location.reload();
+      });
+    });
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attach);
+    else attach();
+  }
+
+  // All 14 classes the models can return, so a demo shows the full spread
+  // rather than a flattering subset.
   const DISEASES = {
     tomato: [
-      { code: 'tomato_early_blight', label: 'Early Blight', healthy: false, weight: 34 },
-      { code: 'tomato_late_blight', label: 'Late Blight', healthy: false, weight: 18 },
-      { code: 'tomato_septoria', label: 'Septoria Leaf Spot', healthy: false, weight: 14 },
+      { code: 'tomato_early_blight', label: 'Early Blight', healthy: false, weight: 22 },
+      { code: 'tomato_late_blight', label: 'Late Blight', healthy: false, weight: 17 },
+      { code: 'tomato_septoria', label: 'Septoria Leaf Spot', healthy: false, weight: 12 },
       { code: 'tomato_leaf_mold', label: 'Leaf Mold', healthy: false, weight: 9 },
-      { code: 'tomato_healthy', label: 'Healthy', healthy: true, weight: 25 },
+      { code: 'tomato_bacterial_spot', label: 'Bacterial Spot', healthy: false, weight: 8 },
+      { code: 'tomato_yellow_leaf_curl', label: 'Yellow Leaf Curl', healthy: false, weight: 7 },
+      { code: 'tomato_mosaic', label: 'Mosaic Virus', healthy: false, weight: 5 },
+      { code: 'tomato_healthy', label: 'Healthy', healthy: true, weight: 20 },
     ],
     palay: [
-      { code: 'palay_blast', label: 'Rice Blast', healthy: false, weight: 31 },
-      { code: 'palay_bacterial_blight', label: 'Bacterial Leaf Blight', healthy: false, weight: 21 },
-      { code: 'palay_brown_spot', label: 'Brown Spot', healthy: false, weight: 16 },
-      { code: 'palay_tungro', label: 'Tungro', healthy: false, weight: 7 },
-      { code: 'palay_healthy', label: 'Healthy', healthy: true, weight: 25 },
+      { code: 'palay_blast', label: 'Rice Blast', healthy: false, weight: 24 },
+      { code: 'palay_bacterial_blight', label: 'Bacterial Leaf Blight', healthy: false, weight: 17 },
+      { code: 'palay_brown_spot', label: 'Brown Spot', healthy: false, weight: 14 },
+      { code: 'palay_tungro', label: 'Tungro', healthy: false, weight: 8 },
+      { code: 'palay_sheath_blight', label: 'Sheath Blight', healthy: false, weight: 7 },
+      { code: 'palay_healthy', label: 'Healthy', healthy: true, weight: 20 },
     ],
   };
 
@@ -247,6 +287,9 @@ const Demo = (() => {
   }
 
   return {
+    forced,
+    setForced,
+    attach,
     on: ON,
     series,
     summary,

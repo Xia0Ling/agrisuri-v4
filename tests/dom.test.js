@@ -891,6 +891,41 @@ test('auth page loads barangays and switches between farmer and staff sign-up', 
   dom.window.close();
 });
 
+test('developer mode is a switch on both dashboards and forces sample data', async () => {
+  for (const page of ['index.html', 'dashboard.html']) {
+    const dom = loadPage(page, page === 'index.html' ? farmerClient() : staffClient('admin'));
+    const { window } = dom;
+    await wait(600);
+
+    const doc = window.document;
+    const btn = doc.querySelector('[data-demo-toggle]');
+    assert.ok(btn, `${page} must offer a developer mode button`);
+    assert.equal(btn.getAttribute('aria-pressed'), 'false');
+    assert.equal(window.eval('Demo.forced()'), false);
+
+    btn.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+    await wait(60);
+
+    assert.equal(window.localStorage.getItem('agri_demo'), 'on', `${page}: the choice must persist`);
+    assert.equal(window.eval('Demo.forced()'), true, `${page}: sample data must be forced on`);
+
+    dom.window.close();
+  }
+});
+
+test('developer mode shows every disease class, not a subset', async () => {
+  const dom = loadPage('index.html', farmerClient());
+  await wait(400);
+
+  // The sample set has to cover all 14 classes the models can return.
+  const codes = dom.window.eval(
+    "Demo.diseases(Core.rangeFor('month', new Date(), 'Asia/Manila')).map(d => d.code)",
+  );
+  assert.equal(codes.length, 14, `expected 14 classes, got ${codes.length}`);
+
+  dom.window.close();
+});
+
 test('the terms card makes the page behind it unreachable', async () => {
   const dom = loadPage('auth.html', authClient());
   const { window } = dom;

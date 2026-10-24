@@ -244,7 +244,7 @@ const Staff = (() => {
       ]);
 
       // Sample data only when the database is genuinely empty, and it is badged.
-      const useDemo = Demo.on() && real.scans === 0;
+      const useDemo = Demo.on() && (Demo.forced() || real.scans === 0);
       setSampleBadge(useDemo);
 
       const cur = useDemo ? Demo.summary(range) : real;
@@ -515,7 +515,7 @@ const Staff = (() => {
         Store.barangayDiseaseMatrix(range.from, range.to, 8),
       ]);
 
-      const useDemo = Demo.on() && realRows.length === 0;
+      const useDemo = Demo.on() && (Demo.forced() || realRows.length === 0);
       setSampleBadge(useDemo);
 
       const rows = useDemo ? Demo.barangays(range) : realRows;
